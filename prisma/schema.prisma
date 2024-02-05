@@ -1,0 +1,170 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  displayName String
+  password    String?
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+}
+
+model Project {
+  id         String      @id @default(uuid())
+  name       String      @unique
+  milestones Milestone[]
+  start_at   DateTime?   @db.Date
+  end_at     DateTime?   @db.Date
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+}
+
+/// マイルストーン情報
+/// 子にタスクを複数持つことができる
+model Milestone {
+  id              String            @id @default(uuid())
+  name            String
+  // 親プロジェクト
+  project         Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId       String
+  fields          MilestoneField[]
+  summaries       MilestoneSummary[]
+  tasks           Task[]
+  start_at        DateTime?         @db.Date
+  end_at          DateTime?         @db.Date
+  created_at      DateTime          @default(now())
+  updated_at      DateTime          @updatedAt
+}
+
+/// タスク情報
+model Task {
+  id          String         @id @default(uuid())
+  // 親マイルストーン
+  milestone   Milestone      @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
+  milestoneId String
+  // タスクのEVM記録用
+  activity    TaskActivity[]
+  // タスクのメタ情報
+  fields      TaskField[]
+  // タスクの表示順
+  order       TaskOrder?
+  created_at  DateTime       @default(now())
+  updated_at  DateTime       @updatedAt
+}
+
+/// 日々の実績値
+model TaskActivity {
+  // 親タスク
+  task    Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId  String
+  // タスクの実績を記録する日
+  date_at DateTime @db.Date
+  // 予定工数
+  pv      Decimal? @default(0.0) @db.Decimal(20, 4)
+  // 稼働
+  ac      Decimal? @default(0.0) @db.Decimal(20, 4)
+  // 実績
+  ev      Decimal? @default(0.0) @db.Decimal(20, 4)
+
+  // 残コスト
+  etc        Decimal? @default(0.0) @db.Decimal(20, 4)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@id([taskId, date_at])
+}
+
+/// 列の表示情報
+model MilestoneField {
+  id          String    @id @default(uuid())
+  // 親プロジェクト
+  milestone   Milestone @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
+  milestoneId String
+  // 列のグループ
+  group       String
+  // 列の種類
+  type        String
+  // 列の表示順
+  order       Int
+  // 列の表示有無
+  visible     Boolean   @default(true)
+  // 列の編集設定
+  editable    Boolean   @default(false)
+  // 列の削除設定
+  deletable   Boolean   @default(false)
+  // 列の幅(px)
+  width       Int       @default(32)
+  // 制御用の設定(画面に非表示・ユーザーは直接編集不可)
+  system      Boolean   @default(false)
+  // 列タイトル
+  title       String
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+
+  @@unique([milestoneId, type])
+}
+
+/// サマリの表示情報
+model MilestoneSummary {
+  id          String    @id @default(uuid())
+  // 親プロジェクト
+  milestone   Milestone @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
+  milestoneId String
+  // 列の種類
+  type        String
+  // 列の表示順
+  order       Int
+  // 列の表示有無
+  visible     Boolean   @default(true)
+  // 列タイトル
+  title       String
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+
+  @@unique([milestoneId, type])
+}
+
+/// タスクの表示順
+model TaskOrder {
+  id          String    @id @default(uuid())
+
+  milestoneId String    
+
+  // 親プロジェクト
+  task        Task      @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId      String    @unique
+  // タスクの表示順
+  order       Float     @default(1.0)
+
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+
+  @@index([milestoneId])
+}
+
+/// タスクの表示情報
+model TaskField {
+  id          String    @id @default(uuid())
+
+  // 親プロジェクト
+  task        Task      @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId      String
+  // 列の種類
+  type        String
+  // 表示内容
+  value       String
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+
+  @@unique([taskId, type])
+}

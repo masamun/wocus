@@ -1,0 +1,6 @@
+tabWidth: 2
+prinitWidth: 120
+useTabs: false
+semi: false
+singleQuote: true
+vueIndentScriptAndStyle: true

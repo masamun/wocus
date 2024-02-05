@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  # postgres をサービスとして定義
+  postgres:
+    # Docker Image
+    image: postgres:15.1-alpine
+    container_name: wocus
+    # 環境変数を設定します。
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=wocus
+    # データの永続化
+    volumes:
+      - .db:/var/lib/postgresql/data
+    # ポートの指定（HOST:CONTAINER）
+    ports:
+      - 127.0.0.1:5555:5432
+# データの永続化
+volumes:
+  postgres:
