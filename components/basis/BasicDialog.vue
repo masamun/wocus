@@ -21,8 +21,9 @@
       <div class="border-t mt-4 pt-1">
         <slot name="footer">
           <div class="flex justify-end pt-2">
-            <button class="btn-normal" @click="handleCancel">キャンセル</button>
+            <button class="btn-normal" @click="handleCancel" title="Cancel">キャンセル</button>
             <button
+              title="OK"
               class="ml-4 btn-primary"
               :class="{ 'btn-disabled': disabled }"
               @click="handleOk"

@@ -1,4 +1,4 @@
-import type { LogLevel } from "./composables/util/logger";
+import type { LogLevel } from "@/composables/util/logger";
 
 export default defineAppConfig({
   logLevel: "debug" as LogLevel,

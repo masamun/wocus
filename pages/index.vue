@@ -28,6 +28,8 @@ onMounted(async () => {
     <div class="basis-full border-b-2 border-gray-300 text-xl pb-1 flex">
       <p>Projects</p>
       <button
+        type="button"
+        title="CreateProject"
         @click="handleShowCreateProjectDialog"
         class="border text-gray-600 border-gray-300 rounded mt-1 hover:bg-gray-300 cursor-pointer ml-4"
       >
@@ -45,8 +47,9 @@ onMounted(async () => {
   </div>
   <basic-dialog title="プロジェクト作成" v-model="visible" @ok="createProject">
     <div>
-      l
-      <input type="text" v-model="projectName" class="p-2 border" />
+      <label>
+        <input type="text" v-model="projectName" class="p-2 border" />
+      </label>
     </div>
   </basic-dialog>
 </template>
