@@ -6,17 +6,18 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id          String  @id @default(uuid())
-  name        String  @unique
+  id          String   @id @default(uuid())
+  name        String   @unique
   displayName String
   password    String?
-  created_at DateTime    @default(now())
-  updated_at DateTime    @updatedAt
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 }
 
 model Project {
@@ -32,18 +33,18 @@ model Project {
 /// マイルストーン情報
 /// 子にタスクを複数持つことができる
 model Milestone {
-  id              String            @id @default(uuid())
-  name            String
+  id         String             @id @default(uuid())
+  name       String
   // 親プロジェクト
-  project         Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId       String
-  fields          MilestoneField[]
-  summaries       MilestoneSummary[]
-  tasks           Task[]
-  start_at        DateTime?         @db.Date
-  end_at          DateTime?         @db.Date
-  created_at      DateTime          @default(now())
-  updated_at      DateTime          @updatedAt
+  project    Project            @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId  String
+  fields     MilestoneField[]
+  summaries  MilestoneSummary[]
+  tasks      Task[]
+  start_at   DateTime?          @db.Date
+  end_at     DateTime?          @db.Date
+  created_at DateTime           @default(now())
+  updated_at DateTime           @updatedAt
 }
 
 /// タスク情報
@@ -136,35 +137,35 @@ model MilestoneSummary {
 
 /// タスクの表示順
 model TaskOrder {
-  id          String    @id @default(uuid())
+  id String @id @default(uuid())
 
-  milestoneId String    
+  milestoneId String
 
   // 親プロジェクト
-  task        Task      @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  taskId      String    @unique
+  task   Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId String @unique
   // タスクの表示順
-  order       Float     @default(1.0)
+  order  Float  @default(1.0)
 
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@index([milestoneId])
 }
 
 /// タスクの表示情報
 model TaskField {
-  id          String    @id @default(uuid())
+  id String @id @default(uuid())
 
   // 親プロジェクト
-  task        Task      @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  taskId      String
+  task       Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId     String
   // 列の種類
-  type        String
+  type       String
   // 表示内容
-  value       String
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
+  value      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@unique([taskId, type])
 }
