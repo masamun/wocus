@@ -14,8 +14,8 @@ export const createProject: MutationResolvers["createProject"] = async (_, _args
   if (count > 0) {
     throw new Error("同じ名前のプロジェクトが存在します");
   }
-  // TODO
-  if (count > 50) {
+  const totalCount = await context.prisma.project.count({});
+  if (totalCount > 50) {
     throw new Error("プロジェクトはこれ以上作れません");
   }
 

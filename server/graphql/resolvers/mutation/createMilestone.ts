@@ -5,15 +5,6 @@ import { DEFAULT_MILESTONE_FILEDS, DEFAULT_MILESTONE_SUMMARIES } from "../../uti
 export const createMilestone: MutationResolvers["createMilestone"] = async (_, _args, context: Context) => {
   console.info(`createMilestone ${_args?.param?.name}`);
 
-  if (_args?.param?.project === undefined) {
-    console.warn(`createMilestone undefined project`);
-    throw Error();
-  }
-
-  if (_args?.param?.name === undefined) {
-    console.warn(`createMilestone undefined name`);
-    throw Error();
-  }
   const projectName = _args.param.project;
   const name = _args.param.name;
 
@@ -25,6 +16,24 @@ export const createMilestone: MutationResolvers["createMilestone"] = async (_, _
       name: projectName,
     },
   });
+
+  const result = await context.prisma.project.findFirst({
+    select: {
+      milestones: {
+        select: {
+          id: true,
+        },
+      },
+    },
+    where: {
+      name: projectName,
+    },
+  });
+  // TODO
+  if ((result?.milestones.length ?? 0) >= 50) {
+    throw new Error(`マイルストーンはこれ以上作れません ${result?.milestones.length ?? 0}`);
+  }
+  console.info(`milestone count ${result?.milestones.length ?? 0}`);
 
   return await context.prisma.milestone.create({
     include: {

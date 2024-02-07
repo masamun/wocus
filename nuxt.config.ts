@@ -59,6 +59,7 @@ export default defineNuxtConfig({
     clients: {
       default: {
         httpEndpoint: "http://localhost:3001/api/graphql",
+        browserHttpEndpoint: "/api/graphql",
       },
     },
   },
