@@ -81,7 +81,7 @@ const initialValue = computed(() => {
 
 const value = computed(() => {
   if (props.field.type === "order") {
-    return "" + taskStore.tasks.find((p) => p.id === props.taskId)?.order.order ?? "-";
+    return "" + (taskStore.tasks.find((p) => p.id === props.taskId)?.order.order ?? "-");
   }
   // 日付が設定されている項目かどうか
   if (props.field.type.includes("date")) {
