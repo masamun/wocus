@@ -49,7 +49,7 @@ export default defineNuxtConfig({
       },
     },
     build: {
-      sourcemap: true,
+      sourcemap: false,
     },
   },
   pinia: {
