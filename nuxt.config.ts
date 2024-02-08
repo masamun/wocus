@@ -55,6 +55,9 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ["./stores/**"],
   },
+  nitro: {
+    preset: "cloudflare-pages",
+  },
   apollo: {
     clients: {
       default: {
