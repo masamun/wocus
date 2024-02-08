@@ -132,4 +132,4 @@ out
 #other
 .db/
 /dist
-wrangler.toml*
+
