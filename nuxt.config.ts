@@ -56,7 +56,7 @@ export default defineNuxtConfig({
     storesDirs: ["./stores/**"],
   },
   nitro: {
-    preset: "cloudflare-pages",
+    preset: "node-server",
   },
   apollo: {
     clients: {
