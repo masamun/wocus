@@ -1,5 +1,4 @@
 import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import type { User as UserModel, Project as ProjectModel, Milestone as MilestoneModel, TaskActivity as TaskActivityModel, Task as TaskModel, MilestoneField as MilestoneFieldModel, MilestoneSummary as MilestoneSummaryModel, TaskField as TaskFieldModel, TaskOrder as TaskOrderModel } from '@prisma/client/index.d';
 import type { Context } from '@/server/graphql/context/';
 import { Decimal } from "@prisma/client/runtime/library";
 export type Maybe<T> = T | null;
@@ -465,11 +464,11 @@ export type ResolversTypes = ResolversObject<{
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
-  Milestone: ResolverTypeWrapper<MilestoneModel>;
-  MilestoneField: ResolverTypeWrapper<MilestoneFieldModel>;
-  MilestoneSummary: ResolverTypeWrapper<MilestoneSummaryModel>;
+  Milestone: ResolverTypeWrapper<@prisma/client/Milestone>;
+  MilestoneField: ResolverTypeWrapper<@prisma/client/MilestoneField>;
+  MilestoneSummary: ResolverTypeWrapper<@prisma/client/MilestoneSummary>;
   Mutation: ResolverTypeWrapper<{}>;
-  Project: ResolverTypeWrapper<ProjectModel>;
+  Project: ResolverTypeWrapper<@prisma/client/Project>;
   Query: ResolverTypeWrapper<{}>;
   QueryColumns: QueryColumns;
   QueryDateSummary: QueryDateSummary;
@@ -481,11 +480,11 @@ export type ResolversTypes = ResolversObject<{
   QueryTasks: QueryTasks;
   RenameMilestone: RenameMilestone;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  Task: ResolverTypeWrapper<TaskModel>;
-  TaskActivity: ResolverTypeWrapper<TaskActivityModel>;
-  TaskField: ResolverTypeWrapper<TaskFieldModel>;
+  Task: ResolverTypeWrapper<@prisma/client/Task>;
+  TaskActivity: ResolverTypeWrapper<@prisma/client/TaskActivity>;
+  TaskField: ResolverTypeWrapper<@prisma/client/TaskField>;
   TaskMeta: ResolverTypeWrapper<TaskMeta>;
-  TaskOrder: ResolverTypeWrapper<TaskOrderModel>;
+  TaskOrder: ResolverTypeWrapper<@prisma/client/TaskOrder>;
   TaskSummary: ResolverTypeWrapper<TaskSummary>;
   TaskWithActivity: ResolverTypeWrapper<Omit<TaskWithActivity, 'activity' | 'fields' | 'order'> & { activity?: Maybe<Array<ResolversTypes['TaskActivity']>>, fields?: Maybe<Array<ResolversTypes['TaskField']>>, order: ResolversTypes['TaskOrder'] }>;
   UpdateMilestoneField: UpdateMilestoneField;
@@ -495,7 +494,7 @@ export type ResolversTypes = ResolversObject<{
   UpdateTaskActivity: UpdateTaskActivity;
   UpdateTaskField: UpdateTaskField;
   UpdateTaskOrder: UpdateTaskOrder;
-  User: ResolverTypeWrapper<UserModel>;
+  User: ResolverTypeWrapper<@prisma/client/User>;
   Void: ResolverTypeWrapper<Scalars['Void']['output']>;
 }>;
 
@@ -514,11 +513,11 @@ export type ResolversParentTypes = ResolversObject<{
   Float: Scalars['Float']['output'];
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
-  Milestone: MilestoneModel;
-  MilestoneField: MilestoneFieldModel;
-  MilestoneSummary: MilestoneSummaryModel;
+  Milestone: @prisma/client/Milestone;
+  MilestoneField: @prisma/client/MilestoneField;
+  MilestoneSummary: @prisma/client/MilestoneSummary;
   Mutation: {};
-  Project: ProjectModel;
+  Project: @prisma/client/Project;
   Query: {};
   QueryColumns: QueryColumns;
   QueryDateSummary: QueryDateSummary;
@@ -530,11 +529,11 @@ export type ResolversParentTypes = ResolversObject<{
   QueryTasks: QueryTasks;
   RenameMilestone: RenameMilestone;
   String: Scalars['String']['output'];
-  Task: TaskModel;
-  TaskActivity: TaskActivityModel;
-  TaskField: TaskFieldModel;
+  Task: @prisma/client/Task;
+  TaskActivity: @prisma/client/TaskActivity;
+  TaskField: @prisma/client/TaskField;
   TaskMeta: TaskMeta;
-  TaskOrder: TaskOrderModel;
+  TaskOrder: @prisma/client/TaskOrder;
   TaskSummary: TaskSummary;
   TaskWithActivity: Omit<TaskWithActivity, 'activity' | 'fields' | 'order'> & { activity?: Maybe<Array<ResolversParentTypes['TaskActivity']>>, fields?: Maybe<Array<ResolversParentTypes['TaskField']>>, order: ResolversParentTypes['TaskOrder'] };
   UpdateMilestoneField: UpdateMilestoneField;
@@ -544,7 +543,7 @@ export type ResolversParentTypes = ResolversObject<{
   UpdateTaskActivity: UpdateTaskActivity;
   UpdateTaskField: UpdateTaskField;
   UpdateTaskOrder: UpdateTaskOrder;
-  User: UserModel;
+  User: @prisma/client/User;
   Void: Scalars['Void']['output'];
 }>;
 

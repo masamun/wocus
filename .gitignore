@@ -132,4 +132,5 @@ out
 #other
 .db/
 /dist
-
+.wrangler/
+.dev.*

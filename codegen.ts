@@ -1,5 +1,4 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
-import type { TypeScriptDocumentsPluginConfig } from "@graphql-codegen/typescript-operations";
 
 // mapperの作成を自動化
 // https://zenn.dev/shon0/articles/1cd0cb5259523e
@@ -17,22 +16,24 @@ const generatePrismaTypeMappers = () => {
   const prismaTypes = extractData("prisma/schema.prisma", /model (\w+) ?\{/g);
 
   return Object.fromEntries(
-    graphqlTypes.filter((t) => prismaTypes.includes(t)).map((model) => [model, `@prisma/client/index.d#${model}`])
+    graphqlTypes.filter((t) => prismaTypes.includes(t)).map((model) => [model, `@prisma/client/${model}`])
   );
 };
-
-// Client preset と MSW 用の Operation plugin に共通の設定
-const operationConfig: TypeScriptDocumentsPluginConfig = {};
 
 console.info(generatePrismaTypeMappers());
 
 const config: CodegenConfig = {
   schema: "./server/graphql/schema.graphql",
-  // ignoreNoDocuments: true,
+  ignoreNoDocuments: true,
   debug: true,
   verbose: true,
   watch: true,
   generates: {
+    /* Apollo Server用のtypeDefsを生成。文字列としてimportできるようにtsファイルを生成する */
+    "./server/graphql/schema.ts": {
+      plugins: ["codegenTypeDefs.js"],
+    },
+    /* Apollo Server用のresolversを生成。 */
     "./server/graphql/resolvers-types.ts": {
       config: {
         useIndexSignature: true,
@@ -58,6 +59,7 @@ const config: CodegenConfig = {
         },
       ],
     },
+    /* クライアント用 */
     "./stores/graphql/codegen/": {
       preset: "client",
       documents: "./stores/graphql/query/**/*.ts",

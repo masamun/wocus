@@ -20,7 +20,7 @@
 
 3. Prisma Client を再生成する
 
-`npx prisma generate`
+`npx prisma generate --no-engine`
 
 ### DBの準備
 

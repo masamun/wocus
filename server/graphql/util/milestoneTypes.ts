@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client/edge";
 import type { Context } from "../context";
 
 type InitialField = Omit<
