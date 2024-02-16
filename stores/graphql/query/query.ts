@@ -57,7 +57,7 @@ export const mutationDeleteMilestone = graphql(`
  * マイルストーンのIDを取得する
  */
 export const queryMilestoneId = graphql(`
-  query getMilestone($param: QueryMilestone) {
+  query getMilestone($param: QueryMilestone!) {
     milestone(param: $param) {
       id
     }
@@ -88,7 +88,7 @@ export const mutationDeleteTask = graphql(`
  * マイルストーンの一覧を取得する
  */
 export const queryMilestones = graphql(`
-  query getMilestones($param: QueryMilestones) {
+  query getMilestones($param: QueryMilestones!) {
     milestones(param: $param) {
       ...MilestoneFragment
     }
@@ -99,7 +99,7 @@ export const queryMilestones = graphql(`
  * タスクの一覧を取得する
  */
 export const queryTasks = graphql(`
-  query getTasks($param: QueryTasks) {
+  query getTasks($param: QueryTasks!) {
     tasks(param: $param) {
       id
       fields {
@@ -119,7 +119,7 @@ export const queryTasks = graphql(`
  * タスクの情報を取得する
  */
 export const queryTaskWithActivity = graphql(`
-  query getTaskWithActivity($param: QueryTasks) {
+  query getTaskWithActivity($param: QueryTasks!) {
     taskWithActivities(param: $param) {
       id
       activity {
@@ -166,23 +166,31 @@ export const queryTaskActivity = graphql(`
  * 日別のサマリ情報を取得する
  */
 export const queryDateSummery = graphql(`
-  query getDateSummery($param: QueryDateSummary) {
+  query getDateSummery($param: QueryDateSummary!) {
     dateSummary(param: $param) {
-      date
-      prv
-      erv
-      pv
-      ev
-      sv
-      ac
-      cv
-      spi
-      cpi
-      dpv
-      dev
-      dac
-      dsv
-      dcv
+      info {
+        totalPv
+        beforePeriodPv
+        beforePeriodAc
+        beforePeriodEv
+      }
+      dates {
+        date
+        prv
+        erv
+        pv
+        ev
+        sv
+        ac
+        cv
+        spi
+        cpi
+        dpv
+        dev
+        dac
+        dsv
+        dcv
+      }
     }
   }
 `);

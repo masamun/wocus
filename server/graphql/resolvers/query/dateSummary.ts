@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client/edge";
 import type { Context } from "../../context";
-import type { QueryResolvers } from "../../resolvers-types";
+import { type SummaryInfo, type QueryResolvers } from "../../resolvers-types";
 
 /**
  * 全体工数を取得する
@@ -22,27 +22,25 @@ const getTotalPV = async (taskIds: string[], context: Context) => {
 };
 
 /**
- * 当日までの数値を取得する
- * @param taskIds
+ * サマリーの計算に必要な情報を返す
+ * @param milestoneId
  * @param context
  * @returns
  */
-const getSummaryValue = async (taskIds: string[], context: Context, date_at: Date) => {
-  return await context.prisma.taskActivity.aggregate({
-    _sum: {
-      pv: true,
-      ac: true,
-      ev: true,
-    },
-    where: {
-      taskId: {
-        in: taskIds,
-      },
-      date_at: {
-        lte: date_at,
-      },
-    },
-  });
+const getSummaryInfo = async (milestoneId: string, context: Context, date_at: Date) => {
+  return (
+    (await context.prisma.$queryRaw`
+    SELECT
+      COALESCE(sum(act.pv), 0) as "totalPv",
+      sum(case when act.date_at < ${date_at} then act.pv else 0 end) as "beforePeriodPv",
+      sum(case when act.date_at < ${date_at} then act.ac else 0 end) as "beforePeriodAc",
+      sum(case when act.date_at < ${date_at} then act.ev else 0 end) as "beforePeriodEv"
+    from "Milestone" as m
+      join "Task" as t on t."milestoneId" = m.id
+        and m.id = ${milestoneId}
+      join "TaskActivity" as act on t.id = act."taskId";
+  `) as SummaryInfo[]
+  )[0];
 };
 
 /**
@@ -67,20 +65,40 @@ const getDateValue = async (taskIds: string[], context: Context, date_at: Date) 
   });
 };
 
-export const dateSummary: QueryResolvers["dateSummary"] = async (_, _args, context: Context) => {
-  if (_args?.param?.milestoneId === undefined) {
-    console.warn(`query dateSummary undefined milestone`);
-    throw Error();
-  }
-  if (_args?.param?.start_at === undefined) {
-    console.warn(`query dateSummary undefined start_at`);
-    throw Error();
-  }
-  if (_args?.param?.end_at === undefined) {
-    console.warn(`query dateSummary undefined end_at`);
-    throw Error();
-  }
+/**
+ * 指定された期間の実績サマリを取得する
+ * @param milestoneId
+ * @param context
+ * @param date_start_at
+ * @param date_end_at
+ * @returns
+ */
+const getDatesValue = async (milestoneId: string, context: Context, date_start_at: Date, date_end_at: Date) => {
+  const st_date_string = date_start_at.toISOString().split("T")[0];
+  const ed_date_string = date_end_at.toISOString().split("T")[0];
 
+  return await context.prisma.$queryRaw`
+    select
+      s.daily as date_at,
+      COALESCE(sum(t.pv), 0) as pv,
+      COALESCE(sum(t.ac), 0) as ac,
+      COALESCE(sum(t.ev), 0) as ev
+    from
+      (SELECT generate_series AS daily from generate_series(${st_date_string}::date, ${ed_date_string}::date, '1 day')) as s
+    left join
+      (SELECT act.date_at, act.pv, act.ac, act.ev
+        from "Milestone" as m
+          join "Task" as t on t."milestoneId" = m.id
+            and m.id = ${milestoneId}
+          join "TaskActivity" as act on t.id = act."taskId"
+      ) as t
+    on t.date_at = s.daily
+    group by s.daily
+    order by s.daily
+  `;
+};
+
+export const dateSummary: QueryResolvers["dateSummary"] = async (_, _args, context: Context) => {
   const start_at = _args.param.start_at < _args.param.end_at ? _args.param.start_at : _args.param.end_at;
   const end_at = _args.param.start_at < _args.param.end_at ? _args.param.end_at : _args.param.start_at;
 
@@ -103,90 +121,55 @@ export const dateSummary: QueryResolvers["dateSummary"] = async (_, _args, conte
     dsv:  # 当日スケジュール差異  -> dev - dpv
     dcv:  # 当日コスト差異　　　  -> DEV - DAC
   */
-  // 計算対象のタスクIDリスト
-  const taskIds = (
-    await context.prisma.task
-      .findMany({
-        select: {
-          id: true,
-        },
-        where: {
-          milestoneId: _args.param.milestoneId,
-          activity: {},
-        },
-      })
-      .catch((r) => [])
-  ).map((p) => p.id);
 
-  console.info(taskIds);
+  // 表示期間外
+  const info = await getSummaryInfo(_args.param.milestoneId, context, start_at);
+  // 表示期間中
+  const summaries = await getDatesValue(_args.param.milestoneId, context, start_at, end_at);
 
-  // 全体工数
-  const totalPv = (await getTotalPV(taskIds, context))._sum.pv ?? new Prisma.Decimal(0.0);
+  const dates = Object.values(summaries as object).map((dateSummary) => {
+    const datePv = dateSummary.pv;
+    const dateAc = dateSummary.ac;
+    const dateEv = dateSummary.ev;
 
-  console.debug(`totalPV: ${totalPv}`);
+    // 予定残工数 -> 全体工数 - 当日までのPV
+    //const prv = totalPv.sub(summaryPv);
+    // 実績残工数 -> prv - ev
+    //const erv = totalPv.sub(summaryEv);
+    // SV -> EV - PV
+    //const sv = summaryEv.sub(summaryPv);
+    // CV -> EV - AC
+    //const cv = summaryEv.sub(summaryAc);
+    // SPI -> EV / PV
+    //const spi = summaryEv.mod(summaryPv);
+    // CPI -> EV / AC
+    //const cpi = summaryEv.mod(summaryAc);
+    // DSV -> DEV / DPV
+    //const dsv = dateEv.sub(datePv);
+    // DCV -> DEV / DAC
+    //const dcv = dateEv.sub(dateAc);
 
-  // 計算する日付のリスト
-  const range: Date[] = [];
-  for (let d = new Date(start_at); d <= end_at; d.setDate(d.getDate() + 1)) {
-    range.push(new Date(d));
-  }
-  // 当日の数値
-  return await Promise.all(
-    range.map(async (date) => {
-      //console.debug(date);
-      const dateValue = await getDateValue(taskIds, context, date);
-      const datePv = dateValue._sum.pv ?? new Prisma.Decimal(0.0);
-      const dateAc = dateValue._sum.ac ?? new Prisma.Decimal(0.0);
-      const dateEv = dateValue._sum.ev ?? new Prisma.Decimal(0.0);
+    return {
+      date: dateSummary.date_at,
+      prv: new Prisma.Decimal(0.0),
+      erv: new Prisma.Decimal(0.0),
+      pv: datePv,
+      ev: dateEv,
+      sv: new Prisma.Decimal(0.0),
+      ac: dateAc,
+      cv: new Prisma.Decimal(0.0),
+      spi: new Prisma.Decimal(0.0),
+      cpi: new Prisma.Decimal(0.0),
+      dpv: datePv,
+      dev: dateEv,
+      dac: dateAc,
+      dsv: new Prisma.Decimal(0.0),
+      dcv: new Prisma.Decimal(0.0),
+    };
+  });
 
-      // console.debug(datePv);
-      // console.debug(dateAc);
-      // console.debug(dateEv);
-
-      // 前日までの数値
-      const summaryValue = await getSummaryValue(taskIds, context, date);
-      const summaryPv = summaryValue._sum.pv ?? new Prisma.Decimal(0.0);
-      const summaryAc = summaryValue._sum.ac ?? new Prisma.Decimal(0.0);
-      const summaryEv = summaryValue._sum.ev ?? new Prisma.Decimal(0.0);
-
-      // console.debug(summaryPv);
-      // console.debug(summaryAc);
-      // console.debug(summaryEv);
-
-      // 予定残工数 -> 全体工数 - 当日までのPV
-      const prv = totalPv.sub(summaryPv);
-      // 実績残工数 -> prv - ev
-      const erv = totalPv.sub(summaryEv);
-      // SV -> EV - PV
-      const sv = summaryEv.sub(summaryPv);
-      // CV -> EV - AC
-      const cv = summaryEv.sub(summaryAc);
-      // SPI -> EV / PV
-      const spi = summaryEv.mod(summaryPv);
-      // CPI -> EV / AC
-      const cpi = summaryEv.mod(summaryAc);
-      // DSV -> DEV / DPV
-      const dsv = dateEv.sub(datePv);
-      // DCV -> DEV / DAC
-      const dcv = dateEv.sub(dateAc);
-
-      return {
-        date,
-        prv,
-        erv,
-        pv: summaryPv,
-        ev: summaryEv,
-        sv,
-        ac: summaryAc,
-        cv,
-        spi,
-        cpi,
-        dpv: datePv,
-        dev: dateEv,
-        dac: dateAc,
-        dsv,
-        dcv,
-      };
-    })
-  );
+  return {
+    info,
+    dates,
+  };
 };

@@ -60,6 +60,12 @@ export type DateSummary = {
   sv: Scalars['Decimal']['output'];
 };
 
+export type DateSummaryResult = {
+  __typename?: 'DateSummaryResult';
+  dates: Array<DateSummary>;
+  info: SummaryInfo;
+};
+
 export type DeleteMilestone = {
   milestoneId: Scalars['String']['input'];
 };
@@ -176,7 +182,7 @@ export type Project = {
 
 export type Query = {
   __typename?: 'Query';
-  dateSummary: Array<DateSummary>;
+  dateSummary: DateSummaryResult;
   milestone?: Maybe<Milestone>;
   milestones?: Maybe<Array<Milestone>>;
   projects?: Maybe<Array<Maybe<Project>>>;
@@ -188,17 +194,17 @@ export type Query = {
 
 
 export type QueryDateSummaryArgs = {
-  param?: InputMaybe<QueryDateSummary>;
+  param: QueryDateSummary;
 };
 
 
 export type QueryMilestoneArgs = {
-  param?: InputMaybe<QueryMilestone>;
+  param: QueryMilestone;
 };
 
 
 export type QueryMilestonesArgs = {
-  param?: InputMaybe<QueryMilestones>;
+  param: QueryMilestones;
 };
 
 
@@ -208,17 +214,17 @@ export type QueryTaskActivitiesArgs = {
 
 
 export type QueryTaskSummaryArgs = {
-  param?: InputMaybe<QueryTaskSummary>;
+  param: QueryTaskSummary;
 };
 
 
 export type QueryTaskWithActivitiesArgs = {
-  param?: InputMaybe<QueryTasks>;
+  param: QueryTasks;
 };
 
 
 export type QueryTasksArgs = {
-  param?: InputMaybe<QueryTasks>;
+  param: QueryTasks;
 };
 
 export type QueryColumns = {
@@ -265,6 +271,14 @@ export type QueryTasks = {
 export type RenameMilestone = {
   milestoneId: Scalars['String']['input'];
   name: Scalars['String']['input'];
+};
+
+export type SummaryInfo = {
+  __typename?: 'SummaryInfo';
+  beforePeriodAc: Scalars['Decimal']['output'];
+  beforePeriodEv: Scalars['Decimal']['output'];
+  beforePeriodPv: Scalars['Decimal']['output'];
+  totalPv: Scalars['Decimal']['output'];
 };
 
 export type Task = {
@@ -457,6 +471,7 @@ export type ResolversTypes = ResolversObject<{
   CreateProject: CreateProject;
   CreateTask: CreateTask;
   DateSummary: ResolverTypeWrapper<DateSummary>;
+  DateSummaryResult: ResolverTypeWrapper<DateSummaryResult>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Decimal: ResolverTypeWrapper<Scalars['Decimal']['output']>;
   DeleteMilestone: DeleteMilestone;
@@ -480,6 +495,7 @@ export type ResolversTypes = ResolversObject<{
   QueryTasks: QueryTasks;
   RenameMilestone: RenameMilestone;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  SummaryInfo: ResolverTypeWrapper<SummaryInfo>;
   Task: ResolverTypeWrapper<@prisma/client/Task>;
   TaskActivity: ResolverTypeWrapper<@prisma/client/TaskActivity>;
   TaskField: ResolverTypeWrapper<@prisma/client/TaskField>;
@@ -506,6 +522,7 @@ export type ResolversParentTypes = ResolversObject<{
   CreateProject: CreateProject;
   CreateTask: CreateTask;
   DateSummary: DateSummary;
+  DateSummaryResult: DateSummaryResult;
   DateTime: Scalars['DateTime']['output'];
   Decimal: Scalars['Decimal']['output'];
   DeleteMilestone: DeleteMilestone;
@@ -529,6 +546,7 @@ export type ResolversParentTypes = ResolversObject<{
   QueryTasks: QueryTasks;
   RenameMilestone: RenameMilestone;
   String: Scalars['String']['output'];
+  SummaryInfo: SummaryInfo;
   Task: @prisma/client/Task;
   TaskActivity: @prisma/client/TaskActivity;
   TaskField: @prisma/client/TaskField;
@@ -568,6 +586,12 @@ export type DateSummaryResolvers<ContextType = Context, ParentType extends Resol
   pv?: Resolver<ResolversTypes['Decimal'], ParentType, ContextType>;
   spi?: Resolver<ResolversTypes['Decimal'], ParentType, ContextType>;
   sv?: Resolver<ResolversTypes['Decimal'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type DateSummaryResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DateSummaryResult'] = ResolversParentTypes['DateSummaryResult']> = ResolversObject<{
+  dates?: Resolver<Array<ResolversTypes['DateSummary']>, ParentType, ContextType>;
+  info?: Resolver<ResolversTypes['SummaryInfo'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -630,14 +654,22 @@ export type ProjectResolvers<ContextType = Context, ParentType extends Resolvers
 }>;
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  dateSummary?: Resolver<Array<ResolversTypes['DateSummary']>, ParentType, ContextType, Partial<QueryDateSummaryArgs>>;
-  milestone?: Resolver<Maybe<ResolversTypes['Milestone']>, ParentType, ContextType, Partial<QueryMilestoneArgs>>;
-  milestones?: Resolver<Maybe<Array<ResolversTypes['Milestone']>>, ParentType, ContextType, Partial<QueryMilestonesArgs>>;
+  dateSummary?: Resolver<ResolversTypes['DateSummaryResult'], ParentType, ContextType, RequireFields<QueryDateSummaryArgs, 'param'>>;
+  milestone?: Resolver<Maybe<ResolversTypes['Milestone']>, ParentType, ContextType, RequireFields<QueryMilestoneArgs, 'param'>>;
+  milestones?: Resolver<Maybe<Array<ResolversTypes['Milestone']>>, ParentType, ContextType, RequireFields<QueryMilestonesArgs, 'param'>>;
   projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['Project']>>>, ParentType, ContextType>;
   taskActivities?: Resolver<Maybe<Array<ResolversTypes['TaskActivity']>>, ParentType, ContextType, RequireFields<QueryTaskActivitiesArgs, 'param'>>;
-  taskSummary?: Resolver<Maybe<ResolversTypes['TaskSummary']>, ParentType, ContextType, Partial<QueryTaskSummaryArgs>>;
-  taskWithActivities?: Resolver<Maybe<Array<ResolversTypes['TaskWithActivity']>>, ParentType, ContextType, Partial<QueryTaskWithActivitiesArgs>>;
-  tasks?: Resolver<Maybe<Array<ResolversTypes['Task']>>, ParentType, ContextType, Partial<QueryTasksArgs>>;
+  taskSummary?: Resolver<Maybe<ResolversTypes['TaskSummary']>, ParentType, ContextType, RequireFields<QueryTaskSummaryArgs, 'param'>>;
+  taskWithActivities?: Resolver<Maybe<Array<ResolversTypes['TaskWithActivity']>>, ParentType, ContextType, RequireFields<QueryTaskWithActivitiesArgs, 'param'>>;
+  tasks?: Resolver<Maybe<Array<ResolversTypes['Task']>>, ParentType, ContextType, RequireFields<QueryTasksArgs, 'param'>>;
+}>;
+
+export type SummaryInfoResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SummaryInfo'] = ResolversParentTypes['SummaryInfo']> = ResolversObject<{
+  beforePeriodAc?: Resolver<ResolversTypes['Decimal'], ParentType, ContextType>;
+  beforePeriodEv?: Resolver<ResolversTypes['Decimal'], ParentType, ContextType>;
+  beforePeriodPv?: Resolver<ResolversTypes['Decimal'], ParentType, ContextType>;
+  totalPv?: Resolver<ResolversTypes['Decimal'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type TaskResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Task'] = ResolversParentTypes['Task']> = ResolversObject<{
@@ -718,6 +750,7 @@ export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export type Resolvers<ContextType = Context> = ResolversObject<{
   Column?: ColumnResolvers<ContextType>;
   DateSummary?: DateSummaryResolvers<ContextType>;
+  DateSummaryResult?: DateSummaryResultResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Decimal?: GraphQLScalarType;
   Milestone?: MilestoneResolvers<ContextType>;
@@ -726,6 +759,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>;
   Project?: ProjectResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  SummaryInfo?: SummaryInfoResolvers<ContextType>;
   Task?: TaskResolvers<ContextType>;
   TaskActivity?: TaskActivityResolvers<ContextType>;
   TaskField?: TaskFieldResolvers<ContextType>;

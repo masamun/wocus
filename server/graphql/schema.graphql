@@ -67,6 +67,13 @@ type TaskWithActivity {
   updated_at: DateTime
   activity: [TaskActivity!]
 }
+# サマリーの計算に付属する情報
+type SummaryInfo {
+  totalPv: Decimal! # 総予定
+  beforePeriodPv: Decimal! # 予定
+  beforePeriodEv: Decimal! # 進捗
+  beforePeriodAc: Decimal! # コスト
+}
 # 日のサマリー情報
 type DateSummary {
   date: DateTime! # 月日
@@ -84,6 +91,10 @@ type DateSummary {
   dac: Decimal! # 当日コスト
   dsv: Decimal! # 当日スケジュール差異
   dcv: Decimal! # 当日コスト差異
+}
+type DateSummaryResult {
+  info: SummaryInfo!
+  dates: [DateSummary!]!
 }
 # マイルストーンのフィールド情報
 type MilestoneField {
@@ -225,19 +236,19 @@ type Query {
   # プロジェクト一覧を取得する
   projects: [Project]
   # プロジェクト名とマイルストーン名からマイルストーン情報を取得する
-  milestone(param: QueryMilestone): Milestone
+  milestone(param: QueryMilestone!): Milestone
   # プロジェクトに属するマイルストーン一覧を取得する
-  milestones(param: QueryMilestones): [Milestone!]
+  milestones(param: QueryMilestones!): [Milestone!]
   # マイルストーンに属するタスク一覧を取得する
-  tasks(param: QueryTasks): [Task!]
+  tasks(param: QueryTasks!): [Task!]
   # マイルストーンに属するタスク一覧を取得する
-  taskWithActivities(param: QueryTasks): [TaskWithActivity!]
+  taskWithActivities(param: QueryTasks!): [TaskWithActivity!]
   # タスクの活動を取得する
   taskActivities(param: QueryTaskActivitiy!): [TaskActivity!]
   # タスクのサマリを取得する
-  taskSummary(param: QueryTaskSummary): TaskSummary
+  taskSummary(param: QueryTaskSummary!): TaskSummary
   # マイルストーンの指定された日のサマリを取得する
-  dateSummary(param: QueryDateSummary): [DateSummary!]!
+  dateSummary(param: QueryDateSummary!): DateSummaryResult!
 }
 # 作成/更新系
 type Mutation {

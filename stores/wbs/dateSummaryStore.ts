@@ -82,7 +82,7 @@ export const useDateSummaryStore = defineStore("dateSummary", () => {
     });
 
     if (!error.value) {
-      data.value.dateSummary.forEach((ds) => {
+      data.value.dateSummary.dates.forEach((ds) => {
         const key = new Date(ds.date).toStringYMD();
         _summaryMap.set(key, ds);
       });

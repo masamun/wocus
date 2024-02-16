@@ -39,6 +39,11 @@ type DateSummary {
   sv: Decimal!
 }
 
+type DateSummaryResult {
+  dates: [DateSummary!]!
+  info: SummaryInfo!
+}
+
 scalar DateTime
 
 scalar Decimal
@@ -98,14 +103,14 @@ type Project {
 }
 
 type Query {
-  dateSummary(param: QueryDateSummary): [DateSummary!]!
-  milestone(param: QueryMilestone): Milestone
-  milestones(param: QueryMilestones): [Milestone!]
+  dateSummary(param: QueryDateSummary!): DateSummaryResult!
+  milestone(param: QueryMilestone!): Milestone
+  milestones(param: QueryMilestones!): [Milestone!]
   projects: [Project]
   taskActivities(param: QueryTaskActivitiy!): [TaskActivity!]
-  taskSummary(param: QueryTaskSummary): TaskSummary
-  taskWithActivities(param: QueryTasks): [TaskWithActivity!]
-  tasks(param: QueryTasks): [Task!]
+  taskSummary(param: QueryTaskSummary!): TaskSummary
+  taskWithActivities(param: QueryTasks!): [TaskWithActivity!]
+  tasks(param: QueryTasks!): [Task!]
 }
 
 input QueryColumns {
@@ -152,6 +157,13 @@ input QueryTasks {
 input RenameMilestone {
   milestoneId: String!
   name: String!
+}
+
+type SummaryInfo {
+  beforePeriodAc: Decimal!
+  beforePeriodEv: Decimal!
+  beforePeriodPv: Decimal!
+  totalPv: Decimal!
 }
 
 type Task {
