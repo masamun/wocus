@@ -33,7 +33,7 @@ const documents = {
     "\n  mutation updateTaskField($param: [UpdateTaskField!]!) {\n    updateTaskField(param: $param) {\n      id\n      milestoneId\n      created_at\n      updated_at\n      fields {\n        id\n        type\n        value\n      }\n    }\n  }\n": types.UpdateTaskFieldDocument,
     "\n  mutation updateTaskOrder($param: UpdateTaskOrder!) {\n    updateTaskOrder(param: $param) {\n      id\n      milestoneId\n      order {\n        id\n        order\n      }\n    }\n  }\n": types.UpdateTaskOrderDocument,
     "\n  mutation updateMilestoneField($param: UpdateMilestoneField!) {\n    updateMilestoneField(param: $param) {\n      ...MilestoneFragment\n    }\n  }\n": types.UpdateMilestoneFieldDocument,
-    "\n  mutation updateMilestoneSummary($param: UpdateMilestoneSummary!) {\n    updateMilestoneSummary(param: $param) {\n      ...MilestoneFragment\n    }\n  }\n": types.UpdateMilestoneSummaryDocument,
+    "\n  \n  mutation updateMilestoneSummary($param: UpdateMilestoneSummary!) {\n    updateMilestoneSummary(param: $param) {\n      ...MilestoneFragment\n    }\n  }\n": types.UpdateMilestoneSummaryDocument,
 };
 
 /**
@@ -133,7 +133,7 @@ export function graphql(source: "\n  mutation updateMilestoneField($param: Updat
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation updateMilestoneSummary($param: UpdateMilestoneSummary!) {\n    updateMilestoneSummary(param: $param) {\n      ...MilestoneFragment\n    }\n  }\n"): (typeof documents)["\n  mutation updateMilestoneSummary($param: UpdateMilestoneSummary!) {\n    updateMilestoneSummary(param: $param) {\n      ...MilestoneFragment\n    }\n  }\n"];
+export function graphql(source: "\n  \n  mutation updateMilestoneSummary($param: UpdateMilestoneSummary!) {\n    updateMilestoneSummary(param: $param) {\n      ...MilestoneFragment\n    }\n  }\n"): (typeof documents)["\n  \n  mutation updateMilestoneSummary($param: UpdateMilestoneSummary!) {\n    updateMilestoneSummary(param: $param) {\n      ...MilestoneFragment\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

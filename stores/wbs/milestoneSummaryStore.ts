@@ -1,3 +1,5 @@
+import type { MilestoneFragmentFragment } from "../graphql/codegen/graphql";
+
 /**
  * フィールドのキーを生成する
  * @param milestoneId
@@ -70,9 +72,9 @@ export const useMilestoneSummaryStore = defineStore("milestoneSummary", () => {
       },
     };
 
-    const { mutate } = useMutation(updateMilestoneSummary);
+    const { mutate } = useMutation(UpdateMilestoneSummaryDocument);
     const data = await mutate(variables);
-    const newMilestone = data?.data?.updateMilestoneSummary;
+    const newMilestone = data?.data?.updateMilestoneSummary as MilestoneFragmentFragment | undefined;
     if (newMilestone) {
       newMilestone.summaries?.forEach((field) => {
         if (milestoneId.value === undefined) {

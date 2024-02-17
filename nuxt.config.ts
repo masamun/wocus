@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     },
   ],
   imports: {
-    dirs: ["components/**", "composables/**"],
+    dirs: ["composables/**/*.ts"],
   },
   modules: [
     [
@@ -40,12 +40,6 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    vue: {
-      script: {
-        defineModel: true,
-        propsDestructure: true,
-      },
-    },
     build: {
       sourcemap: false,
     },
@@ -58,6 +52,9 @@ export default defineNuxtConfig({
     prerender: {
       autoSubfolderIndex: false,
     },
+  },
+  future: {
+    typescriptBundlerResolution: false,
   },
   apollo: {
     clients: {

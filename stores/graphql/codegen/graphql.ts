@@ -374,11 +374,11 @@ export type User = {
   password: Maybe<Scalars['String']['output']>;
 };
 
-export type MilestoneFragmentFragment = { id: string, name: string, fields: Array<{ id: string, group: string, type: string, order: number, visible: boolean, editable: boolean, deletable: boolean, title: string, width: number }> | null, summaries: Array<{ id: string, type: string, order: number, visible: boolean, title: string }> | null };
+export type MilestoneFragmentFragment = { id: string, name: string, fields: Array<{ id: string, group: string, type: string, order: number, visible: boolean, editable: boolean, deletable: boolean, title: string, width: number }> | null, summaries: Array<{ id: string, type: string, order: number, visible: boolean, title: string }> | null } & { ' $fragmentName'?: 'MilestoneFragmentFragment' };
 
-export type TaskFragmentFragment = { id: string, fields: Array<{ id: string, type: string | null, value: string | null }> | null, order: { id: string, order: number } };
+export type TaskFragmentFragment = { id: string, fields: Array<{ id: string, type: string | null, value: string | null }> | null, order: { id: string, order: number } } & { ' $fragmentName'?: 'TaskFragmentFragment' };
 
-export type TaskActivityFragmentFragment = { taskId: string, date_at: Date, pv: string | null, ac: string | null, ev: string | null, created_at: Date, updated_at: Date };
+export type TaskActivityFragmentFragment = { taskId: string, date_at: Date, pv: string | null, ac: string | null, ev: string | null, created_at: Date, updated_at: Date } & { ' $fragmentName'?: 'TaskActivityFragmentFragment' };
 
 export type GetProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -397,14 +397,14 @@ export type CreateMilestoneMutationVariables = Exact<{
 }>;
 
 
-export type CreateMilestoneMutation = { createMilestone: { id: string, name: string, fields: Array<{ id: string, group: string, type: string, order: number, visible: boolean, editable: boolean, deletable: boolean, title: string, width: number }> | null, summaries: Array<{ id: string, type: string, order: number, visible: boolean, title: string }> | null } | null };
+export type CreateMilestoneMutation = { createMilestone: { ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } } | null };
 
 export type RenameMilestoneMutationVariables = Exact<{
   param: RenameMilestone;
 }>;
 
 
-export type RenameMilestoneMutation = { renameMilestone: { id: string, name: string, fields: Array<{ id: string, group: string, type: string, order: number, visible: boolean, editable: boolean, deletable: boolean, title: string, width: number }> | null, summaries: Array<{ id: string, type: string, order: number, visible: boolean, title: string }> | null } | null };
+export type RenameMilestoneMutation = { renameMilestone: { ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } } | null };
 
 export type DeleteMilestoneMutationVariables = Exact<{
   param: DeleteMilestone;
@@ -425,7 +425,7 @@ export type CreateTaskMutationVariables = Exact<{
 }>;
 
 
-export type CreateTaskMutation = { createTask: { id: string, fields: Array<{ id: string, type: string | null, value: string | null }> | null, order: { id: string, order: number } } | null };
+export type CreateTaskMutation = { createTask: { ' $fragmentRefs'?: { 'TaskFragmentFragment': TaskFragmentFragment } } | null };
 
 export type DeleteTaskMutationVariables = Exact<{
   param: DeleteTask;
@@ -439,7 +439,7 @@ export type GetMilestonesQueryVariables = Exact<{
 }>;
 
 
-export type GetMilestonesQuery = { milestones: Array<{ id: string, name: string, fields: Array<{ id: string, group: string, type: string, order: number, visible: boolean, editable: boolean, deletable: boolean, title: string, width: number }> | null, summaries: Array<{ id: string, type: string, order: number, visible: boolean, title: string }> | null }> | null };
+export type GetMilestonesQuery = { milestones: Array<{ ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } }> | null };
 
 export type GetTasksQueryVariables = Exact<{
   param: QueryTasks;
@@ -495,14 +495,14 @@ export type UpdateMilestoneFieldMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMilestoneFieldMutation = { updateMilestoneField: { id: string, name: string, fields: Array<{ id: string, group: string, type: string, order: number, visible: boolean, editable: boolean, deletable: boolean, title: string, width: number }> | null, summaries: Array<{ id: string, type: string, order: number, visible: boolean, title: string }> | null } };
+export type UpdateMilestoneFieldMutation = { updateMilestoneField: { ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } } };
 
 export type UpdateMilestoneSummaryMutationVariables = Exact<{
   param: UpdateMilestoneSummary;
 }>;
 
 
-export type UpdateMilestoneSummaryMutation = { updateMilestoneSummary: { id: string, name: string, fields: Array<{ id: string, group: string, type: string, order: number, visible: boolean, editable: boolean, deletable: boolean, title: string, width: number }> | null, summaries: Array<{ id: string, type: string, order: number, visible: boolean, title: string }> | null } };
+export type UpdateMilestoneSummaryMutation = { updateMilestoneSummary: { ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } } };
 
 export const MilestoneFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MilestoneFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Milestone"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"group"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"visible"}},{"kind":"Field","name":{"kind":"Name","value":"editable"}},{"kind":"Field","name":{"kind":"Name","value":"deletable"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"width"}}]}},{"kind":"Field","name":{"kind":"Name","value":"summaries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"visible"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<MilestoneFragmentFragment, unknown>;
 export const TaskFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TaskFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Task"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"order"}}]}}]}}]} as unknown as DocumentNode<TaskFragmentFragment, unknown>;

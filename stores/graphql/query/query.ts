@@ -1,5 +1,3 @@
-import { graphql } from "../codegen/gql";
-
 // プロジェクトリストを取得する
 export const queryProject = graphql(`
   query getProjects {
@@ -248,6 +246,7 @@ export const updateMilestoneField = graphql(`
 `);
 
 export const updateMilestoneSummary = graphql(`
+  ${milestoneFragment}
   mutation updateMilestoneSummary($param: UpdateMilestoneSummary!) {
     updateMilestoneSummary(param: $param) {
       ...MilestoneFragment

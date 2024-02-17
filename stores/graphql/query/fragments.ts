@@ -1,5 +1,3 @@
-import { graphql } from "../codegen/gql";
-
 export const milestoneFragment = graphql(/* GraphQL */ `
   fragment MilestoneFragment on Milestone {
     id

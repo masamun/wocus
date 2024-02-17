@@ -3,7 +3,7 @@ main = "./dist/worker.js/chunks/index.mjs"
 #workers_dev = true
 #account_id = ""
 #route = "<(optional) mainly useful when you want to setup custom domains>"
-compatibility_flags = [ "nodejs_compat" ]
+#compatibility_flags = [ "nodejs_compat" ]
 send_metrics = false
 
 rules = [

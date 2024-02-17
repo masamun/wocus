@@ -1,3 +1,5 @@
+import type { MilestoneFragmentFragment } from "../graphql/codegen/graphql";
+
 export const useMilestonesStore = defineStore("milestones", () => {
   const wbsStore = useWbsStore();
   const { projectName } = storeToRefs(wbsStore);
@@ -28,7 +30,7 @@ export const useMilestonesStore = defineStore("milestones", () => {
       variables: variables,
       cache: false,
     });
-    _milestones.value = data.value.milestones ?? [];
+    _milestones.value = (data.value.milestones as MilestoneFragmentFragment[] | undefined) ?? [];
   };
 
   /**
@@ -53,8 +55,9 @@ export const useMilestonesStore = defineStore("milestones", () => {
 
     const { mutate } = useMutation(mutationMilestone);
     const data = await mutate(variables);
-    if (data?.data?.createMilestone) {
-      _milestones.value = [..._milestones.value, ...[data.data.createMilestone]];
+    const createdMilestone = data?.data?.createMilestone as MilestoneFragmentFragment | undefined;
+    if (createdMilestone) {
+      _milestones.value = [..._milestones.value, ...[createdMilestone]];
     }
   };
 
@@ -76,10 +79,11 @@ export const useMilestonesStore = defineStore("milestones", () => {
 
     const { mutate } = useMutation(mutationRenameMilestone);
     const data = await mutate(variables);
-    if (data?.data?.renameMilestone != undefined) {
-      const id = data.data.renameMilestone?.id;
+    const renamedMilestone = data?.data?.renameMilestone as MilestoneFragmentFragment | undefined;
+    if (renamedMilestone != null) {
+      const id = renamedMilestone.id;
       const filtered = _milestones.value.filter((p) => p.id !== id);
-      _milestones.value = [...filtered, ...[data.data.renameMilestone]];
+      _milestones.value = [...filtered, ...[renamedMilestone]];
     }
   };
 

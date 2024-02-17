@@ -15,9 +15,7 @@ const generatePrismaTypeMappers = () => {
   const graphqlTypes = extractData("./server/graphql/schema.graphql", /type (\w+) ?\{/g);
   const prismaTypes = extractData("prisma/schema.prisma", /model (\w+) ?\{/g);
 
-  return Object.fromEntries(
-    graphqlTypes.filter((t) => prismaTypes.includes(t)).map((model) => [model, `@prisma/client/${model}`])
-  );
+  return Object.fromEntries(graphqlTypes.filter((t) => prismaTypes.includes(t)).map((model) => [model, `${model}`]));
 };
 
 console.info(generatePrismaTypeMappers());
@@ -79,9 +77,6 @@ const config: CodegenConfig = {
           Decimal: "string",
         },
         enumsAsTypes: true,
-      },
-      presetConfig: {
-        fragmentMasking: false,
       },
       plugins: [
         {

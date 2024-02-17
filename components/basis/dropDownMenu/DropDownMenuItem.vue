@@ -34,6 +34,6 @@ const emits = defineEmits<Emits>();
  * @param e
  */
 const handleClick = (e: Event) => {
-  emits("click", e);
+  emits("click");
 };
 </script>
