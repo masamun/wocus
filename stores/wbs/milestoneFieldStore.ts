@@ -75,7 +75,7 @@ export const useMilestoneFieldStore = defineStore("milestoneField", () => {
       },
     };
 
-    const { mutate } = useMutation(updateMilestoneField);
+    const { mutate } = useMutation(UpdateMilestoneFieldDocument);
     const data = await mutate(variables);
     const newMilestone = data?.data?.updateMilestoneField as MilestoneFragmentFragment | undefined;
     if (newMilestone) {

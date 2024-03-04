@@ -1,0 +1,289 @@
+type Query
+type Mutation
+
+scalar DateTime
+scalar Decimal
+
+type User {
+  id: ID!
+  name: String!
+  displayName: String
+  password: String
+}
+# プロジェクト情報
+type Project {
+  id: ID!
+  name: String!
+}
+# マイルストーン情報
+type Milestone {
+  id: ID!
+  name: String!
+  fields: [MilestoneField!]
+  summaries: [MilestoneSummary!]
+}
+type Column {
+  id: ID!
+}
+# タスクの情報
+type TaskMeta {
+  id: ID!
+  category1: String
+  category2: String
+  category3: String
+}
+# タスクの活動情報
+type TaskActivity {
+  taskId: String!
+  date_at: DateTime!
+  pv: Decimal
+  ac: Decimal
+  ev: Decimal
+  etc: Decimal
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+# タスクの活動情報サマリ
+type TaskSummary {
+  taskId: String!
+  date_lt: DateTime!
+  plan_start_date: DateTime
+  plan_end_date: DateTime
+  actual_start_date: DateTime
+  actual_end_date: DateTime
+  pv: Decimal!
+  ac: Decimal!
+  ev: Decimal!
+  sv: Decimal!
+  spi: Decimal!
+  cpi: Decimal!
+}
+type Task {
+  id: ID!
+  milestoneId: String!
+  fields: [TaskField!]!
+  activity: [TaskActivity!]!
+  order: TaskOrder
+  summary: TaskSummary
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+# サマリーの計算に付属する情報
+type SummaryInfo {
+  totalPv: Decimal! # 総予定
+  beforePeriodPv: Decimal! # 予定
+  beforePeriodEv: Decimal! # 進捗
+  beforePeriodAc: Decimal! # コスト
+}
+# 日のサマリー情報
+type DateSummary {
+  date: DateTime! # 月日
+  prv: Decimal! # 予定残工数
+  erv: Decimal! # 実績残工数
+  pv: Decimal! # 予定
+  ev: Decimal! # 進捗
+  sv: Decimal! # スケジュール差異
+  ac: Decimal! # コスト
+  cv: Decimal! # コスト差異
+  spi: Decimal! # スケジュール効率
+  cpi: Decimal! # コスト効率
+  dpv: Decimal! # 当日計画
+  dev: Decimal! # 当日進捗
+  dac: Decimal! # 当日コスト
+  dsv: Decimal! # 当日スケジュール差異
+  dcv: Decimal! # 当日コスト差異
+}
+type DateSummaryResult {
+  info: SummaryInfo!
+  dates: [DateSummary!]!
+}
+# マイルストーンのフィールド情報
+type MilestoneField {
+  id: ID!
+  group: String! # 列のグループ
+  type: String! # 列の種類
+  order: Int! # 列の表示順
+  visible: Boolean! # 列の表示有無
+  editable: Boolean! # 列の編集設定
+  deletable: Boolean! # 列の削除設定
+  title: String! # 列タイトル
+  width: Int! # 列の幅
+}
+# マイルストーンのサマリー情報
+type MilestoneSummary {
+  id: ID!
+  type: String! # 列の種類
+  order: Int! # 列の表示順
+  visible: Boolean! # 列の表示有無
+  title: String! # 列タイトル
+}
+type TaskField {
+  id: ID!
+  type: String # 列の種類
+  value: String # 表示内容
+}
+type TaskOrder {
+  id: ID!
+  order: Float! # タスクの表示順
+}
+# プロジェクトを作成する
+input CreateProject {
+  name: String!
+}
+# マイルストーンを作成する
+input CreateMilestone {
+  project: String!
+  name: String!
+}
+# マイルストーンの名前を変更する
+input RenameMilestone {
+  milestoneId: String!
+  name: String!
+}
+# マイルストーンを削除する
+input DeleteMilestone {
+  milestoneId: String!
+}
+# タスクを作成する
+input CreateTask {
+  milestoneId: String!
+  order: Float
+}
+# タスクを削除する
+input DeleteTask {
+  taskId: String!
+}
+# タスクの活動を更新する
+input UpdateTaskActivity {
+  taskId: String!
+  date_at: DateTime!
+  pv: String
+  ac: String
+  ev: String
+}
+input UpdateMilestoneFieldValue {
+  type: String!
+  visible: Boolean # 列の表示有無
+  width: Int # 列の幅
+}
+input UpdateMilestoneField {
+  milestoneId: String!
+  values: [UpdateMilestoneFieldValue!]!
+}
+input UpdateMilestoneSummaryValue {
+  type: String!
+  visible: Boolean # 列の表示有無
+}
+input UpdateMilestoneSummary {
+  milestoneId: String!
+  values: [UpdateMilestoneSummaryValue!]!
+}
+input UpdateTaskField {
+  taskId: String!
+  type: String!
+  value: String!
+}
+input UpdateTaskOrder {
+  taskId: String!
+  order: Float!
+  refresh: Boolean!
+}
+input QueryMilestone {
+  projectName: String!
+  milestoneName: String!
+}
+# マイルストーンを取得する
+input QueryMilestones {
+  projectName: String!
+}
+# マイルストーンオプションを取得する
+input QueryMilestoneOptions {
+  milestoneId: String!
+}
+# タスクを取得する
+input QueryTask {
+  taskId: String!
+  start_at: DateTime!
+  end_at: DateTime!
+
+  # タスクのフィールドを計算する日付
+  date_at: DateTime
+}
+# タスクを取得する
+input QueryTasks {
+  milestoneId: String!
+
+  # 活動の取得範囲
+  start_at: DateTime!
+  end_at: DateTime!
+
+  # タスクのフィールドを計算する日付
+  date_at: DateTime
+}
+# カラム情報を取得する
+input QueryColumns {
+  milestoneId: String!
+}
+# タスクの活動を取得する
+input QueryTaskActivitiy {
+  start_at: DateTime!
+  end_at: DateTime!
+
+  taskIds: [String!]!
+}
+
+# タスクの指定された日までの活動サマリを取得する
+input QueryTaskSummary {
+  taskId: String!
+  date_lt: DateTime!
+}
+# マイルストーンの指定された日の活動サマリを取得する
+input QueryDateSummary {
+  milestoneId: String!
+  start_at: DateTime!
+  end_at: DateTime!
+}
+
+# 取得系
+extend type Query {
+  # プロジェクト一覧を取得する
+  projects: [Project]!
+  # プロジェクト名とマイルストーン名からマイルストーン情報を取得する
+  milestone(param: QueryMilestone!): Milestone
+  # プロジェクトに属するマイルストーン一覧を取得する
+  milestones(param: QueryMilestones!): [Milestone!]!
+  # タスクを取得する
+  task(param: QueryTask!): Task
+  # タスク一覧を取得する
+  tasks(param: QueryTasks!): [Task!]!
+  # タスクのサマリを取得する
+  taskSummary(param: QueryTaskSummary!): TaskSummary
+  # マイルストーンの指定された日のサマリを取得する
+  dateSummary(param: QueryDateSummary!): DateSummaryResult!
+}
+# 作成/更新系
+extend type Mutation {
+  # プロジェクトを作成する
+  createProject(param: CreateProject!): Project
+  #マイルストーンを作成する
+  createMilestone(param: CreateMilestone!): Milestone
+  #マイルストーンの名前を変更する
+  renameMilestone(param: RenameMilestone!): Milestone
+  #マイルストーンを削除する
+  deleteMilestone(param: DeleteMilestone!): Boolean!
+  # タスクを作成する
+  createTask(param: CreateTask!): Task
+  # タスクを削除する
+  deleteTask(param: DeleteTask!): Boolean!
+  # タスクのアクティビティを更新する
+  updateTaskActivity(param: [UpdateTaskActivity!]!): [TaskActivity!]!
+  # タスクのフィールドを更新する
+  updateTaskField(param: [UpdateTaskField!]!): [Task!]!
+  # タスクの表示順を更新する
+  updateTaskOrder(param: UpdateTaskOrder!): [Task!]!
+  # マイルストーンのフィールドを更新する
+  updateMilestoneField(param: UpdateMilestoneField!): Milestone!
+  # マイルストーンのサマリーを更新する
+  updateMilestoneSummary(param: UpdateMilestoneSummary!): Milestone!
+}

@@ -48,7 +48,7 @@ export const useActivityProxy = (srcMap: ActivityMap, taskId: string, date: Date
         },
       ],
     };
-    const { mutate, error } = useMutation(updateTaskActivity, () => ({
+    const { mutate, error } = useMutation(UpdateActivityDocument, () => ({
       variables: variables,
     }));
     const data = await mutate();

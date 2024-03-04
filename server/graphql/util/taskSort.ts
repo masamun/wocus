@@ -1,4 +1,4 @@
-import type { Context } from "../context";
+import type { WocusContext } from "../context";
 
 /**
  * タスクの表示順を振り直す
@@ -6,7 +6,7 @@ import type { Context } from "../context";
  * @param taskId
  * @returns
  */
-export const refresh = async (context: Context, taskId: string) => {
+export const refresh = async (context: WocusContext, taskId: string) => {
   const obj = await context.prisma.taskOrder.findUniqueOrThrow({
     select: {
       milestoneId: true,

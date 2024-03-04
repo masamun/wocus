@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client/edge";
+import { PrismaClient } from "./";
 
 const prisma = new PrismaClient();
 async function main() {

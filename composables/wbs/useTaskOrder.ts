@@ -77,7 +77,7 @@ export function useTaskOrder() {
         refresh,
       },
     };
-    const { mutate } = useMutation(updateTaskOrder);
+    const { mutate } = useMutation(UpdateTaskOrderDocument);
     const data = await mutate(variables);
     if (data?.data?.updateTaskOrder === undefined) {
       console.warn("update task order failed");

@@ -7,7 +7,7 @@ export const useProjectStore = defineStore("project", () => {
   const fetchAll = async () => {
     projects.value.splice(0);
     const { data } = await useAsyncQuery({
-      query: queryProject,
+      query: GetProjectsDocument,
       cache: false,
     });
     data.value.projects?.forEach((p) => {
@@ -30,7 +30,7 @@ export const useProjectStore = defineStore("project", () => {
     };
 
     try {
-      const { mutate } = useMutation(mutationProject);
+      const { mutate } = useMutation(CreateProjectDocument);
       const data = await mutate(variables);
       if (data?.data?.createProject) {
         projects.value.push(data.data.createProject);

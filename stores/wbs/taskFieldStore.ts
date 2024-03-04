@@ -74,7 +74,7 @@ export const useTaskFieldStore = defineStore("taskField", () => {
 
     console.info(`updateField ${taskId} ${type} ${value}`);
 
-    const { mutate } = useMutation(updateTaskField);
+    const { mutate } = useMutation(UpdateTaskFieldDocument);
     const data = await mutate(variables);
     if (data?.data?.updateTaskField == undefined) {
       console.warn("update field response undefined");

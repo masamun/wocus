@@ -76,7 +76,7 @@ export const useDateSummaryStore = defineStore("dateSummary", () => {
     };
 
     const { data, error } = await useAsyncQuery({
-      query: queryDateSummery,
+      query: GetDateSummeryDocument,
       variables: variables,
       cache: false,
     });
@@ -104,7 +104,7 @@ export const useDateSummaryStore = defineStore("dateSummary", () => {
     };
 
     const { data, error } = await useAsyncQuery({
-      query: queryDateSummery,
+      query: GetDateSummeryDocument,
       variables: variables,
       cache: false,
     });

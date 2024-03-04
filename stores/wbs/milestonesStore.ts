@@ -26,7 +26,7 @@ export const useMilestonesStore = defineStore("milestones", () => {
       },
     };
     const { data } = await useAsyncQuery({
-      query: queryMilestones,
+      query: GetMilestonesDocument,
       variables: variables,
       cache: false,
     });
@@ -53,7 +53,7 @@ export const useMilestonesStore = defineStore("milestones", () => {
       },
     };
 
-    const { mutate } = useMutation(mutationMilestone);
+    const { mutate } = useMutation(CreateMilestoneDocument);
     const data = await mutate(variables);
     const createdMilestone = data?.data?.createMilestone as MilestoneFragmentFragment | undefined;
     if (createdMilestone) {
@@ -77,7 +77,7 @@ export const useMilestonesStore = defineStore("milestones", () => {
       },
     };
 
-    const { mutate } = useMutation(mutationRenameMilestone);
+    const { mutate } = useMutation(RenameMilestoneDocument);
     const data = await mutate(variables);
     const renamedMilestone = data?.data?.renameMilestone as MilestoneFragmentFragment | undefined;
     if (renamedMilestone != null) {
@@ -98,7 +98,7 @@ export const useMilestonesStore = defineStore("milestones", () => {
       },
     };
 
-    const { mutate } = useMutation(mutationDeleteMilestone);
+    const { mutate } = useMutation(DeleteMilestoneDocument);
     const data = await mutate(variables);
     if (data?.data?.deleteMilestone === true) {
       _milestones.value = _milestones.value.filter((p) => p.id !== milestoneId);

@@ -1,11 +1,5 @@
-import { mutationDeleteTask, mutationTask, queryTaskActivity, queryTaskWithActivity } from "../graphql/query/query";
-import type {
-  MutationCreateTaskArgs,
-  MutationDeleteTaskArgs,
-  QueryTasksArgs,
-  QueryTaskActivitiesArgs,
-  TaskWithActivity,
-} from "../graphql/codegen/graphql";
+import { GetTasksDocument, CreateTaskDocument } from "../graphql/codegen/graphql";
+import type { MutationCreateTaskArgs, MutationDeleteTaskArgs, QueryTasksArgs } from "../graphql/codegen/graphql";
 import "@/composables/util/date";
 import { useTaskFieldStore } from "./taskFieldStore";
 import { useTaskActivityStore } from "./taskActivityStore";
@@ -20,7 +14,7 @@ export const useTaskStore = defineStore("task", () => {
   const { milestoneId } = storeToRefs(wbsStore);
 
   // タスク一覧
-  const _tasks = ref<TaskWithActivity[]>([]);
+  const _tasks = ref<Task[]>([]);
 
   /**
    * タスクの一覧を取得する
@@ -47,15 +41,17 @@ export const useTaskStore = defineStore("task", () => {
     const variables: QueryTasksArgs = {
       param: {
         milestoneId: milestoneId.value,
+        start_at: wbsStore.startShowDate,
+        end_at: wbsStore.endShowDate,
       },
     };
     useAsyncQuery({
-      query: queryTaskWithActivity,
+      query: GetTasksDocument,
       variables: variables,
       cache: false,
     }).then((response) => {
-      if (response.data.value.taskWithActivities !== null) {
-        task2Model(response.data.value.taskWithActivities as TaskWithActivity[]);
+      if (response.data.value.tasks !== null) {
+        task2Model(response.data.value.tasks as TaskWithActivity[]);
       }
     });
   };
@@ -64,7 +60,7 @@ export const useTaskStore = defineStore("task", () => {
    * タスクの情報を分解する
    * @param tasks
    */
-  const task2Model = (tasks: TaskWithActivity[]) => {
+  const task2Model = (tasks: Task[]) => {
     _tasks.value.push(...tasks);
 
     tasks.forEach((task) => {
@@ -95,10 +91,10 @@ export const useTaskStore = defineStore("task", () => {
       },
     };
 
-    const { mutate } = useMutation(mutationTask);
+    const { mutate } = useMutation(CreateTaskDocument);
     const data = await mutate(variables);
     if (data?.data?.createTask) {
-      task2Model([data.data.createTask as TaskWithActivity]);
+      task2Model([data.data.createTask as Task]);
     }
   };
 
@@ -136,7 +132,7 @@ export const useTaskStore = defineStore("task", () => {
       },
     };
 
-    const { mutate } = useMutation(mutationDeleteTask);
+    const { mutate } = useMutation(DeleteTaskDocument);
     const data = await mutate(variables);
     if (data?.data?.deleteTask === true) {
       _tasks.value = tasks.value.filter((p) => p.id !== taskId);
@@ -146,33 +142,11 @@ export const useTaskStore = defineStore("task", () => {
     }
   };
 
-  const refreshActivities = async () => {
-    logger.info("refreshActivities");
-    taskActivityStore.clear();
-    const variables: QueryTaskActivitiesArgs = {
-      param: {
-        taskIds: _tasks.value.map((p) => p.id),
-        start_at: wbsStore.startShowDate,
-        end_at: wbsStore.endShowDate,
-      },
-    };
-    useAsyncQuery({
-      query: queryTaskActivity,
-      variables: variables,
-      cache: false,
-    }).then((response) => {
-      taskActivityStore.clear();
-      (response.data.value.taskActivities ?? []).forEach((activity) => {
-        taskActivityStore.add(activity.taskId, activity);
-      });
-    });
-  };
-
   /**
    * タスクを取得する
    */
   const tasks = computed(() => {
-    const result = _tasks.value.toSorted((a, b) => a.order.order - b.order.order);
+    const result = _tasks.value.toSorted((a, b) => (a.order?.order ?? 0) - (b.order?.order ?? 0));
     logger.debug(`tasks length ${result.length}`);
     return result;
   });
@@ -198,7 +172,7 @@ export const useTaskStore = defineStore("task", () => {
   watch(
     () => wbsStore.range,
     () => {
-      refreshActivities();
+      fetchTasks();
     }
   );
 

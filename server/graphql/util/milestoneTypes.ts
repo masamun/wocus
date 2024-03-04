@@ -1,5 +1,5 @@
-import { Prisma } from "@prisma/client/edge";
-import type { Context } from "../context";
+import { Prisma } from "@/prisma";
+import type { WocusContext } from "../context";
 
 type InitialField = Omit<
   Prisma.MilestoneFieldCreateManyInput,
@@ -316,7 +316,7 @@ export const DEFAULT_MILESTONE_SUMMARIES: InitialSummary[] = [
  */
 type TaskFieldScalars = Prisma.$TaskFieldPayload["scalars"];
 
-const getPlan = async (taskId: string, context: Context): Promise<TaskFieldScalars[]> => {
+const getPlan = async (taskId: string, context: WocusContext): Promise<TaskFieldScalars[]> => {
   // PVが入力開始 -> 計画上の開始日時
   // PVが入力終了 -> 計画上の終了日時
   const plan = await context.prisma.taskActivity.aggregate({
@@ -385,7 +385,7 @@ const getPlan = async (taskId: string, context: Context): Promise<TaskFieldScala
   ];
 };
 
-const getEvm = async (taskId: string, context: Context, date_at: Date): Promise<TaskFieldScalars[]> => {
+const getEvm = async (taskId: string, context: WocusContext, date_at: Date): Promise<TaskFieldScalars[]> => {
   const summaryValue = await context.prisma.taskActivity.aggregate({
     _sum: {
       pv: true,
@@ -465,7 +465,7 @@ const getEvm = async (taskId: string, context: Context, date_at: Date): Promise<
   ];
 };
 
-const getRecords = async (taskId: string, context: Context): Promise<TaskFieldScalars[]> => {
+const getRecords = async (taskId: string, context: WocusContext): Promise<TaskFieldScalars[]> => {
   return await context.prisma.taskField.findMany({
     select: {
       taskId: true,
@@ -505,14 +505,43 @@ const getRecords = async (taskId: string, context: Context): Promise<TaskFieldSc
  * @param context
  */
 export const getTaskFields = async (
-  task: Omit<Task, "fields">,
-  context: Context,
+  task: Omit<Task, "fields" | "order">,
+  context: WocusContext,
   date_at: Date
 ): Promise<TaskFieldScalars[]> => {
   const now = new Date();
   return [
-    ...(await getRecords(task.id, context)),
+    //...(await getRecords(task.id, context)),
     ...(await getPlan(task.id, context)),
     ...(await getEvm(task.id, context, date_at)),
   ];
+};
+
+export const getTaskSummary = async (context: WocusContext, milestoneId: string, date_at: Date) => {
+  return (await context.prisma.$queryRaw`
+    with base as (
+      SELECT
+        t.id as "taskId",
+        COALESCE(min(case when act.pv is not NULL then act.date_at else NULL end), NULL) as plan_start_date,
+        COALESCE(max(case when act.pv is not NULL then act.date_at else NULL end), NULL) as plan_end_date,
+        COALESCE(min(case when act.ac is not NULL then act.date_at else NULL end), NULL) as actual_start_date,
+        COALESCE(max(case when act.ac is not NULL then act.date_at else NULL end), NULL) as actual_end_date,
+        COALESCE(sum(case when act.date_at <= ${date_at} then act.pv else 0 end), 0) as pv,
+        COALESCE(sum(case when act.date_at <= ${date_at} then act.ac else 0 end), 0) as ac,
+        COALESCE(sum(case when act.date_at <= ${date_at} then act.ev else 0 end), 0) as ev
+      from "Milestone" as m
+        join "Task" as t on t."milestoneId" = m.id
+          and m.id = ${milestoneId}
+        left join "TaskActivity" as act on t.id = act."taskId"
+      group by t.id
+    )
+    select
+      *,
+      ${date_at} as date_lt,
+      (base.ev - base.pv) as sv,
+      (base.ev - base.ac) as cv,
+      case when base.pv > 0 then (base.ev / base.pv) else 0 end as spi,
+      case when base.ac > 0 then (base.ev / base.ac) else 0 end as cpi
+    from base;
+  `) as TaskSummary[];
 };

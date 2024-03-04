@@ -18,10 +18,10 @@ export type Scalars = {
   Float: { input: number; output: number; }
   DateTime: { input: Date; output: Date; }
   Decimal: { input: string; output: string; }
-  Void: { input: any; output: any; }
 };
 
 export type Column = {
+  __typename?: 'Column';
   id: Scalars['ID']['output'];
 };
 
@@ -40,6 +40,7 @@ export type CreateTask = {
 };
 
 export type DateSummary = {
+  __typename?: 'DateSummary';
   ac: Scalars['Decimal']['output'];
   cpi: Scalars['Decimal']['output'];
   cv: Scalars['Decimal']['output'];
@@ -58,6 +59,7 @@ export type DateSummary = {
 };
 
 export type DateSummaryResult = {
+  __typename?: 'DateSummaryResult';
   dates: Array<DateSummary>;
   info: SummaryInfo;
 };
@@ -71,13 +73,15 @@ export type DeleteTask = {
 };
 
 export type Milestone = {
-  fields: Maybe<Array<MilestoneField>>;
+  __typename?: 'Milestone';
+  fields?: Maybe<Array<MilestoneField>>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
-  summaries: Maybe<Array<MilestoneSummary>>;
+  summaries?: Maybe<Array<MilestoneSummary>>;
 };
 
 export type MilestoneField = {
+  __typename?: 'MilestoneField';
   deletable: Scalars['Boolean']['output'];
   editable: Scalars['Boolean']['output'];
   group: Scalars['String']['output'];
@@ -90,6 +94,7 @@ export type MilestoneField = {
 };
 
 export type MilestoneSummary = {
+  __typename?: 'MilestoneSummary';
   id: Scalars['ID']['output'];
   order: Scalars['Int']['output'];
   title: Scalars['String']['output'];
@@ -98,12 +103,13 @@ export type MilestoneSummary = {
 };
 
 export type Mutation = {
-  createMilestone: Maybe<Milestone>;
-  createProject: Maybe<Project>;
-  createTask: Maybe<Task>;
+  __typename?: 'Mutation';
+  createMilestone?: Maybe<Milestone>;
+  createProject?: Maybe<Project>;
+  createTask?: Maybe<Task>;
   deleteMilestone: Scalars['Boolean']['output'];
   deleteTask: Scalars['Boolean']['output'];
-  renameMilestone: Maybe<Milestone>;
+  renameMilestone?: Maybe<Milestone>;
   updateMilestoneField: Milestone;
   updateMilestoneSummary: Milestone;
   updateTaskActivity: Array<TaskActivity>;
@@ -167,19 +173,20 @@ export type MutationUpdateTaskOrderArgs = {
 };
 
 export type Project = {
+  __typename?: 'Project';
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
 };
 
 export type Query = {
+  __typename?: 'Query';
   dateSummary: DateSummaryResult;
-  milestone: Maybe<Milestone>;
-  milestones: Maybe<Array<Milestone>>;
-  projects: Maybe<Array<Maybe<Project>>>;
-  taskActivities: Maybe<Array<TaskActivity>>;
-  taskSummary: Maybe<TaskSummary>;
-  taskWithActivities: Maybe<Array<TaskWithActivity>>;
-  tasks: Maybe<Array<Task>>;
+  milestone?: Maybe<Milestone>;
+  milestones: Array<Milestone>;
+  projects: Array<Maybe<Project>>;
+  task?: Maybe<Task>;
+  taskSummary?: Maybe<TaskSummary>;
+  tasks: Array<Task>;
 };
 
 
@@ -198,18 +205,13 @@ export type QueryMilestonesArgs = {
 };
 
 
-export type QueryTaskActivitiesArgs = {
-  param: QueryTaskActivitiy;
+export type QueryTaskArgs = {
+  param: QueryTask;
 };
 
 
 export type QueryTaskSummaryArgs = {
   param: QueryTaskSummary;
-};
-
-
-export type QueryTaskWithActivitiesArgs = {
-  param: QueryTasks;
 };
 
 
@@ -240,6 +242,13 @@ export type QueryMilestones = {
   projectName: Scalars['String']['input'];
 };
 
+export type QueryTask = {
+  date_at?: InputMaybe<Scalars['DateTime']['input']>;
+  end_at: Scalars['DateTime']['input'];
+  start_at: Scalars['DateTime']['input'];
+  taskId: Scalars['String']['input'];
+};
+
 export type QueryTaskActivitiy = {
   end_at: Scalars['DateTime']['input'];
   start_at: Scalars['DateTime']['input'];
@@ -253,9 +262,9 @@ export type QueryTaskSummary = {
 
 export type QueryTasks = {
   date_at?: InputMaybe<Scalars['DateTime']['input']>;
-  end_at?: InputMaybe<Scalars['DateTime']['input']>;
+  end_at: Scalars['DateTime']['input'];
   milestoneId: Scalars['String']['input'];
-  start_at?: InputMaybe<Scalars['DateTime']['input']>;
+  start_at: Scalars['DateTime']['input'];
 };
 
 export type RenameMilestone = {
@@ -264,6 +273,7 @@ export type RenameMilestone = {
 };
 
 export type SummaryInfo = {
+  __typename?: 'SummaryInfo';
   beforePeriodAc: Scalars['Decimal']['output'];
   beforePeriodEv: Scalars['Decimal']['output'];
   beforePeriodPv: Scalars['Decimal']['output'];
@@ -271,59 +281,64 @@ export type SummaryInfo = {
 };
 
 export type Task = {
-  created_at: Maybe<Scalars['DateTime']['output']>;
-  fields: Maybe<Array<TaskField>>;
+  __typename?: 'Task';
+  activity: Array<TaskActivity>;
+  created_at?: Maybe<Scalars['DateTime']['output']>;
+  fields: Array<TaskField>;
   id: Scalars['ID']['output'];
   milestoneId: Scalars['String']['output'];
-  order: TaskOrder;
-  updated_at: Maybe<Scalars['DateTime']['output']>;
+  order?: Maybe<TaskOrder>;
+  summary?: Maybe<TaskSummary>;
+  updated_at?: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type TaskActivity = {
-  ac: Maybe<Scalars['Decimal']['output']>;
+  __typename?: 'TaskActivity';
+  ac?: Maybe<Scalars['Decimal']['output']>;
   created_at: Scalars['DateTime']['output'];
   date_at: Scalars['DateTime']['output'];
-  etc: Maybe<Scalars['Decimal']['output']>;
-  ev: Maybe<Scalars['Decimal']['output']>;
-  pv: Maybe<Scalars['Decimal']['output']>;
+  etc?: Maybe<Scalars['Decimal']['output']>;
+  ev?: Maybe<Scalars['Decimal']['output']>;
+  pv?: Maybe<Scalars['Decimal']['output']>;
   taskId: Scalars['String']['output'];
   updated_at: Scalars['DateTime']['output'];
 };
 
 export type TaskField = {
+  __typename?: 'TaskField';
   id: Scalars['ID']['output'];
-  type: Maybe<Scalars['String']['output']>;
-  value: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
 };
 
 export type TaskMeta = {
-  category1: Maybe<Scalars['String']['output']>;
-  category2: Maybe<Scalars['String']['output']>;
-  category3: Maybe<Scalars['String']['output']>;
+  __typename?: 'TaskMeta';
+  category1?: Maybe<Scalars['String']['output']>;
+  category2?: Maybe<Scalars['String']['output']>;
+  category3?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
 };
 
 export type TaskOrder = {
+  __typename?: 'TaskOrder';
   id: Scalars['ID']['output'];
   order: Scalars['Float']['output'];
 };
 
 export type TaskSummary = {
-  ac: Maybe<Scalars['Decimal']['output']>;
+  __typename?: 'TaskSummary';
+  ac: Scalars['Decimal']['output'];
+  actual_end_date?: Maybe<Scalars['DateTime']['output']>;
+  actual_start_date?: Maybe<Scalars['DateTime']['output']>;
+  cpi: Scalars['Decimal']['output'];
   date_lt: Scalars['DateTime']['output'];
-  ev: Maybe<Scalars['Decimal']['output']>;
-  pv: Maybe<Scalars['Decimal']['output']>;
+  ev: Scalars['Decimal']['output'];
+  plan_end_date?: Maybe<Scalars['DateTime']['output']>;
+  plan_start_date?: Maybe<Scalars['DateTime']['output']>;
+  pv: Scalars['Decimal']['output'];
+  spi: Scalars['Decimal']['output'];
+  sv: Scalars['Decimal']['output'];
   taskId: Scalars['String']['output'];
-};
-
-export type TaskWithActivity = {
-  activity: Maybe<Array<TaskActivity>>;
-  created_at: Maybe<Scalars['DateTime']['output']>;
-  fields: Maybe<Array<TaskField>>;
-  id: Scalars['ID']['output'];
-  milestoneId: Scalars['String']['output'];
-  order: TaskOrder;
-  updated_at: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type UpdateMilestoneField = {
@@ -368,141 +383,146 @@ export type UpdateTaskOrder = {
 };
 
 export type User = {
-  displayName: Maybe<Scalars['String']['output']>;
+  __typename?: 'User';
+  displayName?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
-  password: Maybe<Scalars['String']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
 };
 
-export type MilestoneFragmentFragment = { id: string, name: string, fields: Array<{ id: string, group: string, type: string, order: number, visible: boolean, editable: boolean, deletable: boolean, title: string, width: number }> | null, summaries: Array<{ id: string, type: string, order: number, visible: boolean, title: string }> | null } & { ' $fragmentName'?: 'MilestoneFragmentFragment' };
+export type MilestoneFragmentFragment = { __typename?: 'Milestone', id: string, name: string, fields?: Array<{ __typename?: 'MilestoneField', id: string, group: string, type: string, order: number, visible: boolean, editable: boolean, deletable: boolean, title: string, width: number }> | null, summaries?: Array<{ __typename?: 'MilestoneSummary', id: string, type: string, order: number, visible: boolean, title: string }> | null } & { ' $fragmentName'?: 'MilestoneFragmentFragment' };
 
-export type TaskFragmentFragment = { id: string, fields: Array<{ id: string, type: string | null, value: string | null }> | null, order: { id: string, order: number } } & { ' $fragmentName'?: 'TaskFragmentFragment' };
+export type TaskFragmentFragment = { __typename?: 'Task', id: string, fields: Array<{ __typename?: 'TaskField', id: string, type?: string | null, value?: string | null }>, order?: { __typename?: 'TaskOrder', id: string, order: number } | null } & { ' $fragmentName'?: 'TaskFragmentFragment' };
 
-export type TaskActivityFragmentFragment = { taskId: string, date_at: Date, pv: string | null, ac: string | null, ev: string | null, created_at: Date, updated_at: Date } & { ' $fragmentName'?: 'TaskActivityFragmentFragment' };
+export type TaskActivityFragmentFragment = { __typename?: 'TaskActivity', taskId: string, date_at: Date, pv?: string | null, ac?: string | null, ev?: string | null, created_at: Date, updated_at: Date } & { ' $fragmentName'?: 'TaskActivityFragmentFragment' };
 
 export type GetProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProjectsQuery = { projects: Array<{ id: string, name: string } | null> | null };
+export type GetProjectsQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', id: string, name: string } | null> };
 
 export type CreateProjectMutationVariables = Exact<{
   param: CreateProject;
 }>;
 
 
-export type CreateProjectMutation = { createProject: { id: string, name: string } | null };
+export type CreateProjectMutation = { __typename?: 'Mutation', createProject?: { __typename?: 'Project', id: string, name: string } | null };
 
 export type CreateMilestoneMutationVariables = Exact<{
   param: CreateMilestone;
 }>;
 
 
-export type CreateMilestoneMutation = { createMilestone: { ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } } | null };
+export type CreateMilestoneMutation = { __typename?: 'Mutation', createMilestone?: (
+    { __typename?: 'Milestone' }
+    & { ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } }
+  ) | null };
 
 export type RenameMilestoneMutationVariables = Exact<{
   param: RenameMilestone;
 }>;
 
 
-export type RenameMilestoneMutation = { renameMilestone: { ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } } | null };
+export type RenameMilestoneMutation = { __typename?: 'Mutation', renameMilestone?: (
+    { __typename?: 'Milestone' }
+    & { ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } }
+  ) | null };
 
 export type DeleteMilestoneMutationVariables = Exact<{
   param: DeleteMilestone;
 }>;
 
 
-export type DeleteMilestoneMutation = { deleteMilestone: boolean };
+export type DeleteMilestoneMutation = { __typename?: 'Mutation', deleteMilestone: boolean };
 
 export type GetMilestoneQueryVariables = Exact<{
   param: QueryMilestone;
 }>;
 
 
-export type GetMilestoneQuery = { milestone: { id: string } | null };
+export type GetMilestoneQuery = { __typename?: 'Query', milestone?: { __typename?: 'Milestone', id: string } | null };
 
 export type CreateTaskMutationVariables = Exact<{
   param: CreateTask;
 }>;
 
 
-export type CreateTaskMutation = { createTask: { ' $fragmentRefs'?: { 'TaskFragmentFragment': TaskFragmentFragment } } | null };
+export type CreateTaskMutation = { __typename?: 'Mutation', createTask?: (
+    { __typename?: 'Task' }
+    & { ' $fragmentRefs'?: { 'TaskFragmentFragment': TaskFragmentFragment } }
+  ) | null };
 
 export type DeleteTaskMutationVariables = Exact<{
   param: DeleteTask;
 }>;
 
 
-export type DeleteTaskMutation = { deleteTask: boolean };
+export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask: boolean };
 
 export type GetMilestonesQueryVariables = Exact<{
   param: QueryMilestones;
 }>;
 
 
-export type GetMilestonesQuery = { milestones: Array<{ ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } }> | null };
+export type GetMilestonesQuery = { __typename?: 'Query', milestones: Array<(
+    { __typename?: 'Milestone' }
+    & { ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } }
+  )> };
 
 export type GetTasksQueryVariables = Exact<{
   param: QueryTasks;
 }>;
 
 
-export type GetTasksQuery = { tasks: Array<{ id: string, fields: Array<{ id: string, type: string | null, value: string | null }> | null, order: { id: string, order: number } }> | null };
-
-export type GetTaskWithActivityQueryVariables = Exact<{
-  param: QueryTasks;
-}>;
-
-
-export type GetTaskWithActivityQuery = { taskWithActivities: Array<{ id: string, activity: Array<{ taskId: string, date_at: Date, pv: string | null, ac: string | null, ev: string | null, created_at: Date, updated_at: Date }> | null, fields: Array<{ id: string, type: string | null, value: string | null }> | null, order: { id: string, order: number } }> | null };
-
-export type GetTaskActivityQueryVariables = Exact<{
-  param: QueryTaskActivitiy;
-}>;
-
-
-export type GetTaskActivityQuery = { taskActivities: Array<{ taskId: string, date_at: Date, pv: string | null, ac: string | null, ev: string | null, etc: string | null, created_at: Date, updated_at: Date }> | null };
+export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, activity: Array<{ __typename?: 'TaskActivity', taskId: string, date_at: Date, pv?: string | null, ac?: string | null, ev?: string | null, created_at: Date, updated_at: Date }>, fields: Array<{ __typename?: 'TaskField', id: string, type?: string | null, value?: string | null }>, order?: { __typename?: 'TaskOrder', id: string, order: number } | null, summary?: { __typename?: 'TaskSummary', taskId: string, date_lt: Date, plan_start_date?: Date | null, plan_end_date?: Date | null, actual_start_date?: Date | null, actual_end_date?: Date | null, pv: string, ac: string, ev: string, sv: string, spi: string, cpi: string } | null }> };
 
 export type GetDateSummeryQueryVariables = Exact<{
   param: QueryDateSummary;
 }>;
 
 
-export type GetDateSummeryQuery = { dateSummary: { info: { totalPv: string, beforePeriodPv: string, beforePeriodAc: string, beforePeriodEv: string }, dates: Array<{ date: Date, prv: string, erv: string, pv: string, ev: string, sv: string, ac: string, cv: string, spi: string, cpi: string, dpv: string, dev: string, dac: string, dsv: string, dcv: string }> } };
+export type GetDateSummeryQuery = { __typename?: 'Query', dateSummary: { __typename?: 'DateSummaryResult', info: { __typename?: 'SummaryInfo', totalPv: string, beforePeriodPv: string, beforePeriodAc: string, beforePeriodEv: string }, dates: Array<{ __typename?: 'DateSummary', date: Date, prv: string, erv: string, pv: string, ev: string, sv: string, ac: string, cv: string, spi: string, cpi: string, dpv: string, dev: string, dac: string, dsv: string, dcv: string }> } };
 
 export type UpdateActivityMutationVariables = Exact<{
   param: Array<UpdateTaskActivity> | UpdateTaskActivity;
 }>;
 
 
-export type UpdateActivityMutation = { updateTaskActivity: Array<{ taskId: string, date_at: Date, pv: string | null, ac: string | null, ev: string | null, etc: string | null, created_at: Date, updated_at: Date }> };
+export type UpdateActivityMutation = { __typename?: 'Mutation', updateTaskActivity: Array<{ __typename?: 'TaskActivity', taskId: string, date_at: Date, pv?: string | null, ac?: string | null, ev?: string | null, etc?: string | null, created_at: Date, updated_at: Date }> };
 
 export type UpdateTaskFieldMutationVariables = Exact<{
   param: Array<UpdateTaskField> | UpdateTaskField;
 }>;
 
 
-export type UpdateTaskFieldMutation = { updateTaskField: Array<{ id: string, milestoneId: string, created_at: Date | null, updated_at: Date | null, fields: Array<{ id: string, type: string | null, value: string | null }> | null }> };
+export type UpdateTaskFieldMutation = { __typename?: 'Mutation', updateTaskField: Array<{ __typename?: 'Task', id: string, milestoneId: string, created_at?: Date | null, updated_at?: Date | null, fields: Array<{ __typename?: 'TaskField', id: string, type?: string | null, value?: string | null }> }> };
 
 export type UpdateTaskOrderMutationVariables = Exact<{
   param: UpdateTaskOrder;
 }>;
 
 
-export type UpdateTaskOrderMutation = { updateTaskOrder: Array<{ id: string, milestoneId: string, order: { id: string, order: number } }> };
+export type UpdateTaskOrderMutation = { __typename?: 'Mutation', updateTaskOrder: Array<{ __typename?: 'Task', id: string, milestoneId: string, order?: { __typename?: 'TaskOrder', id: string, order: number } | null }> };
 
 export type UpdateMilestoneFieldMutationVariables = Exact<{
   param: UpdateMilestoneField;
 }>;
 
 
-export type UpdateMilestoneFieldMutation = { updateMilestoneField: { ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } } };
+export type UpdateMilestoneFieldMutation = { __typename?: 'Mutation', updateMilestoneField: (
+    { __typename?: 'Milestone' }
+    & { ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } }
+  ) };
 
 export type UpdateMilestoneSummaryMutationVariables = Exact<{
   param: UpdateMilestoneSummary;
 }>;
 
 
-export type UpdateMilestoneSummaryMutation = { updateMilestoneSummary: { ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } } };
+export type UpdateMilestoneSummaryMutation = { __typename?: 'Mutation', updateMilestoneSummary: (
+    { __typename?: 'Milestone' }
+    & { ' $fragmentRefs'?: { 'MilestoneFragmentFragment': MilestoneFragmentFragment } }
+  ) };
 
 export const MilestoneFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MilestoneFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Milestone"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"group"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"visible"}},{"kind":"Field","name":{"kind":"Name","value":"editable"}},{"kind":"Field","name":{"kind":"Name","value":"deletable"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"width"}}]}},{"kind":"Field","name":{"kind":"Name","value":"summaries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"visible"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<MilestoneFragmentFragment, unknown>;
 export const TaskFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TaskFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Task"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"order"}}]}}]}}]} as unknown as DocumentNode<TaskFragmentFragment, unknown>;
@@ -516,9 +536,7 @@ export const GetMilestoneDocument = {"kind":"Document","definitions":[{"kind":"O
 export const CreateTaskDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createTask"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"param"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateTask"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createTask"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"param"},"value":{"kind":"Variable","name":{"kind":"Name","value":"param"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TaskFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TaskFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Task"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"order"}}]}}]}}]} as unknown as DocumentNode<CreateTaskMutation, CreateTaskMutationVariables>;
 export const DeleteTaskDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteTask"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"param"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteTask"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteTask"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"param"},"value":{"kind":"Variable","name":{"kind":"Name","value":"param"}}}]}]}}]} as unknown as DocumentNode<DeleteTaskMutation, DeleteTaskMutationVariables>;
 export const GetMilestonesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMilestones"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"param"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"QueryMilestones"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"milestones"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"param"},"value":{"kind":"Variable","name":{"kind":"Name","value":"param"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MilestoneFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MilestoneFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Milestone"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"group"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"visible"}},{"kind":"Field","name":{"kind":"Name","value":"editable"}},{"kind":"Field","name":{"kind":"Name","value":"deletable"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"width"}}]}},{"kind":"Field","name":{"kind":"Name","value":"summaries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"visible"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<GetMilestonesQuery, GetMilestonesQueryVariables>;
-export const GetTasksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTasks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"param"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"QueryTasks"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tasks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"param"},"value":{"kind":"Variable","name":{"kind":"Name","value":"param"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"order"}}]}}]}}]}}]} as unknown as DocumentNode<GetTasksQuery, GetTasksQueryVariables>;
-export const GetTaskWithActivityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTaskWithActivity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"param"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"QueryTasks"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taskWithActivities"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"param"},"value":{"kind":"Variable","name":{"kind":"Name","value":"param"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"activity"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"date_at"}},{"kind":"Field","name":{"kind":"Name","value":"pv"}},{"kind":"Field","name":{"kind":"Name","value":"ac"}},{"kind":"Field","name":{"kind":"Name","value":"ev"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"order"}}]}}]}}]}}]} as unknown as DocumentNode<GetTaskWithActivityQuery, GetTaskWithActivityQueryVariables>;
-export const GetTaskActivityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTaskActivity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"param"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"QueryTaskActivitiy"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taskActivities"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"param"},"value":{"kind":"Variable","name":{"kind":"Name","value":"param"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"date_at"}},{"kind":"Field","name":{"kind":"Name","value":"pv"}},{"kind":"Field","name":{"kind":"Name","value":"ac"}},{"kind":"Field","name":{"kind":"Name","value":"ev"}},{"kind":"Field","name":{"kind":"Name","value":"etc"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]}}]} as unknown as DocumentNode<GetTaskActivityQuery, GetTaskActivityQueryVariables>;
+export const GetTasksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTasks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"param"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"QueryTasks"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tasks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"param"},"value":{"kind":"Variable","name":{"kind":"Name","value":"param"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"activity"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"date_at"}},{"kind":"Field","name":{"kind":"Name","value":"pv"}},{"kind":"Field","name":{"kind":"Name","value":"ac"}},{"kind":"Field","name":{"kind":"Name","value":"ev"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"order"}}]}},{"kind":"Field","name":{"kind":"Name","value":"summary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"date_lt"}},{"kind":"Field","name":{"kind":"Name","value":"plan_start_date"}},{"kind":"Field","name":{"kind":"Name","value":"plan_end_date"}},{"kind":"Field","name":{"kind":"Name","value":"actual_start_date"}},{"kind":"Field","name":{"kind":"Name","value":"actual_end_date"}},{"kind":"Field","name":{"kind":"Name","value":"pv"}},{"kind":"Field","name":{"kind":"Name","value":"ac"}},{"kind":"Field","name":{"kind":"Name","value":"ev"}},{"kind":"Field","name":{"kind":"Name","value":"sv"}},{"kind":"Field","name":{"kind":"Name","value":"spi"}},{"kind":"Field","name":{"kind":"Name","value":"cpi"}}]}}]}}]}}]} as unknown as DocumentNode<GetTasksQuery, GetTasksQueryVariables>;
 export const GetDateSummeryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getDateSummery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"param"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"QueryDateSummary"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dateSummary"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"param"},"value":{"kind":"Variable","name":{"kind":"Name","value":"param"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"info"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalPv"}},{"kind":"Field","name":{"kind":"Name","value":"beforePeriodPv"}},{"kind":"Field","name":{"kind":"Name","value":"beforePeriodAc"}},{"kind":"Field","name":{"kind":"Name","value":"beforePeriodEv"}}]}},{"kind":"Field","name":{"kind":"Name","value":"dates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"prv"}},{"kind":"Field","name":{"kind":"Name","value":"erv"}},{"kind":"Field","name":{"kind":"Name","value":"pv"}},{"kind":"Field","name":{"kind":"Name","value":"ev"}},{"kind":"Field","name":{"kind":"Name","value":"sv"}},{"kind":"Field","name":{"kind":"Name","value":"ac"}},{"kind":"Field","name":{"kind":"Name","value":"cv"}},{"kind":"Field","name":{"kind":"Name","value":"spi"}},{"kind":"Field","name":{"kind":"Name","value":"cpi"}},{"kind":"Field","name":{"kind":"Name","value":"dpv"}},{"kind":"Field","name":{"kind":"Name","value":"dev"}},{"kind":"Field","name":{"kind":"Name","value":"dac"}},{"kind":"Field","name":{"kind":"Name","value":"dsv"}},{"kind":"Field","name":{"kind":"Name","value":"dcv"}}]}}]}}]}}]} as unknown as DocumentNode<GetDateSummeryQuery, GetDateSummeryQueryVariables>;
 export const UpdateActivityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateActivity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"param"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateTaskActivity"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateTaskActivity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"param"},"value":{"kind":"Variable","name":{"kind":"Name","value":"param"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"date_at"}},{"kind":"Field","name":{"kind":"Name","value":"pv"}},{"kind":"Field","name":{"kind":"Name","value":"ac"}},{"kind":"Field","name":{"kind":"Name","value":"ev"}},{"kind":"Field","name":{"kind":"Name","value":"etc"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]}}]} as unknown as DocumentNode<UpdateActivityMutation, UpdateActivityMutationVariables>;
 export const UpdateTaskFieldDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateTaskField"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"param"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateTaskField"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateTaskField"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"param"},"value":{"kind":"Variable","name":{"kind":"Name","value":"param"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"milestoneId"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateTaskFieldMutation, UpdateTaskFieldMutationVariables>;

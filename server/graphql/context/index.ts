@@ -1,12 +1,12 @@
-import { PrismaClient } from "@prisma/client/edge";
+import { PrismaClient } from "@/prisma";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export type Context = {
+export type WocusContext = {
   prisma: typeof prisma;
 };
-export const createContext: () => Promise<Context> = () => {
+export const createContext: () => Promise<WocusContext> = () => {
   return Promise.resolve({
     prisma,
   });

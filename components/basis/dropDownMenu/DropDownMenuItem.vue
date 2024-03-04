@@ -23,7 +23,7 @@ interface Props {
   disabled?: boolean;
 }
 interface Emits {
-  (e: "click"): void;
+  (e: "click", event: Event): void;
 }
 
 const props = defineProps<Props>();
@@ -34,6 +34,6 @@ const emits = defineEmits<Emits>();
  * @param e
  */
 const handleClick = (e: Event) => {
-  emits("click");
+  emits("click", e);
 };
 </script>
