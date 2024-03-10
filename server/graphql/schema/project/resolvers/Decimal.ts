@@ -5,10 +5,14 @@ export const Decimal = new GraphQLScalarType({
   name: "Decimal",
   description: "Decimal description",
   serialize: (value) => {
-    if (!Prisma.Decimal.isDecimal(value)) {
-      throw new Error(`Decimal Serialize Error Invalid argument: ${Object.prototype.toString.call(value)}`);
+    if (Prisma.Decimal.isDecimal(value)) {
+      return (value as Prisma.Decimal).toString();
     }
-    return (value as Prisma.Decimal).toString();
+    if (typeof value === "number") {
+      return value.toString();
+    }
+
+    throw new Error(`Decimal Serialize Error Invalid argument: ${Object.prototype.toString.call(value)}`);
   },
   parseValue: (value) => {
     if (!(typeof value === "string")) {
