@@ -60,10 +60,10 @@ query getMilestones($param: QueryMilestones!) {
 }
 
 # タスクの情報を取得する
-query getTasks($param: QueryTasks!) {
+query getTasks($param: QueryTasks!, $range: DateRange!) {
   tasks(param: $param) {
     id
-    activity {
+    activity(range: $range) {
       taskId
       date_at
       pv

@@ -40,6 +40,4 @@ fragment TaskActivityFragment on TaskActivity {
   pv
   ac
   ev
-  created_at
-  updated_at
 }

@@ -1,10 +1,6 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 import { defineConfig } from "@eddeee888/gcg-typescript-resolver-files";
 
-// mapperの作成を自動化
-// https://zenn.dev/shon0/articles/1cd0cb5259523e
-import fs from "fs";
-
 const config: CodegenConfig = {
   schema: "./server/graphql/**/*.graphql",
   ignoreNoDocuments: true,

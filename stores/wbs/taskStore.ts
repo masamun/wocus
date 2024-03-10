@@ -1,5 +1,6 @@
 import { GetTasksDocument, CreateTaskDocument, DeleteTaskDocument } from "@/client/graphql/types/graphql";
 import type {
+  GetTasksQueryVariables,
   MutationCreateTaskArgs,
   MutationDeleteTaskArgs,
   QueryTasksArgs,
@@ -43,9 +44,13 @@ export const useTaskStore = defineStore("task", () => {
     taskFieldStore.clear();
     _tasks.value.splice(0);
 
-    const variables: QueryTasksArgs = {
+    const variables: GetTasksQueryVariables = {
       param: {
         milestoneId: milestoneId.value,
+        start_at: wbsStore.startShowDate,
+        end_at: wbsStore.endShowDate,
+      },
+      range: {
         start_at: wbsStore.startShowDate,
         end_at: wbsStore.endShowDate,
       },
