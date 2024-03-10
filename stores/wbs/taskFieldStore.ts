@@ -1,3 +1,9 @@
+import {
+  UpdateTaskFieldDocument,
+  type MutationUpdateTaskFieldArgs,
+  type TaskField,
+} from "~/client/graphql/types/graphql";
+
 /**
  * フィールドのキーを生成する
  * @param taskId

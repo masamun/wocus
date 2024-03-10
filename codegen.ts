@@ -12,17 +12,27 @@ const config: CodegenConfig = {
   verbose: true,
   watch: true,
   generates: {
-    "./server/graphql/schema": {
-      ...defineConfig({
-        typesPluginsConfig: {
-          contextType: "./server/graphql/context/#WocusContext",
+    "./server/graphql/schema": defineConfig({
+      typesPluginsConfig: {
+        contextType: "@/server/graphql/context/#WocusContext",
+        useTypeImports: true,
+      },
+      scalarsOverrides: {
+        Date: {
+          type: "DateString",
         },
-      }),
-    },
+        DateTime: {
+          type: "Date",
+        },
+        ID: {
+          type: "string",
+        },
+      },
+    }),
     /* クライアント用 */
-    "./stores/graphql/codegen/": {
+    "./client/graphql/types/": {
       preset: "client",
-      documents: "./stores/graphql/query/**/*.{graphql,js,ts,jsx,tsx}",
+      documents: "./client/graphql/schema/**/*.{graphql,js,ts,jsx,tsx}",
       config: {
         useTypeImports: true,
         scalars: {
@@ -31,20 +41,7 @@ const config: CodegenConfig = {
           Decimal: "string",
         },
       },
-      plugins: [
-        {
-          // Custom Scalar の branded type 定義
-          add: {
-            content: [
-              'import { Decimal } from "@prisma/client/runtime/library";',
-              "export type DateString = string & { __dateStringBrand: any };",
-            ],
-          },
-        },
-      ],
-      hooks: {
-        afterAllFileWrite: ["prettier --write"],
-      },
+      plugins: [],
     },
   },
 };

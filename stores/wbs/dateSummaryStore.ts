@@ -1,3 +1,5 @@
+import { type DateSummary, type QueryDateSummaryArgs, GetDateSummeryDocument } from "~/client/graphql/types/graphql";
+
 /**
  * タスクのアクティビティに登録する情報
  */
@@ -110,7 +112,7 @@ export const useDateSummaryStore = defineStore("dateSummary", () => {
     });
 
     if (!error.value) {
-      data.value.dateSummary.forEach((ds) => {
+      data.value.dateSummary.dates.forEach((ds) => {
         logger.debug(`refreshDateSummery set ${new Date(ds.date).toStringYMD()}`);
         _summaryMap.set(new Date(ds.date).toStringYMD(), ds);
       });

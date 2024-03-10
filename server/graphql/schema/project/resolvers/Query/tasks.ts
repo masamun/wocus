@@ -1,4 +1,3 @@
-import { getTaskSummary } from "~/server/graphql/util/milestoneTypes";
 import type { QueryResolvers } from "./../../../types.generated";
 import type { WocusContext } from "~/server/graphql/context";
 
@@ -17,8 +16,6 @@ export const tasks: NonNullable<QueryResolvers['tasks']> = async (_parent, _arg,
           },
         },
       },
-      order: true,
-      fields: true,
     },
     where: {
       milestoneId,

@@ -1,4 +1,9 @@
-import type { MilestoneFragmentFragment } from "../graphql/codegen/graphql";
+import {
+  UpdateMilestoneSummaryDocument,
+  type MilestoneFragmentFragment,
+  type MilestoneSummary,
+  type MutationUpdateMilestoneSummaryArgs,
+} from "@/client/graphql/types/graphql";
 
 /**
  * フィールドのキーを生成する

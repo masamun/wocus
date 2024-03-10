@@ -10,6 +10,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { Task } from "~/client/graphql/types/graphql";
+
 interface Props {
   /**
    * タスク情報

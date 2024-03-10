@@ -23,7 +23,6 @@ import    { dateSummary as Query_dateSummary } from './project/resolvers/Query/d
 import    { milestone as Query_milestone } from './project/resolvers/Query/milestone';
 import    { milestones as Query_milestones } from './project/resolvers/Query/milestones';
 import    { projects as Query_projects } from './project/resolvers/Query/projects';
-import    { task as Query_task } from './project/resolvers/Query/task';
 import    { taskSummary as Query_taskSummary } from './project/resolvers/Query/taskSummary';
 import    { tasks as Query_tasks } from './project/resolvers/Query/tasks';
 import    { SummaryInfo } from './project/resolvers/SummaryInfo';
@@ -36,7 +35,7 @@ import    { TaskSummary } from './project/resolvers/TaskSummary';
 import    { User } from './project/resolvers/User';
 import    { DateTimeResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
-      Query: { dateSummary: Query_dateSummary,milestone: Query_milestone,milestones: Query_milestones,projects: Query_projects,task: Query_task,taskSummary: Query_taskSummary,tasks: Query_tasks },
+      Query: { dateSummary: Query_dateSummary,milestone: Query_milestone,milestones: Query_milestones,projects: Query_projects,taskSummary: Query_taskSummary,tasks: Query_tasks },
       Mutation: { createMilestone: Mutation_createMilestone,createProject: Mutation_createProject,createTask: Mutation_createTask,deleteMilestone: Mutation_deleteMilestone,deleteTask: Mutation_deleteTask,renameMilestone: Mutation_renameMilestone,updateMilestoneField: Mutation_updateMilestoneField,updateMilestoneSummary: Mutation_updateMilestoneSummary,updateTaskActivity: Mutation_updateTaskActivity,updateTaskField: Mutation_updateTaskField,updateTaskOrder: Mutation_updateTaskOrder },
       
       Column: Column,

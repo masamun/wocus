@@ -43,6 +43,7 @@ export const updateTaskField: NonNullable<MutationResolvers['updateTaskField']> 
   return await _ctx.prisma.task.findMany({
     select: {
       id: true,
+      activity: true,
       fields: true,
       order: true,
       milestoneId: true,

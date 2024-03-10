@@ -33,6 +33,8 @@ export const createTask: NonNullable<MutationResolvers['createTask']> = async (_
 
   return await _ctx.prisma.task.create({
     include: {
+      activity: true,
+      fields: true,
       order: true,
     },
     data: {

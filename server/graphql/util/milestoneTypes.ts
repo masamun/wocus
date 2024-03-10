@@ -1,5 +1,6 @@
 import { Prisma } from "@/prisma";
 import type { WocusContext } from "../context";
+import type { Task, TaskSummary } from "../schema/types.generated";
 
 type InitialField = Omit<
   Prisma.MilestoneFieldCreateManyInput,

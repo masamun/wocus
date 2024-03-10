@@ -33,6 +33,8 @@ export const refresh = async (context: WocusContext, taskId: string) => {
 
   return await context.prisma.task.findMany({
     include: {
+      activity: true,
+      fields: true,
       order: true,
     },
     where: {

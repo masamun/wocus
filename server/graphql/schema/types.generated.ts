@@ -1,5 +1,6 @@
-import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { WocusContext } from './server/graphql/context/';
+import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import type { TaskMapper } from './project/schema.mappers';
+import type { WocusContext } from '@/server/graphql/context/';
 export type Maybe<T> = T | null | undefined;
 export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -10,12 +11,12 @@ export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' |
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string | number; }
+  ID: { input: string; output: string; }
   String: { input: string; output: string; }
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  DateTime: { input: Date | string; output: Date | string; }
+  DateTime: { input: Date; output: Date; }
   Decimal: { input: any; output: any; }
 };
 
@@ -36,6 +37,15 @@ export type CreateProject = {
 export type CreateTask = {
   milestoneId: Scalars['String']['input'];
   order?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type DateAt = {
+  date_at: Scalars['DateTime']['input'];
+};
+
+export type DateRange = {
+  end_at: Scalars['DateTime']['input'];
+  start_at: Scalars['DateTime']['input'];
 };
 
 export type DateSummary = {
@@ -183,7 +193,6 @@ export type Query = {
   milestone?: Maybe<Milestone>;
   milestones: Array<Milestone>;
   projects: Array<Maybe<Project>>;
-  task?: Maybe<Task>;
   taskSummary?: Maybe<TaskSummary>;
   tasks: Array<Task>;
 };
@@ -201,11 +210,6 @@ export type QuerymilestoneArgs = {
 
 export type QuerymilestonesArgs = {
   param: QueryMilestones;
-};
-
-
-export type QuerytaskArgs = {
-  param: QueryTask;
 };
 
 
@@ -289,6 +293,16 @@ export type Task = {
   order?: Maybe<TaskOrder>;
   summary?: Maybe<TaskSummary>;
   updated_at?: Maybe<Scalars['DateTime']['output']>;
+};
+
+
+export type TaskactivityArgs = {
+  range?: InputMaybe<DateRange>;
+};
+
+
+export type TasksummaryArgs = {
+  date_at?: InputMaybe<DateAt>;
 };
 
 export type TaskActivity = {
@@ -467,6 +481,8 @@ export type ResolversTypes = {
   CreateProject: CreateProject;
   CreateTask: CreateTask;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  DateAt: DateAt;
+  DateRange: DateRange;
   DateSummary: ResolverTypeWrapper<DateSummary>;
   DateSummaryResult: ResolverTypeWrapper<DateSummaryResult>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
@@ -492,7 +508,7 @@ export type ResolversTypes = {
   QueryTasks: QueryTasks;
   RenameMilestone: RenameMilestone;
   SummaryInfo: ResolverTypeWrapper<SummaryInfo>;
-  Task: ResolverTypeWrapper<Task>;
+  Task: ResolverTypeWrapper<TaskMapper>;
   TaskActivity: ResolverTypeWrapper<TaskActivity>;
   TaskField: ResolverTypeWrapper<TaskField>;
   TaskMeta: ResolverTypeWrapper<TaskMeta>;
@@ -517,6 +533,8 @@ export type ResolversParentTypes = {
   CreateProject: CreateProject;
   CreateTask: CreateTask;
   Float: Scalars['Float']['output'];
+  DateAt: DateAt;
+  DateRange: DateRange;
   DateSummary: DateSummary;
   DateSummaryResult: DateSummaryResult;
   DateTime: Scalars['DateTime']['output'];
@@ -542,7 +560,7 @@ export type ResolversParentTypes = {
   QueryTasks: QueryTasks;
   RenameMilestone: RenameMilestone;
   SummaryInfo: SummaryInfo;
-  Task: Task;
+  Task: TaskMapper;
   TaskActivity: TaskActivity;
   TaskField: TaskField;
   TaskMeta: TaskMeta;
@@ -651,7 +669,6 @@ export type QueryResolvers<ContextType = WocusContext, ParentType extends Resolv
   milestone?: Resolver<Maybe<ResolversTypes['Milestone']>, ParentType, ContextType, RequireFields<QuerymilestoneArgs, 'param'>>;
   milestones?: Resolver<Array<ResolversTypes['Milestone']>, ParentType, ContextType, RequireFields<QuerymilestonesArgs, 'param'>>;
   projects?: Resolver<Array<Maybe<ResolversTypes['Project']>>, ParentType, ContextType>;
-  task?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<QuerytaskArgs, 'param'>>;
   taskSummary?: Resolver<Maybe<ResolversTypes['TaskSummary']>, ParentType, ContextType, RequireFields<QuerytaskSummaryArgs, 'param'>>;
   tasks?: Resolver<Array<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<QuerytasksArgs, 'param'>>;
 };
@@ -665,13 +682,13 @@ export type SummaryInfoResolvers<ContextType = WocusContext, ParentType extends 
 };
 
 export type TaskResolvers<ContextType = WocusContext, ParentType extends ResolversParentTypes['Task'] = ResolversParentTypes['Task']> = {
-  activity?: Resolver<Array<ResolversTypes['TaskActivity']>, ParentType, ContextType>;
+  activity?: Resolver<Array<ResolversTypes['TaskActivity']>, ParentType, ContextType, Partial<TaskactivityArgs>>;
   created_at?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   fields?: Resolver<Array<ResolversTypes['TaskField']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   milestoneId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   order?: Resolver<Maybe<ResolversTypes['TaskOrder']>, ParentType, ContextType>;
-  summary?: Resolver<Maybe<ResolversTypes['TaskSummary']>, ParentType, ContextType>;
+  summary?: Resolver<Maybe<ResolversTypes['TaskSummary']>, ParentType, ContextType, Partial<TasksummaryArgs>>;
   updated_at?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

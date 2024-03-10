@@ -56,6 +56,7 @@
 
 <script lang="ts" setup>
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/outline";
+import type { MilestoneField, MilestoneSummary } from "~/client/graphql/types/graphql";
 const wbsStore = useWbsStore();
 const milestoneFieldStore = useMilestoneFieldStore();
 const milestoneSummaryStore = useMilestoneSummaryStore();

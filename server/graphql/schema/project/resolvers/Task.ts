@@ -1,11 +1,16 @@
-import type { WocusContext } from "~/server/graphql/context";
-import type { TaskResolvers } from "./../../types.generated";
+import type { TaskSummary, TaskResolvers } from "./../../types.generated";
 
 export const Task: TaskResolvers = {
+  order: async (parent, _arg, _ctx, _info) => {
+    return await _ctx.prisma.taskOrder.findUniqueOrThrow({
+      where: {
+        taskId: parent.id,
+      },
+    });
+  },
   summary: async (parent, _arg, _ctx, _info) => {
     console.info("call Task.summary");
-    const isDate = Object.prototype.toString.call(_info?.variableValues.date_at) === "[object Date]";
-    const date_at = isDate ? (_info.variableValues.date_at as Date) : new Date();
+    const date_at = _arg.date_at?.date_at ?? new Date();
 
     const calcedSummary = (
       (await _ctx.prisma.$queryRaw`
@@ -46,5 +51,23 @@ export const Task: TaskResolvers = {
         date_lt: date_at,
       }
     );
+  },
+  activity: async (parent, _arg, _ctx, _info) => {
+    return await _ctx.prisma.taskActivity.findMany({
+      where: {
+        taskId: parent.id,
+        date_at: {
+          gte: _arg.range?.start_at,
+          lte: _arg.range?.end_at,
+        },
+      },
+    });
+  },
+  fields: async (parent, _arg, _ctx, _info) => {
+    return await _ctx.prisma.taskField.findMany({
+      where: {
+        taskId: parent.id,
+      },
+    });
   },
 };

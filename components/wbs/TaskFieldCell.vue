@@ -21,6 +21,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { MilestoneField } from "~/client/graphql/types/graphql";
+
 /**
  * 基準値を表示するセル
  */
@@ -81,7 +83,7 @@ const initialValue = computed(() => {
 
 const value = computed(() => {
   if (props.field.type === "order") {
-    return "" + (taskStore.tasks.find((p) => p.id === props.taskId)?.order.order ?? "-");
+    return "" + (taskStore.tasks.find((p) => p.id === props.taskId)?.order?.order ?? "-");
   }
   // 日付が設定されている項目かどうか
   if (props.field.type.includes("date")) {

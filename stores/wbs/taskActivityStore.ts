@@ -1,4 +1,9 @@
 import "@/composables/util/date";
+import {
+  UpdateActivityDocument,
+  type MutationUpdateTaskActivityArgs,
+  type TaskActivity,
+} from "~/client/graphql/types/graphql";
 
 type ActivityMap = Map<string, TaskActivity>;
 
@@ -8,7 +13,7 @@ type ActivityMap = Map<string, TaskActivity>;
  * @param type
  * @returns
  */
-const getKey = (_taskId: string, _date: DateString | Date) => {
+const getKey = (_taskId: string, _date: string | Date) => {
   return `${_taskId}_${new Date(_date).toStringYMD()}`;
 };
 

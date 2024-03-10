@@ -1,5 +1,10 @@
-import { GetTasksDocument, CreateTaskDocument } from "../graphql/codegen/graphql";
-import type { MutationCreateTaskArgs, MutationDeleteTaskArgs, QueryTasksArgs } from "../graphql/codegen/graphql";
+import { GetTasksDocument, CreateTaskDocument, DeleteTaskDocument } from "@/client/graphql/types/graphql";
+import type {
+  MutationCreateTaskArgs,
+  MutationDeleteTaskArgs,
+  QueryTasksArgs,
+  Task,
+} from "@/client/graphql/types/graphql";
 import "@/composables/util/date";
 import { useTaskFieldStore } from "./taskFieldStore";
 import { useTaskActivityStore } from "./taskActivityStore";
@@ -51,7 +56,7 @@ export const useTaskStore = defineStore("task", () => {
       cache: false,
     }).then((response) => {
       if (response.data.value.tasks !== null) {
-        task2Model(response.data.value.tasks as TaskWithActivity[]);
+        task2Model(response.data.value.tasks as Task[]);
       }
     });
   };

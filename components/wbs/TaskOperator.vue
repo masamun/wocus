@@ -21,6 +21,7 @@
 <script lang="ts" setup>
 import { PlusIcon } from "@heroicons/vue/24/outline";
 import { Bars4Icon } from "@heroicons/vue/24/outline";
+import type { Task } from "~/client/graphql/types/graphql";
 interface Props {
   /**
    * タスク情報

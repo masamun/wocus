@@ -1,3 +1,10 @@
+import {
+  CreateProjectDocument,
+  GetProjectsDocument,
+  type MutationCreateProjectArgs,
+  type Project,
+} from "~/client/graphql/types/graphql";
+
 export const useProjectStore = defineStore("project", () => {
   const projects = ref<Project[]>([]);
 

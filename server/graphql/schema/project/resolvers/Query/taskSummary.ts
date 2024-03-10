@@ -25,5 +25,8 @@ export const taskSummary: NonNullable<QueryResolvers['taskSummary']> = async (_p
     pv: aggregated._sum.pv ?? new Prisma.Decimal(0),
     ac: aggregated._sum.ac ?? new Prisma.Decimal(0),
     ev: aggregated._sum.etc ?? new Prisma.Decimal(0),
+    sv: new Prisma.Decimal(0),
+    spi: new Prisma.Decimal(0),
+    cpi: new Prisma.Decimal(0),
   };
 };

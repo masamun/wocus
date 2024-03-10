@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { Decimal } from "@prisma/client/runtime/library";
 import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -8,7 +7,6 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
-export type DateString = string & { __dateStringBrand: any };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -37,6 +35,15 @@ export type CreateProject = {
 export type CreateTask = {
   milestoneId: Scalars['String']['input'];
   order?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type DateAt = {
+  date_at: Scalars['DateTime']['input'];
+};
+
+export type DateRange = {
+  end_at: Scalars['DateTime']['input'];
+  start_at: Scalars['DateTime']['input'];
 };
 
 export type DateSummary = {
@@ -184,7 +191,6 @@ export type Query = {
   milestone?: Maybe<Milestone>;
   milestones: Array<Milestone>;
   projects: Array<Maybe<Project>>;
-  task?: Maybe<Task>;
   taskSummary?: Maybe<TaskSummary>;
   tasks: Array<Task>;
 };
@@ -202,11 +208,6 @@ export type QueryMilestoneArgs = {
 
 export type QueryMilestonesArgs = {
   param: QueryMilestones;
-};
-
-
-export type QueryTaskArgs = {
-  param: QueryTask;
 };
 
 
@@ -290,6 +291,16 @@ export type Task = {
   order?: Maybe<TaskOrder>;
   summary?: Maybe<TaskSummary>;
   updated_at?: Maybe<Scalars['DateTime']['output']>;
+};
+
+
+export type TaskActivityArgs = {
+  range?: InputMaybe<DateRange>;
+};
+
+
+export type TaskSummaryArgs = {
+  date_at?: InputMaybe<DateAt>;
 };
 
 export type TaskActivity = {

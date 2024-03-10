@@ -1,4 +1,15 @@
-import type { MilestoneFragmentFragment } from "../graphql/codegen/graphql";
+import {
+  CreateMilestoneDocument,
+  DeleteMilestoneDocument,
+  GetMilestonesDocument,
+  RenameMilestoneDocument,
+  type MilestoneFragmentFragment,
+  type DeleteMilestoneMutationVariables,
+  type Milestone,
+  type MutationCreateMilestoneArgs,
+  type QueryMilestonesArgs,
+  type RenameMilestoneMutationVariables,
+} from "@/client/graphql/types/graphql";
 
 export const useMilestonesStore = defineStore("milestones", () => {
   const wbsStore = useWbsStore();

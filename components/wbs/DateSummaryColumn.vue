@@ -12,6 +12,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { DateSummary, MilestoneSummary } from "~/client/graphql/types/graphql";
 import { useDateSummaryStore } from "~/stores/wbs/dateSummaryStore";
 
 interface Props {

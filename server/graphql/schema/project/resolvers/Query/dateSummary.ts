@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import type { QueryResolvers } from "./../../../types.generated";
+import type { QueryResolvers, SummaryInfo } from "./../../../types.generated";
 import type { WocusContext } from "~/server/graphql/context";
 
 /**

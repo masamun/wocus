@@ -62,9 +62,9 @@ type Task {
   id: ID!
   milestoneId: String!
   fields: [TaskField!]!
-  activity: [TaskActivity!]!
+  activity(range: DateRange): [TaskActivity!]!
   order: TaskOrder
-  summary: TaskSummary
+  summary(date_at: DateAt): TaskSummary
   created_at: DateTime
   updated_at: DateTime
 }
@@ -127,6 +127,17 @@ type TaskOrder {
   id: ID!
   order: Float! # タスクの表示順
 }
+
+# 日付の指定
+input DateAt {
+  date_at: DateTime!
+}
+
+input DateRange {
+  start_at: DateTime!
+  end_at: DateTime!
+}
+
 # プロジェクトを作成する
 input CreateProject {
   name: String!
@@ -253,8 +264,6 @@ extend type Query {
   milestone(param: QueryMilestone!): Milestone
   # プロジェクトに属するマイルストーン一覧を取得する
   milestones(param: QueryMilestones!): [Milestone!]!
-  # タスクを取得する
-  task(param: QueryTask!): Task
   # タスク一覧を取得する
   tasks(param: QueryTasks!): [Task!]!
   # タスクのサマリを取得する

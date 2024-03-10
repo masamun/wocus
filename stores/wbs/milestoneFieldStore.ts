@@ -1,5 +1,9 @@
-import "@/composables/util/date";
-import type { MilestoneFragmentFragment } from "../graphql/codegen/graphql";
+import {
+  UpdateMilestoneFieldDocument,
+  type MilestoneFragmentFragment,
+  type MilestoneField,
+  type MutationUpdateMilestoneFieldArgs,
+} from "@/client/graphql/types/graphql";
 
 /**
  * フィールドのキーを生成する

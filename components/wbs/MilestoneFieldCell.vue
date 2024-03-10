@@ -15,6 +15,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { MilestoneField } from "~/client/graphql/types/graphql";
+
 interface Props {
   field: MilestoneField;
 }

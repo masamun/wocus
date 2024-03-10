@@ -8,7 +8,7 @@
     <!--タスク-->
     <div
       v-for="(task, index) in taskStore.tasks"
-      :key="task.order.order"
+      :key="index"
       class="-ml-24 pl-24 group flex relative"
       :draggable="taskDragStore.draggableTask === task.id"
       @dragstart="handleDragStart($event, task.id, index)"
