@@ -1,5 +1,5 @@
 import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import type { TaskMapper } from './project/schema.mappers';
+import type { DateSummaryResultMapper, TaskMapper } from './project/schema.mappers';
 import type { WocusContext } from '@/server/graphql/context/';
 export type Maybe<T> = T | null | undefined;
 export type InputMaybe<T> = T | null | undefined;
@@ -344,6 +344,7 @@ export type TaskSummary = {
   actual_end_date?: Maybe<Scalars['DateTime']['output']>;
   actual_start_date?: Maybe<Scalars['DateTime']['output']>;
   cpi: Scalars['Decimal']['output'];
+  cv: Scalars['Decimal']['output'];
   date_lt: Scalars['DateTime']['output'];
   ev: Scalars['Decimal']['output'];
   plan_end_date?: Maybe<Scalars['DateTime']['output']>;
@@ -484,7 +485,7 @@ export type ResolversTypes = {
   DateAt: DateAt;
   DateRange: DateRange;
   DateSummary: ResolverTypeWrapper<DateSummary>;
-  DateSummaryResult: ResolverTypeWrapper<DateSummaryResult>;
+  DateSummaryResult: ResolverTypeWrapper<DateSummaryResultMapper>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Decimal: ResolverTypeWrapper<Scalars['Decimal']['output']>;
   DeleteMilestone: DeleteMilestone;
@@ -536,7 +537,7 @@ export type ResolversParentTypes = {
   DateAt: DateAt;
   DateRange: DateRange;
   DateSummary: DateSummary;
-  DateSummaryResult: DateSummaryResult;
+  DateSummaryResult: DateSummaryResultMapper;
   DateTime: Scalars['DateTime']['output'];
   Decimal: Scalars['Decimal']['output'];
   DeleteMilestone: DeleteMilestone;
@@ -731,6 +732,7 @@ export type TaskSummaryResolvers<ContextType = WocusContext, ParentType extends 
   actual_end_date?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   actual_start_date?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   cpi?: Resolver<ResolversTypes['Decimal'], ParentType, ContextType>;
+  cv?: Resolver<ResolversTypes['Decimal'], ParentType, ContextType>;
   date_lt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   ev?: Resolver<ResolversTypes['Decimal'], ParentType, ContextType>;
   plan_end_date?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;

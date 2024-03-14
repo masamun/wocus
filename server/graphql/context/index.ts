@@ -1,7 +1,6 @@
-import { PrismaClient } from "@/prisma";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { createPrismaClient } from "@/prisma";
 
-const prisma = new PrismaClient().$extends(withAccelerate());
+const prisma = createPrismaClient();
 
 export type WocusContext = {
   prisma: typeof prisma;

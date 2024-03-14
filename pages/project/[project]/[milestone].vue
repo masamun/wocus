@@ -2,7 +2,6 @@
 definePageMeta({
   layout: "project",
 });
-import "@/composables/util/date";
 /**
  * プロジェクトに属するマイルストーン
  * タスクを表示する
@@ -26,3 +25,4 @@ import "@/composables/util/date";
     </div>
   </div>
 </template>
+~/types/date

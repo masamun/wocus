@@ -89,9 +89,10 @@ query getTasks($param: QueryTasks!, $range: DateRange!) {
       actual_start_date
       actual_end_date
       pv
-      ac
       ev
+      ac
       sv
+      cv
       spi
       cpi
     }

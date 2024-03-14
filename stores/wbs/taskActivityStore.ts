@@ -1,4 +1,4 @@
-import "@/composables/util/date";
+import "~/composables/util/date";
 import {
   UpdateActivityDocument,
   type MutationUpdateTaskActivityArgs,

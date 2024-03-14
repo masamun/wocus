@@ -102,7 +102,9 @@ export const dateSummary: NonNullable<QueryResolvers['dateSummary']> = async (_p
   const start_at = _arg.param.start_at < _arg.param.end_at ? _arg.param.start_at : _arg.param.end_at;
   const end_at = _arg.param.start_at < _arg.param.end_at ? _arg.param.end_at : _arg.param.start_at;
 
-  console.debug(`query dateSummary ${_arg.param.milestoneId} ${start_at} ${end_at}`);
+  console.debug(
+    `query dateSummary ${_arg.param.milestoneId} ${start_at.toLocaleDateString()} ${end_at.toLocaleDateString()}`
+  );
 
   /*
     date: # 月日
@@ -153,10 +155,10 @@ export const dateSummary: NonNullable<QueryResolvers['dateSummary']> = async (_p
       date: dateSummary.date_at,
       prv: new Prisma.Decimal(0.0),
       erv: new Prisma.Decimal(0.0),
-      pv: datePv,
-      ev: dateEv,
+      pv: new Prisma.Decimal(0.0),
+      ev: new Prisma.Decimal(0.0),
       sv: new Prisma.Decimal(0.0),
-      ac: dateAc,
+      ac: new Prisma.Decimal(0.0),
       cv: new Prisma.Decimal(0.0),
       spi: new Prisma.Decimal(0.0),
       cpi: new Prisma.Decimal(0.0),

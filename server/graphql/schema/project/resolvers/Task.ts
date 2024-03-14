@@ -42,9 +42,10 @@ export const Task: TaskResolvers = {
     return (
       calcedSummary ?? {
         taskId: String(parent.id),
+        pv: 0,
         ac: 0,
         ev: 0,
-        pv: 0,
+        cv: 0,
         sv: 0,
         spi: 0,
         cpi: 0,

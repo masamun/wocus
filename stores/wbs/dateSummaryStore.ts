@@ -1,4 +1,9 @@
-import { type DateSummary, type QueryDateSummaryArgs, GetDateSummeryDocument } from "~/client/graphql/types/graphql";
+import {
+  type DateSummary,
+  type QueryDateSummaryArgs,
+  GetDateSummeryDocument,
+  type SummaryInfo,
+} from "~/client/graphql/types/graphql";
 
 /**
  * タスクのアクティビティに登録する情報
@@ -48,6 +53,9 @@ export type DateSummaryProxyType = ReturnType<typeof useDateSummaryProxy>;
 export const useDateSummaryStore = defineStore("dateSummary", () => {
   const wbsStore = useWbsStore();
   const { milestoneId, startShowDate, endShowDate } = storeToRefs(wbsStore);
+
+  // 表示範囲外の活動情報
+  const _summaryInfo = ref<SummaryInfo>();
 
   // 日付ごとの活動サマリー
   const _summaryMap = reactive(new Map<string, DateSummary>());

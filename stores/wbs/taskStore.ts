@@ -6,7 +6,7 @@ import type {
   QueryTasksArgs,
   Task,
 } from "@/client/graphql/types/graphql";
-import "@/composables/util/date";
+import "~/composables/util/date";
 import { useTaskFieldStore } from "./taskFieldStore";
 import { useTaskActivityStore } from "./taskActivityStore";
 
@@ -82,6 +82,9 @@ export const useTaskStore = defineStore("task", () => {
       task.fields?.forEach((field) => {
         taskFieldStore.add(task.id, field);
       });
+      if (task.summary) {
+        taskFieldStore.mergeSummary(task.id, task.summary);
+      }
     });
   };
 

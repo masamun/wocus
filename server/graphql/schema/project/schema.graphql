@@ -52,8 +52,9 @@ type TaskSummary {
   actual_start_date: DateTime
   actual_end_date: DateTime
   pv: Decimal!
-  ac: Decimal!
   ev: Decimal!
+  ac: Decimal!
+  cv: Decimal!
   sv: Decimal!
   spi: Decimal!
   cpi: Decimal!

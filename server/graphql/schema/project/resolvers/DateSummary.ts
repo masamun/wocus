@@ -1,4 +1,9 @@
-import type   { DateSummaryResolvers } from './../../types.generated';
-    export const DateSummary: DateSummaryResolvers = {
-    /* Implement DateSummary resolver logic here */
-  };
+import type { DateSummaryResolvers } from "./../../types.generated";
+export const DateSummary: DateSummaryResolvers = {
+  dsv: (parent) => {
+    return parent.ev - parent.pv;
+  },
+  dcv: (parent) => {
+    return parent.ev - parent.ac;
+  },
+};
