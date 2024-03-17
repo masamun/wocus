@@ -28,12 +28,8 @@ export const useDateSummaryProxy = (srcMap: DateSummaryMap, date: Date) => {
 
   watch(
     () => srcMap.get(key.value),
-    (newValue, oldValue) => {
+    (newValue) => {
       dateSummary.value = newValue;
-
-      //const value = (newValue ?? oldValue)?.date;
-      //const logDate = value !== undefined ? new Date(value).toStringYMD() : "-";
-      //console.info(`updateDateSummary ${key} Date: ${logDate} ${JSON.stringify(newValue)}`);
     },
     {
       deep: true,
@@ -96,6 +92,7 @@ export const useDateSummaryStore = defineStore("dateSummary", () => {
         const key = new Date(ds.date).toStringYMD();
         _summaryMap.set(key, ds);
       });
+      _summaryInfo.value = data.value.dateSummary.info;
     } else {
       logger.info(`${error.value.cause}`);
     }
@@ -123,6 +120,7 @@ export const useDateSummaryStore = defineStore("dateSummary", () => {
       data.value.dateSummary.dates.forEach((ds) => {
         logger.debug(`refreshDateSummery set ${new Date(ds.date).toStringYMD()}`);
         _summaryMap.set(new Date(ds.date).toStringYMD(), ds);
+        _summaryInfo.value = data.value.dateSummary.info;
       });
     } else {
       logger.info(`${error.value.cause}`);
@@ -146,6 +144,7 @@ export const useDateSummaryStore = defineStore("dateSummary", () => {
     async () => {
       logger.info(`dateSummaryStore watch milestoneId ${milestoneId.value}`);
       _summaryMap.clear();
+      _summaryInfo.value = undefined;
       fetchAll();
     },
     {
