@@ -11,7 +11,6 @@ const apollo = new ApolloServer<WocusContext>({
   resolvers: [resolvers, scalarResolcers],
 });
 
-console.info("Apollo Server Start");
 export default startServerAndCreateH3Handler(apollo, {
   context: createContext,
 });
