@@ -135,7 +135,7 @@ const getDatesValue = async (
 `;
 };
 
-export const dateSummary: NonNullable<QueryResolvers["dateSummary"]> = async (_parent, _arg, _ctx: WocusContext) => {
+export const dateSummary: NonNullable<QueryResolvers['dateSummary']> = async (_parent, _arg, _ctx: WocusContext) => {
   const start_at = _arg.param.start_at < _arg.param.end_at ? _arg.param.start_at : _arg.param.end_at;
   const end_at = _arg.param.start_at < _arg.param.end_at ? _arg.param.end_at : _arg.param.start_at;
 
