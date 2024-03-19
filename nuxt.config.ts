@@ -41,7 +41,7 @@ export default defineNuxtConfig({
   },
   vite: {
     build: {
-      sourcemap: false,
+      sourcemap: "inline",
     },
   },
   pinia: {
