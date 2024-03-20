@@ -2,15 +2,12 @@
 export default defineNuxtConfig({
   sourcemap: {
     client: true,
-    server: true,
+    server: false,
   },
   devServer: {
     port: 3001,
   },
   ssr: false,
-  typescript: {
-    shim: false,
-  },
   components: [
     {
       path: "~/components/",
@@ -41,7 +38,7 @@ export default defineNuxtConfig({
   },
   vite: {
     build: {
-      sourcemap: "inline",
+      sourcemap: false,
     },
   },
   pinia: {
@@ -52,14 +49,19 @@ export default defineNuxtConfig({
     prerender: {
       autoSubfolderIndex: false,
     },
+    esbuild: {
+      options: {
+        target: "es2022",
+      },
+    },
   },
   future: {
-    typescriptBundlerResolution: false,
+    typescriptBundlerResolution: true,
   },
   apollo: {
     clients: {
       default: {
-        httpEndpoint: "http://localhost:3001/api/graphql",
+        httpEndpoint: "/api/graphql",
         browserHttpEndpoint: "/api/graphql",
       },
     },

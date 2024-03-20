@@ -1,14 +1,11 @@
 name = "wocus"
-main = "./dist/worker.js/chunks/index.mjs"
-#workers_dev = true
+main = "./dist/_worker.js/chunks/runtime.mjs"
+workers_dev = false
 #account_id = ""
-#route = "<(optional) mainly useful when you want to setup custom domains>"
+#route = ""
+compatibility_date = "2024-03-18"
 #compatibility_flags = [ "nodejs_compat" ]
 send_metrics = false
-
-rules = [
-  { type = "ESModule", globs = ["**/*.js", "**/*.mjs"]},
-]
 
 [site]
 bucket = "dist"
