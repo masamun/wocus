@@ -27,8 +27,34 @@ model Project {
   milestones Milestone[]
   start_at   DateTime?   @db.Date
   end_at     DateTime?   @db.Date
+  menu       menu[]
   created_at DateTime    @default(now())
   updated_at DateTime    @updatedAt
+}
+
+model menu {
+  id        String  @id @default(uuid())
+  // 親プロジェクト
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+
+  // ページの型(仮)
+  type     String
+  // 表示するページ
+  page     page?
+  parentId String?
+  parent   menu?   @relation("MenuTree", fields: [parentId], references: [id])
+  children menu[]  @relation("MenuTree")
+}
+
+model page {
+  id String @id @default(uuid())
+
+  // 表示元のメニュー
+  menu        menu   @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  menuId      String @unique
+  componentId String
+  layout      Json?
 }
 
 /// マイルストーン情報
