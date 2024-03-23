@@ -1,7 +1,8 @@
 import type { WocusContext } from "~/server/graphql/context";
 import type { MutationResolvers } from "./../../../types.generated";
+import { DEFAULT_MILESTONE_FILEDS, DEFAULT_MILESTONE_SUMMARIES } from "~/server/graphql/util/milestoneTypes";
 
-export const createProject: NonNullable<MutationResolvers['createProject']> = async (
+export const createProject: NonNullable<MutationResolvers["createProject"]> = async (
   _parent,
   _arg,
   _ctx: WocusContext
@@ -29,6 +30,16 @@ export const createProject: NonNullable<MutationResolvers['createProject']> = as
       milestones: {
         create: {
           name: "default",
+          fields: {
+            createMany: {
+              data: DEFAULT_MILESTONE_FILEDS,
+            },
+          },
+          summaries: {
+            createMany: {
+              data: DEFAULT_MILESTONE_SUMMARIES,
+            },
+          },
         },
       },
     },

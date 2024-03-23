@@ -20,23 +20,7 @@
 
 3. Prisma Client を再生成する
 
-`npx prisma generate --no-engine`
-
-### DBの準備
-
-docker-compose.ymlのフォルダで以下のコマンドを実行する
-
-1. PostgreSQLの実行
-
-`docker compose up -d`
-
-2. 終了
-
-`docker compose down`
-
-3. 再起動
-
-`docker compose restart`
+`npx prisma generate`
 
 ### GraphQLの編集(サーバー側)
 

@@ -23,6 +23,26 @@ CREATE TABLE "Project" (
 );
 
 -- CreateTable
+CREATE TABLE "menu" (
+    "id" TEXT NOT NULL,
+    "projectId" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "parentId" TEXT,
+
+    CONSTRAINT "menu_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "page" (
+    "id" TEXT NOT NULL,
+    "menuId" TEXT NOT NULL,
+    "componentId" TEXT NOT NULL,
+    "layout" JSONB,
+
+    CONSTRAINT "page_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Milestone" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -123,6 +143,15 @@ CREATE UNIQUE INDEX "User_name_key" ON "User"("name");
 CREATE UNIQUE INDEX "Project_name_key" ON "Project"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "page_menuId_key" ON "page"("menuId");
+
+-- CreateIndex
+CREATE INDEX "Task_milestoneId_idx" ON "Task"("milestoneId");
+
+-- CreateIndex
+CREATE INDEX "TaskActivity_taskId_pv_ac_ev_date_at_idx" ON "TaskActivity"("taskId", "pv", "ac", "ev", "date_at");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "MilestoneField_milestoneId_type_key" ON "MilestoneField"("milestoneId", "type");
 
 -- CreateIndex
@@ -136,6 +165,15 @@ CREATE INDEX "TaskOrder_milestoneId_idx" ON "TaskOrder"("milestoneId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "TaskField_taskId_type_key" ON "TaskField"("taskId", "type");
+
+-- AddForeignKey
+ALTER TABLE "menu" ADD CONSTRAINT "menu_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "menu" ADD CONSTRAINT "menu_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "menu"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "page" ADD CONSTRAINT "page_menuId_fkey" FOREIGN KEY ("menuId") REFERENCES "menu"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Milestone" ADD CONSTRAINT "Milestone_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
