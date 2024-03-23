@@ -45,10 +45,7 @@ export default defineNuxtConfig({
     storesDirs: ["./stores/**"],
   },
   nitro: {
-    preset: "cloudflare_pages",
-    prerender: {
-      autoSubfolderIndex: false,
-    },
+    preset: "node-server",
     esbuild: {
       options: {
         target: "es2022",
