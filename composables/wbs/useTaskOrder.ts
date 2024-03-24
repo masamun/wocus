@@ -38,10 +38,10 @@ export function useTaskOrder() {
         refresh: false,
       };
     }
-    const prevOrder = calcPrevOrder(index, length);
-    const nextOrder = calcNextOrder(index, length);
-    const order = (prevOrder ?? 0 + (nextOrder ?? 0)) / 2;
-    const refresh = (nextOrder ?? 0 - (prevOrder ?? 0)) < 0.000001;
+    const prevOrder = calcPrevOrder(index, length) ?? 0;
+    const nextOrder = calcNextOrder(index, length) ?? 0;
+    const order = (prevOrder + nextOrder) / 2;
+    const refresh = nextOrder - prevOrder < 0.000001;
     return {
       prevOrder,
       nextOrder,
