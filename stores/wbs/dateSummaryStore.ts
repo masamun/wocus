@@ -88,11 +88,12 @@ export const useDateSummaryStore = defineStore("dateSummary", () => {
     });
 
     if (!error.value) {
-      data.value.dateSummary.dates.forEach((ds) => {
+      _summaryMap.clear();
+      data.value?.dateSummary.dates.forEach((ds) => {
         const key = new Date(ds.date).toStringYMD();
         _summaryMap.set(key, ds);
       });
-      _summaryInfo.value = data.value.dateSummary.info;
+      // _summaryInfo.value = data.value.dateSummary.info;
     } else {
       logger.info(`${error.value.cause}`);
     }
@@ -117,10 +118,10 @@ export const useDateSummaryStore = defineStore("dateSummary", () => {
     });
 
     if (!error.value) {
-      data.value.dateSummary.dates.forEach((ds) => {
+      data.value?.dateSummary.dates.forEach((ds) => {
         logger.debug(`refreshDateSummery set ${new Date(ds.date).toStringYMD()}`);
         _summaryMap.set(new Date(ds.date).toStringYMD(), ds);
-        _summaryInfo.value = data.value.dateSummary.info;
+        //_summaryInfo.value = data.value.dateSummary.info;
       });
     } else {
       logger.info(`${error.value.cause}`);

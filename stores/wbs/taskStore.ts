@@ -60,7 +60,7 @@ export const useTaskStore = defineStore("task", () => {
       variables: variables,
       cache: false,
     }).then((response) => {
-      if (response.data.value.tasks !== null) {
+      if (response.data.value?.tasks != null) {
         task2Model(response.data.value.tasks as Task[]);
       }
     });

@@ -27,8 +27,8 @@ const input = computed({
     emits("update:modelValue", new Date(year, month - 1, 1));
   },
 });
-const fullYear = computed(() => props.modelValue?.getFullYear() ?? "");
-const month = computed(() => ("0" + (props.modelValue?.getMonth() ?? "" + 1)).slice(-2));
+const fullYear = computed(() => props.modelValue?.getFullYear());
+const month = computed(() => ("0" + (props.modelValue.getMonth() + 1)).slice(-2));
 /**
  * Enterキーで確定イベント
  */

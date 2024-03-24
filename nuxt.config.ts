@@ -62,5 +62,10 @@ export default defineNuxtConfig({
         browserHttpEndpoint: "/api/graphql",
       },
     },
+    defaultOptions: {
+      query: {
+        fetchPolicy: "no-cache",
+      },
+    },
   },
 });
