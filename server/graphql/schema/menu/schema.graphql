@@ -1,0 +1,64 @@
+type Query
+type Mutation
+
+# メニュー
+type Menu {
+  id: ID!
+  parentId: String
+  order: Float!
+  hierarchy: Int!
+  pageId: String!
+  name: String!
+  type: String!
+}
+# ページ情報
+type Page {
+  id: ID!
+  name: String!
+}
+
+# メニューの取得
+input QueryMenus {
+  projectId: String!
+}
+
+input QueryPage {
+  menuId: String!
+}
+
+input CreateMenu {
+  projectId: String!
+  parentMenuId: String
+  name: String!
+  type: String!
+  order: Float!
+}
+
+input MoveMenu {
+  menuId: String!
+  parent: String
+  newOrder: Float!
+  oldOrder: Float!
+}
+
+input RenameMenu {
+  menuId: String!
+  name: String!
+}
+
+input DeleteMenu {
+  menuId: String!
+  recursive: Boolean
+}
+
+# 取得系
+extend type Query {
+  # プロジェクト一覧を取得する
+  menus(param: QueryMenus!): [Menu!]!
+}
+# 作成/更新系
+extend type Mutation {
+  createMenu(param: CreateMenu!): Menu
+  renameMenu(param: RenameMenu!): Boolean
+  deleteMenu(param: DeleteMenu!): Boolean
+}

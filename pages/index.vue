@@ -19,7 +19,7 @@ const createProject = async () => {
 
 onMounted(async () => {
   await projectStore.fetchAll();
-  logger.debug(projects.value);
+  console.debug(projects.value);
 });
 </script>
 

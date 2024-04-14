@@ -10,8 +10,7 @@ export const useWbsStore = defineStore("wbs", () => {
   const currentDate = ref(initialShowDate());
   const showRange = ref(1);
 
-  const route = useRoute();
-  const projectName = ref<string | undefined>("");
+  const routeStore = useRouteStore();
   const milestoneName = ref<string | undefined>("");
 
   /**
@@ -100,38 +99,15 @@ export const useWbsStore = defineStore("wbs", () => {
   });
 
   /**
-   * プロジェクト名の監視
+   * WBSが表示されているかどうか
    */
-  watch(
-    () => route.params.project,
-    (_) => {
-      console.info(`change projectName ${route.params.project}`);
-      const { project: params }: { project?: string } = route.params;
-      projectName.value = params;
-    },
-    {
-      deep: true,
-      immediate: true,
-    }
-  );
-
-  /**
-   * マイルストーンの監視
-   */
-  watch(
-    () => route.params.milestone,
-    () => {
-      console.info(`change milestoneName ${route.params.milestone}`);
-      const { milestone: params }: { milestone?: string } = route.params;
-      milestoneName.value = params;
-    },
-    {
-      immediate: true,
-    }
-  );
+  const visible = computed(() => {
+    console.info(`visible wbs ${routeStore.pageType === "wbs"}`);
+    return routeStore.pageType === "wbs";
+  });
 
   return {
-    projectName,
+    visible,
     milestone,
     milestoneName,
     milestoneId,

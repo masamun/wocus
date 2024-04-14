@@ -24,7 +24,7 @@ export function useProjectMenus() {
   const wbsStore = useWbsStore();
   const milestonesStore = useMilestonesStore();
   const { milestones } = storeToRefs(milestonesStore);
-  const { projectName } = storeToRefs(wbsStore);
+  //const { projectName } = storeToRefs(wbsStore);
   const appPages = ref([] as SideMenuItem[]);
   const { prompt, confirm } = useMessageBox();
 
@@ -40,7 +40,7 @@ export function useProjectMenus() {
         milestones.value.map((p) => {
           return {
             title: p.name ?? "",
-            link: `/project/${projectName.value}/${p.name}`,
+            link: `/project/nothing/${p.name}`,
             pageId: p.id,
             hier: 2,
             type: "milestoneLink",
@@ -107,7 +107,7 @@ export function useProjectMenus() {
   watch(
     () => milestones.value,
     () => {
-      logger.debug("project menu update");
+      console.debug("project menu update");
       update();
     },
     {

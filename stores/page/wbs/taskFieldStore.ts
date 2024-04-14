@@ -134,6 +134,13 @@ export const useTaskFieldStore = defineStore("taskField", () => {
     }
   );
 
+  watch(
+    () => wbsStore.visible,
+    () => {
+      clear();
+    }
+  );
+
   return {
     add,
     mergeSummary,

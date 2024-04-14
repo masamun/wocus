@@ -32,31 +32,6 @@ model Project {
   updated_at DateTime    @updatedAt
 }
 
-model menu {
-  id        String  @id @default(uuid())
-  // 親プロジェクト
-  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId String
-
-  // ページの型(仮)
-  type     String
-  // 表示するページ
-  page     page?
-  parentId String?
-  parent   menu?   @relation("MenuTree", fields: [parentId], references: [id])
-  children menu[]  @relation("MenuTree")
-}
-
-model page {
-  id String @id @default(uuid())
-
-  // 表示元のメニュー
-  menu        menu   @relation(fields: [menuId], references: [id], onDelete: Cascade)
-  menuId      String @unique
-  componentId String
-  layout      Json?
-}
-
 /// マイルストーン情報
 /// 子にタスクを複数持つことができる
 model Milestone {
@@ -198,4 +173,47 @@ model TaskField {
   updated_at DateTime @updatedAt
 
   @@unique([taskId, type])
+}
+
+// 以降は大文字のテーブルは作らないようにする
+model menu {
+  id        String  @id @default(uuid())
+  // 親プロジェクト
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+
+  // ページの型
+  type     String
+  // メニュー名
+  name     String
+  // 表示するページ
+  page     page?
+  parentId String?
+  parent   menu?   @relation("MenuTree", fields: [parentId], references: [id])
+  children menu[]  @relation("MenuTree")
+
+  order menu_order?
+}
+
+// メニューの表示順
+model menu_order {
+  id String @id @default(uuid())
+
+  menu   menu   @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  menuId String @unique
+
+  order Float @default(1.0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model page {
+  id String @id @default(uuid())
+
+  // 表示元のメニュー
+  menu        menu   @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  menuId      String @unique
+  componentId String
+  layout      Json?
 }

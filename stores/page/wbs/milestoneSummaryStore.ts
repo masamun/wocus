@@ -133,6 +133,13 @@ export const useMilestoneSummaryStore = defineStore("milestoneSummary", () => {
     }
   );
 
+  watch(
+    () => wbsStore.visible,
+    () => {
+      _fieldMap.clear();
+    }
+  );
+
   return {
     add,
     update,

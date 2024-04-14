@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import type { DateSummary, MilestoneSummary } from "~/client/graphql/types/graphql";
-import { useDateSummaryStore } from "~/stores/wbs/dateSummaryStore";
+import { useDateSummaryStore } from "~/stores/page/wbs/dateSummaryStore";
 
 interface Props {
   /**
@@ -31,7 +31,7 @@ const milestoneSummaryStore = useMilestoneSummaryStore();
  * タスクを作成する
  */
 const handleRefreshDateSummary = async (date: Date) => {
-  logger.info(`refresh date summary" ${date}`);
+  console.info(`refresh date summary" ${date}`);
   await dateSummaryStore.refreshDateSummery(date);
 };
 

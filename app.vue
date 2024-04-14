@@ -7,6 +7,14 @@ useHead({
     class: "w-full h-full box-border",
   },
 });
+
+onMounted(() => {
+  // TODO ログイン機能を作った後は場所を変える
+  const projects = useProjectStore();
+  nextTick(() => {
+    projects.fetchAll();
+  });
+});
 </script>
 
 <template>

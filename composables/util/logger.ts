@@ -8,10 +8,8 @@ interface CustomLogger {
   warn(...data: any[]): void;
 }
 
-const appConfig = useAppConfig();
-
 export const logger: CustomLogger = {
-  logLevel: appConfig.logLevel as LogLevel,
+  logLevel: useAppConfig().logLevel as LogLevel,
   /** [MDN Reference]: (https://developer.mozilla.org/docs/Web/API/console/debug) */
   debug: (...data: any[]) => {
     console.debug(data);

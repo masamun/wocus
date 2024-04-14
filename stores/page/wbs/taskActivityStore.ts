@@ -176,6 +176,13 @@ export const useTaskActivityStore = defineStore("taskActivity", () => {
     }
   );
 
+  watch(
+    () => wbsStore.visible,
+    () => {
+      clear();
+    }
+  );
+
   return {
     add,
     deleteTask,

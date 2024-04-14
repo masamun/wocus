@@ -12,12 +12,12 @@ export const useProjectStore = defineStore("project", () => {
    * プロジェクトの一覧を取得する
    */
   const fetchAll = async () => {
-    projects.value.splice(0);
     const { data } = await useAsyncQuery({
       query: GetProjectsDocument,
       cache: false,
     });
-    data.value.projects?.forEach((p) => {
+    projects.value.splice(0);
+    data.value?.projects?.forEach((p) => {
       console.info(`${p?.id} ${p?.name}`);
       if (p) {
         projects.value.push(p);
@@ -44,7 +44,7 @@ export const useProjectStore = defineStore("project", () => {
       }
     } catch (e) {
       if (e instanceof Error) {
-        logger.error(e.message);
+        console.error(e.message);
       }
     }
   };

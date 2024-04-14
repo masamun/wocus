@@ -12,6 +12,7 @@
   "devDependencies": {
     "@apollo/server": "^4.10.1",
     "@as-integrations/h3": "^1.1.6",
+    "@eddeee888/gcg-typescript-resolver-files": "^0.7.3",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/client-preset": "^4.2.4",
     "@graphql-codegen/schema-ast": "^4.0.2",

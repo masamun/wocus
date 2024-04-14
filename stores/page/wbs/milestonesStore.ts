@@ -13,7 +13,7 @@ import {
 
 export const useMilestonesStore = defineStore("milestones", () => {
   const wbsStore = useWbsStore();
-  const { projectName } = storeToRefs(wbsStore);
+  const { projectName } = storeToRefs(useRouteStore());
   const _milestones = ref<Milestone[]>([]);
 
   /**
@@ -41,7 +41,7 @@ export const useMilestonesStore = defineStore("milestones", () => {
       variables: variables,
       cache: false,
     });
-    _milestones.value = (data.value.milestones as MilestoneFragmentFragment[] | undefined) ?? [];
+    _milestones.value = (data.value?.milestones as MilestoneFragmentFragment[] | undefined) ?? [];
   };
 
   /**
@@ -128,6 +128,13 @@ export const useMilestonesStore = defineStore("milestones", () => {
     },
     {
       immediate: true,
+    }
+  );
+
+  watch(
+    () => wbsStore.visible,
+    () => {
+      _milestones.value = [];
     }
   );
 

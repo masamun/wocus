@@ -1,6 +1,6 @@
 <template>
   <!-- cancel event代わり -->
-  <dialog ref="dialog" @keydown.esc="handleCancel">
+  <dialog ref="dialog" @keydown.esc.stop="handleCancel">
     <div class="min-w-60 p-2">
       <div class="border-b mb-4 pb-1">
         <slot name="title">
@@ -8,7 +8,7 @@
             {{ props.title }}
             <XMarkIcon
               class="w-8 h-8 p-1 rounded text-gray-400 hover:bg-gray-200 cursor-pointer"
-              @click="handleCancel"
+              @click.stop="handleCancel"
             />
           </div>
         </slot>
@@ -18,22 +18,22 @@
           <div class="h-2"></div>
         </slot>
       </div>
-      <div class="border-t mt-4 pt-1">
-        <slot name="footer">
+      <slot name="footer">
+        <div class="border-t mt-4 pt-1">
           <div class="flex justify-end pt-2">
-            <button class="btn-normal" @click="handleCancel" title="Cancel">キャンセル</button>
+            <button class="btn-normal" @click.stop="handleCancel" title="Cancel">キャンセル</button>
             <button
               title="OK"
               class="ml-4 btn-primary"
               :class="{ 'btn-disabled': disabled }"
-              @click="handleOk"
+              @click.stop="handleOk"
               :disabled="props.disabled"
             >
               OK
             </button>
           </div>
-        </slot>
-      </div>
+        </div>
+      </slot>
     </div>
   </dialog>
 </template>

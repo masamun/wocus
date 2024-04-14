@@ -189,6 +189,13 @@ export const useTaskStore = defineStore("task", () => {
     }
   );
 
+  watch(
+    () => wbsStore.visible,
+    () => {
+      _tasks.value = [];
+    }
+  );
+
   return {
     fetchAll,
     fetchTasks,

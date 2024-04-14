@@ -201,6 +201,9 @@ input UpdateTaskOrder {
   order: Float!
   refresh: Boolean!
 }
+input QueryPage {
+  id: String!
+}
 input QueryMilestone {
   projectName: String!
   milestoneName: String!
@@ -261,8 +264,8 @@ input QueryDateSummary {
 extend type Query {
   # プロジェクト一覧を取得する
   projects: [Project]!
-  # プロジェクト名とマイルストーン名からマイルストーン情報を取得する
-  milestone(param: QueryMilestone!): Milestone
+  # マイルストーン情報を取得する
+  milestone(param: QueryPage!): Milestone
   # プロジェクトに属するマイルストーン一覧を取得する
   milestones(param: QueryMilestones!): [Milestone!]!
   # タスク一覧を取得する

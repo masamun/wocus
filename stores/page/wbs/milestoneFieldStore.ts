@@ -170,6 +170,13 @@ export const useMilestoneFieldStore = defineStore("milestoneField", () => {
     }
   );
 
+  watch(
+    () => wbsStore.visible,
+    () => {
+      clear();
+    }
+  );
+
   return {
     add,
     update,

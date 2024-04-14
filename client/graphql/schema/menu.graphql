@@ -1,0 +1,35 @@
+# メニューを取得する
+query getMenus($param: QueryMenus!) {
+  menus(param: $param) {
+    id
+    parentId
+    order
+    hierarchy
+    pageId
+    name
+    type
+  }
+}
+
+# メニューを作成する
+mutation createMenu($param: CreateMenu!) {
+  createMenu(param: $param) {
+    id
+    parentId
+    order
+    hierarchy
+    pageId
+    name
+    type
+  }
+}
+
+# メニューの名前を変更する
+mutation renameMenu($param: RenameMenu!) {
+  renameMenu(param: $param)
+}
+
+# メニューを削除する
+mutation deleteMenu($param: DeleteMenu!) {
+  deleteMenu(param: $param)
+}

@@ -25,6 +25,14 @@ export type Column = {
   id: Scalars['ID']['output'];
 };
 
+export type CreateMenu = {
+  name: Scalars['String']['input'];
+  order: Scalars['Float']['input'];
+  parentMenuId?: InputMaybe<Scalars['String']['input']>;
+  projectId: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+};
+
 export type CreateMilestone = {
   name: Scalars['String']['input'];
   project: Scalars['String']['input'];
@@ -73,12 +81,28 @@ export type DateSummaryResult = {
   info: SummaryInfo;
 };
 
+export type DeleteMenu = {
+  menuId: Scalars['String']['input'];
+  recursive?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 export type DeleteMilestone = {
   milestoneId: Scalars['String']['input'];
 };
 
 export type DeleteTask = {
   taskId: Scalars['String']['input'];
+};
+
+export type Menu = {
+  __typename?: 'Menu';
+  hierarchy: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  order: Scalars['Float']['output'];
+  pageId: Scalars['String']['output'];
+  parentId?: Maybe<Scalars['String']['output']>;
+  type: Scalars['String']['output'];
 };
 
 export type Milestone = {
@@ -111,19 +135,34 @@ export type MilestoneSummary = {
   visible: Scalars['Boolean']['output'];
 };
 
+export type MoveMenu = {
+  menuId: Scalars['String']['input'];
+  newOrder: Scalars['Float']['input'];
+  oldOrder: Scalars['Float']['input'];
+  parent?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createMenu?: Maybe<Menu>;
   createMilestone?: Maybe<Milestone>;
   createProject?: Maybe<Project>;
   createTask?: Maybe<Task>;
+  deleteMenu?: Maybe<Scalars['Boolean']['output']>;
   deleteMilestone: Scalars['Boolean']['output'];
   deleteTask: Scalars['Boolean']['output'];
+  renameMenu?: Maybe<Scalars['Boolean']['output']>;
   renameMilestone?: Maybe<Milestone>;
   updateMilestoneField: Milestone;
   updateMilestoneSummary: Milestone;
   updateTaskActivity: Array<TaskActivity>;
   updateTaskField: Array<Task>;
   updateTaskOrder: Array<Task>;
+};
+
+
+export type MutationcreateMenuArgs = {
+  param: CreateMenu;
 };
 
 
@@ -142,6 +181,11 @@ export type MutationcreateTaskArgs = {
 };
 
 
+export type MutationdeleteMenuArgs = {
+  param: DeleteMenu;
+};
+
+
 export type MutationdeleteMilestoneArgs = {
   param: DeleteMilestone;
 };
@@ -149,6 +193,11 @@ export type MutationdeleteMilestoneArgs = {
 
 export type MutationdeleteTaskArgs = {
   param: DeleteTask;
+};
+
+
+export type MutationrenameMenuArgs = {
+  param: RenameMenu;
 };
 
 
@@ -181,6 +230,12 @@ export type MutationupdateTaskOrderArgs = {
   param: UpdateTaskOrder;
 };
 
+export type Page = {
+  __typename?: 'Page';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+};
+
 export type Project = {
   __typename?: 'Project';
   id: Scalars['ID']['output'];
@@ -190,6 +245,7 @@ export type Project = {
 export type Query = {
   __typename?: 'Query';
   dateSummary: DateSummaryResult;
+  menus: Array<Menu>;
   milestone?: Maybe<Milestone>;
   milestones: Array<Milestone>;
   projects: Array<Maybe<Project>>;
@@ -203,8 +259,13 @@ export type QuerydateSummaryArgs = {
 };
 
 
+export type QuerymenusArgs = {
+  param: QueryMenus;
+};
+
+
 export type QuerymilestoneArgs = {
-  param: QueryMilestone;
+  param: QueryPage;
 };
 
 
@@ -232,6 +293,10 @@ export type QueryDateSummary = {
   start_at: Scalars['DateTime']['input'];
 };
 
+export type QueryMenus = {
+  projectId: Scalars['String']['input'];
+};
+
 export type QueryMilestone = {
   milestoneName: Scalars['String']['input'];
   projectName: Scalars['String']['input'];
@@ -243,6 +308,11 @@ export type QueryMilestoneOptions = {
 
 export type QueryMilestones = {
   projectName: Scalars['String']['input'];
+};
+
+export type QueryPage = {
+  id: Scalars['String']['input'];
+  menuId: Scalars['String']['input'];
 };
 
 export type QueryTask = {
@@ -268,6 +338,11 @@ export type QueryTasks = {
   end_at: Scalars['DateTime']['input'];
   milestoneId: Scalars['String']['input'];
   start_at: Scalars['DateTime']['input'];
+};
+
+export type RenameMenu = {
+  menuId: Scalars['String']['input'];
+  name: Scalars['String']['input'];
 };
 
 export type RenameMilestone = {
@@ -477,36 +552,44 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Column: ResolverTypeWrapper<Column>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
-  CreateMilestone: CreateMilestone;
+  CreateMenu: CreateMenu;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  CreateMilestone: CreateMilestone;
   CreateProject: CreateProject;
   CreateTask: CreateTask;
-  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   DateAt: DateAt;
   DateRange: DateRange;
   DateSummary: ResolverTypeWrapper<DateSummary>;
   DateSummaryResult: ResolverTypeWrapper<DateSummaryResultMapper>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Decimal: ResolverTypeWrapper<Scalars['Decimal']['output']>;
+  DeleteMenu: DeleteMenu;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   DeleteMilestone: DeleteMilestone;
   DeleteTask: DeleteTask;
+  Menu: ResolverTypeWrapper<Menu>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Milestone: ResolverTypeWrapper<Milestone>;
   MilestoneField: ResolverTypeWrapper<MilestoneField>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   MilestoneSummary: ResolverTypeWrapper<MilestoneSummary>;
+  MoveMenu: MoveMenu;
   Mutation: ResolverTypeWrapper<{}>;
+  Page: ResolverTypeWrapper<Page>;
   Project: ResolverTypeWrapper<Project>;
   Query: ResolverTypeWrapper<{}>;
   QueryColumns: QueryColumns;
   QueryDateSummary: QueryDateSummary;
+  QueryMenus: QueryMenus;
   QueryMilestone: QueryMilestone;
   QueryMilestoneOptions: QueryMilestoneOptions;
   QueryMilestones: QueryMilestones;
+  QueryPage: QueryPage;
   QueryTask: QueryTask;
   QueryTaskActivitiy: QueryTaskActivitiy;
   QueryTaskSummary: QueryTaskSummary;
   QueryTasks: QueryTasks;
+  RenameMenu: RenameMenu;
   RenameMilestone: RenameMilestone;
   SummaryInfo: ResolverTypeWrapper<SummaryInfo>;
   Task: ResolverTypeWrapper<TaskMapper>;
@@ -529,36 +612,44 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Column: Column;
   ID: Scalars['ID']['output'];
-  CreateMilestone: CreateMilestone;
+  CreateMenu: CreateMenu;
   String: Scalars['String']['output'];
+  Float: Scalars['Float']['output'];
+  CreateMilestone: CreateMilestone;
   CreateProject: CreateProject;
   CreateTask: CreateTask;
-  Float: Scalars['Float']['output'];
   DateAt: DateAt;
   DateRange: DateRange;
   DateSummary: DateSummary;
   DateSummaryResult: DateSummaryResultMapper;
   DateTime: Scalars['DateTime']['output'];
   Decimal: Scalars['Decimal']['output'];
+  DeleteMenu: DeleteMenu;
+  Boolean: Scalars['Boolean']['output'];
   DeleteMilestone: DeleteMilestone;
   DeleteTask: DeleteTask;
+  Menu: Menu;
+  Int: Scalars['Int']['output'];
   Milestone: Milestone;
   MilestoneField: MilestoneField;
-  Boolean: Scalars['Boolean']['output'];
-  Int: Scalars['Int']['output'];
   MilestoneSummary: MilestoneSummary;
+  MoveMenu: MoveMenu;
   Mutation: {};
+  Page: Page;
   Project: Project;
   Query: {};
   QueryColumns: QueryColumns;
   QueryDateSummary: QueryDateSummary;
+  QueryMenus: QueryMenus;
   QueryMilestone: QueryMilestone;
   QueryMilestoneOptions: QueryMilestoneOptions;
   QueryMilestones: QueryMilestones;
+  QueryPage: QueryPage;
   QueryTask: QueryTask;
   QueryTaskActivitiy: QueryTaskActivitiy;
   QueryTaskSummary: QueryTaskSummary;
   QueryTasks: QueryTasks;
+  RenameMenu: RenameMenu;
   RenameMilestone: RenameMilestone;
   SummaryInfo: SummaryInfo;
   Task: TaskMapper;
@@ -615,6 +706,17 @@ export interface DecimalScalarConfig extends GraphQLScalarTypeConfig<ResolversTy
   name: 'Decimal';
 }
 
+export type MenuResolvers<ContextType = WocusContext, ParentType extends ResolversParentTypes['Menu'] = ResolversParentTypes['Menu']> = {
+  hierarchy?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  order?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  pageId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  parentId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MilestoneResolvers<ContextType = WocusContext, ParentType extends ResolversParentTypes['Milestone'] = ResolversParentTypes['Milestone']> = {
   fields?: Resolver<Maybe<Array<ResolversTypes['MilestoneField']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -646,17 +748,26 @@ export type MilestoneSummaryResolvers<ContextType = WocusContext, ParentType ext
 };
 
 export type MutationResolvers<ContextType = WocusContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createMenu?: Resolver<Maybe<ResolversTypes['Menu']>, ParentType, ContextType, RequireFields<MutationcreateMenuArgs, 'param'>>;
   createMilestone?: Resolver<Maybe<ResolversTypes['Milestone']>, ParentType, ContextType, RequireFields<MutationcreateMilestoneArgs, 'param'>>;
   createProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationcreateProjectArgs, 'param'>>;
   createTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationcreateTaskArgs, 'param'>>;
+  deleteMenu?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationdeleteMenuArgs, 'param'>>;
   deleteMilestone?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationdeleteMilestoneArgs, 'param'>>;
   deleteTask?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationdeleteTaskArgs, 'param'>>;
+  renameMenu?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationrenameMenuArgs, 'param'>>;
   renameMilestone?: Resolver<Maybe<ResolversTypes['Milestone']>, ParentType, ContextType, RequireFields<MutationrenameMilestoneArgs, 'param'>>;
   updateMilestoneField?: Resolver<ResolversTypes['Milestone'], ParentType, ContextType, RequireFields<MutationupdateMilestoneFieldArgs, 'param'>>;
   updateMilestoneSummary?: Resolver<ResolversTypes['Milestone'], ParentType, ContextType, RequireFields<MutationupdateMilestoneSummaryArgs, 'param'>>;
   updateTaskActivity?: Resolver<Array<ResolversTypes['TaskActivity']>, ParentType, ContextType, RequireFields<MutationupdateTaskActivityArgs, 'param'>>;
   updateTaskField?: Resolver<Array<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationupdateTaskFieldArgs, 'param'>>;
   updateTaskOrder?: Resolver<Array<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationupdateTaskOrderArgs, 'param'>>;
+};
+
+export type PageResolvers<ContextType = WocusContext, ParentType extends ResolversParentTypes['Page'] = ResolversParentTypes['Page']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ProjectResolvers<ContextType = WocusContext, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = {
@@ -667,6 +778,7 @@ export type ProjectResolvers<ContextType = WocusContext, ParentType extends Reso
 
 export type QueryResolvers<ContextType = WocusContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   dateSummary?: Resolver<ResolversTypes['DateSummaryResult'], ParentType, ContextType, RequireFields<QuerydateSummaryArgs, 'param'>>;
+  menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType, RequireFields<QuerymenusArgs, 'param'>>;
   milestone?: Resolver<Maybe<ResolversTypes['Milestone']>, ParentType, ContextType, RequireFields<QuerymilestoneArgs, 'param'>>;
   milestones?: Resolver<Array<ResolversTypes['Milestone']>, ParentType, ContextType, RequireFields<QuerymilestonesArgs, 'param'>>;
   projects?: Resolver<Array<Maybe<ResolversTypes['Project']>>, ParentType, ContextType>;
@@ -758,10 +870,12 @@ export type Resolvers<ContextType = WocusContext> = {
   DateSummaryResult?: DateSummaryResultResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Decimal?: GraphQLScalarType;
+  Menu?: MenuResolvers<ContextType>;
   Milestone?: MilestoneResolvers<ContextType>;
   MilestoneField?: MilestoneFieldResolvers<ContextType>;
   MilestoneSummary?: MilestoneSummaryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  Page?: PageResolvers<ContextType>;
   Project?: ProjectResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SummaryInfo?: SummaryInfoResolvers<ContextType>;

@@ -34,7 +34,7 @@ mutation deleteMilestone($param: DeleteMilestone!) {
 }
 
 # マイルストーンのIDを取得する
-query getMilestone($param: QueryMilestone!) {
+query getMilestone($param: QueryPage!) {
   milestone(param: $param) {
     id
   }

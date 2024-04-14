@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useTaskActivityStore } from "~/stores/wbs/taskActivityStore";
+import { useTaskActivityStore } from "~/stores/page/wbs/taskActivityStore";
 
 interface Props {
   /**

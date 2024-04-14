@@ -163,6 +163,14 @@ export const useDateSummaryStore = defineStore("dateSummary", () => {
     }
   );
 
+  watch(
+    () => wbsStore.visible,
+    () => {
+      _summaryInfo.value = undefined;
+      _summaryMap.clear();
+    }
+  );
+
   return {
     fetchAll,
     refreshDateSummery,
