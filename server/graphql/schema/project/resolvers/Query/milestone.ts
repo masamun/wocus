@@ -2,12 +2,22 @@ import type { WocusContext } from "~/server/graphql/context";
 import type { QueryResolvers } from "./../../../types.generated";
 
 export const milestone: NonNullable<QueryResolvers["milestone"]> = async (_parent, _arg, _ctx: WocusContext) => {
-  console.info(`query milestone ${_arg.param.id}`);
+  console.info(`query milestone ${_arg.param.pageId}`);
 
-  const result = await _ctx.prisma.milestone.findUnique({
+  return await _ctx.prisma.milestone.findUniqueOrThrow({
+    select: {
+      id: true,
+      projectId: true,
+      name: true,
+      start_at: true,
+      end_at: true,
+      created_at: true,
+      updated_at: true,
+      fields: true,
+      summaries: true,
+    },
     where: {
-      id: _arg.param.id,
+      id: _arg.param.pageId,
     },
   });
-  return result;
 };

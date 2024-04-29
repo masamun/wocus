@@ -22,10 +22,7 @@ const getKey = (taskId: string, field: TaskField | string) => {
 /**
  * タスク情報を保持するストア
  */
-export const useTaskFieldStore = defineStore("taskField", () => {
-  const wbsStore = useWbsStore();
-  const { milestoneId } = storeToRefs(wbsStore);
-
+export const useTaskFieldStore = () => {
   // タスクIDとフィールドタイプからフィールドを参照するテーブル
   const _fieldMap = reactive(new Map<string, TaskField>());
   // タスクIDに紐づくfieldのキーマップ
@@ -95,9 +92,6 @@ export const useTaskFieldStore = defineStore("taskField", () => {
    * @param input
    */
   const update = async (taskId: string, type: string, value: string) => {
-    if (milestoneId.value == undefined) {
-      return;
-    }
     const variables: MutationUpdateTaskFieldArgs = {
       param: [{ taskId, type, value }],
     };
@@ -123,24 +117,6 @@ export const useTaskFieldStore = defineStore("taskField", () => {
     _taskMap.clear();
   };
 
-  watch(
-    milestoneId,
-    async () => {
-      console.info(`taskFieldStore watch milestoneId ${milestoneId.value}`);
-      clear();
-    },
-    {
-      immediate: true,
-    }
-  );
-
-  watch(
-    () => wbsStore.visible,
-    () => {
-      clear();
-    }
-  );
-
   return {
     add,
     mergeSummary,
@@ -149,4 +125,4 @@ export const useTaskFieldStore = defineStore("taskField", () => {
     field,
     clear,
   };
-});
+};

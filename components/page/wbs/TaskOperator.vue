@@ -30,7 +30,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const taskStore = useTaskStore();
+const taskStore = useMilestoneStore().taskStore;
 const taskDragStore = useTaskDragStore();
 
 const handleDeleteClick = async () => {

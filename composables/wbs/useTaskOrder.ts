@@ -1,7 +1,7 @@
 import { UpdateTaskOrderDocument, type MutationUpdateTaskOrderArgs } from "~/client/graphql/types/graphql";
 
 export function useTaskOrder() {
-  const taskStore = useTaskStore();
+  const taskStore = useMilestoneStore().taskStore;
 
   const calcPrevOrder = (index: number, length: number) => {
     if (index >= 0) {

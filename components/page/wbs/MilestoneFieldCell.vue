@@ -23,7 +23,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const target = ref<HTMLDivElement | null>(null);
-const milestonesFieldStore = useMilestoneFieldStore();
+const milestonesFieldStore = useMilestoneStore().fields;
 const wbsStore = useWbsStore();
 let timeoutID: ReturnType<typeof setTimeout> | null = null;
 let buttonNo = -1;

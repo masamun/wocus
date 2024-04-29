@@ -22,11 +22,13 @@ const getKey = (milestoneId: string, field: MilestoneSummary | string) => {
 /**
  * マイルストーンのフィールド情報を保持するストア
  */
-export const useMilestoneSummaryStore = defineStore("milestoneSummary", () => {
-  const wbsStore = useWbsStore();
-
-  const { milestoneId } = storeToRefs(wbsStore);
+export const useMilestoneSummaryStore = () => {
+  const milestoneId = ref<string | undefined>();
   const _fieldMap = reactive(new Map<string, MilestoneSummary>());
+
+  const setMilestoneId = (id: string) => {
+    milestoneId.value = id;
+  };
 
   /**
    * フィールド情報を追加する
@@ -92,21 +94,11 @@ export const useMilestoneSummaryStore = defineStore("milestoneSummary", () => {
   };
 
   /**
-   * フィールド情報を表示中のマイルストーンに更新する
+   * サマリー情報をクリアする
    */
-  const refresh = () => {
-    clear();
-    const milestone = wbsStore.milestone;
-
-    if (milestone !== undefined) {
-      wbsStore.milestone?.summaries?.forEach((field) => {
-        add(field);
-      });
-    }
-  };
-
   const clear = () => {
     _fieldMap.clear();
+    milestoneId.value = undefined;
   };
 
   /**
@@ -123,24 +115,8 @@ export const useMilestoneSummaryStore = defineStore("milestoneSummary", () => {
     return [..._fieldMap.values()].toSorted((a, b) => a.order - b.order);
   });
 
-  /**
-   * フィールド情報の更新
-   */
-  watch(
-    () => milestoneId.value,
-    () => {
-      refresh();
-    }
-  );
-
-  watch(
-    () => wbsStore.visible,
-    () => {
-      _fieldMap.clear();
-    }
-  );
-
   return {
+    setMilestoneId,
     add,
     update,
     field,
@@ -148,4 +124,4 @@ export const useMilestoneSummaryStore = defineStore("milestoneSummary", () => {
     allFields,
     clear,
   };
-});
+};

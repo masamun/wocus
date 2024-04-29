@@ -1,10 +1,11 @@
+import { usePageStore } from "./page/pageStore";
+
 /**
  * 表示中の情報を決めるストア
  * @returns
  */
 export const useRouteStore = defineStore("route", () => {
   const route = useRoute();
-  const { menus } = storeToRefs(useProjectMenuStore());
   const { projects } = storeToRefs(useProjectStore());
 
   /**
@@ -25,13 +26,6 @@ export const useRouteStore = defineStore("route", () => {
   });
 
   /**
-   * 表示中のページタイプを返す
-   */
-  const pageType = computed(() => {
-    return menus.value.find((v) => v.pageId === pageId.value)?.type;
-  });
-
-  /**
    * プロジェクト名の変更をウォッチする
    */
   watch(
@@ -39,6 +33,21 @@ export const useRouteStore = defineStore("route", () => {
     () => {
       projectName.value = route.params.project as string;
       pageId.value = route.params.page as string;
+
+      usePageStore().setPageId(pageId.value);
+    },
+    {
+      immediate: true,
+    }
+  );
+
+  /**
+   * プロジェクトIDの変更時はページ情報の取得を行う
+   */
+  watch(
+    projectId,
+    () => {
+      usePageStore().fetchAll(projectId.value);
     },
     {
       immediate: true,
@@ -48,7 +57,5 @@ export const useRouteStore = defineStore("route", () => {
   return {
     projectName,
     projectId,
-    pageId,
-    pageType,
   };
 });

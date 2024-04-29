@@ -16,8 +16,8 @@
 <script lang="ts" setup>
 import { PlusIcon } from "@heroicons/vue/24/outline";
 
-const milestoneFieldStore = useMilestoneFieldStore();
-const taskStore = useTaskStore();
+const milestoneFieldStore = useMilestoneStore().fields;
+const taskStore = useMilestoneStore().taskStore;
 const wbsStore = useWbsStore();
 
 const handleCreateTask = async () => {

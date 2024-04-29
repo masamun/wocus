@@ -2,7 +2,7 @@
  * タスクのドラッグ操作を管理するストア
  */
 export const useTaskDragStore = defineStore("taskDrag", () => {
-  const taskStore = useTaskStore();
+  const taskStore = useMilestoneStore().taskStore;
   const { calcTaskOrderByIndex, changeTaskOrder } = useTaskOrder();
   // ドラッグ中のタスクID
   const draggingTask = ref<string | undefined>();

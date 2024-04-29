@@ -1,5 +1,6 @@
 type Query
 type Mutation
+input QueryPage
 
 scalar DateTime
 scalar Decimal
@@ -145,7 +146,7 @@ input CreateProject {
 }
 # マイルストーンを作成する
 input CreateMilestone {
-  project: String!
+  projectId: String!
   name: String!
 }
 # マイルストーンの名前を変更する
@@ -201,13 +202,7 @@ input UpdateTaskOrder {
   order: Float!
   refresh: Boolean!
 }
-input QueryPage {
-  id: String!
-}
-input QueryMilestone {
-  projectName: String!
-  milestoneName: String!
-}
+
 # マイルストーンを取得する
 input QueryMilestones {
   projectName: String!

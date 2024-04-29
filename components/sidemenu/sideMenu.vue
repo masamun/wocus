@@ -13,17 +13,17 @@
 </template>
 
 <script setup lang="ts">
-const { menus } = storeToRefs(useProjectMenuStore());
+const { menus } = storeToRefs(usePageStore());
 
 const parentMenuId = ref<string | undefined>();
 const visibleSelectTemplateDialog = ref(false);
 
-const handleCreateMenuClick = (arg: SideMenuItem | undefined) => {
+const handleCreateMenuClick = (arg: MenuItem | undefined) => {
   console.info("handleCreateMenuClick");
   arg?.createContext?.(arg);
 };
 
-const handleCustomMenuClick = (arg: SideMenuItem | undefined, index?: number) => {
+const handleCustomMenuClick = (arg: MenuItem | undefined, index?: number) => {
   console.info("handleCustomMenuClick");
   arg?.customContext?.[index ?? 0]?.handler?.(arg);
 };

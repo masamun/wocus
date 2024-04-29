@@ -35,7 +35,7 @@ export type CreateMenu = {
 
 export type CreateMilestone = {
   name: Scalars['String']['input'];
-  project: Scalars['String']['input'];
+  projectId: Scalars['String']['input'];
 };
 
 export type CreateProject = {
@@ -297,11 +297,6 @@ export type QueryMenus = {
   projectId: Scalars['String']['input'];
 };
 
-export type QueryMilestone = {
-  milestoneName: Scalars['String']['input'];
-  projectName: Scalars['String']['input'];
-};
-
 export type QueryMilestoneOptions = {
   milestoneId: Scalars['String']['input'];
 };
@@ -311,8 +306,7 @@ export type QueryMilestones = {
 };
 
 export type QueryPage = {
-  id: Scalars['String']['input'];
-  menuId: Scalars['String']['input'];
+  pageId: Scalars['String']['input'];
 };
 
 export type QueryTask = {
@@ -581,7 +575,6 @@ export type ResolversTypes = {
   QueryColumns: QueryColumns;
   QueryDateSummary: QueryDateSummary;
   QueryMenus: QueryMenus;
-  QueryMilestone: QueryMilestone;
   QueryMilestoneOptions: QueryMilestoneOptions;
   QueryMilestones: QueryMilestones;
   QueryPage: QueryPage;
@@ -641,7 +634,6 @@ export type ResolversParentTypes = {
   QueryColumns: QueryColumns;
   QueryDateSummary: QueryDateSummary;
   QueryMenus: QueryMenus;
-  QueryMilestone: QueryMilestone;
   QueryMilestoneOptions: QueryMilestoneOptions;
   QueryMilestones: QueryMilestones;
   QueryPage: QueryPage;

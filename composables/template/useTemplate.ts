@@ -1,15 +1,4 @@
 import { ComputerDesktopIcon, DocumentTextIcon, FolderIcon } from "@heroicons/vue/24/outline";
-import {
-  CreateMenuDocument,
-  DeleteMenuDocument,
-  GetMenusDocument,
-  RenameMenuDocument,
-  type CreateMenuMutationVariables,
-  type DeleteMenuMutationVariables,
-  type GetMenusQueryVariables,
-  type Menu,
-  type RenameMenuMutationVariables,
-} from "~/client/graphql/types/graphql";
 
 /**
  * サイドメニューの構成
@@ -18,9 +7,6 @@ import {
 export const useTemplate = () => {
   // テンプレート選択ダイアログ
   const visible = ref(false);
-
-  // テンプレート選択ダイアログのパラメーター
-  const order = ref(1.0);
 
   const templates = ref([
     {
@@ -72,10 +58,10 @@ export const useTemplate = () => {
    * ページを作成するハンドラ
    */
   const create = (type: string, parentMenuId?: string) => {
-    const projectMenu = useProjectMenu();
+    const pageStore = usePageStore();
 
-    projectMenu.createMenu(order.value, type, parentMenuId);
-    const projectId = "";
+    const order = pageStore.calcOrder(parentMenuId);
+    pageStore.createMenu(order, type, parentMenuId);
   };
 
   return {

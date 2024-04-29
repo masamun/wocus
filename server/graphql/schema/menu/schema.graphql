@@ -23,7 +23,7 @@ input QueryMenus {
 }
 
 input QueryPage {
-  menuId: String!
+  pageId: String!
 }
 
 input CreateMenu {

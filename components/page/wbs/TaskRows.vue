@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-const taskStore = useTaskStore();
+const taskStore = useMilestoneStore().taskStore;
 const taskDragStore = useTaskDragStore();
 const wbsStore = useWbsStore();
 

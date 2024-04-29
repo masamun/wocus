@@ -42,9 +42,8 @@ const props = defineProps<Props>();
 const input = ref<string>("");
 const editing = ref<boolean>(false);
 const editor = ref<HTMLInputElement | null>(null);
-const taskFieldStore = useTaskFieldStore();
-
-const taskStore = useTaskStore();
+const taskFieldStore = useMilestoneStore().taskFieldStore;
+const taskStore = useMilestoneStore().taskStore;
 
 /**
  * 編集モードに移行する

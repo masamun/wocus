@@ -33,13 +33,6 @@ mutation deleteMilestone($param: DeleteMilestone!) {
   deleteMilestone(param: $param)
 }
 
-# マイルストーンのIDを取得する
-query getMilestone($param: QueryPage!) {
-  milestone(param: $param) {
-    id
-  }
-}
-
 # タスクを作成する
 mutation createTask($param: CreateTask!) {
   createTask(param: $param) {
@@ -50,6 +43,12 @@ mutation createTask($param: CreateTask!) {
 # タスクを作成する
 mutation deleteTask($param: DeleteTask!) {
   deleteTask(param: $param)
+}
+
+query getMilestone($param: QueryPage!) {
+  milestone(param: $param) {
+    ...MilestoneFragment
+  }
 }
 
 # マイルストーンの一覧を取得する

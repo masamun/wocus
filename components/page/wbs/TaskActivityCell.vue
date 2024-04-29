@@ -3,8 +3,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useTaskActivityStore } from "~/stores/page/wbs/taskActivityStore";
-
 interface Props {
   /**
    * タスクID
@@ -23,7 +21,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const taskActivityStore = useTaskActivityStore();
+const taskActivityStore = useMilestoneStore().taskActivityStore;
 const activityProxy = taskActivityStore.activity(props.taskId, props.date);
 const activity = activityProxy.activity;
 

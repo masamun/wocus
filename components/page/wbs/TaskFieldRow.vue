@@ -20,7 +20,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const milestoneFieldStore = useMilestoneFieldStore();
+const milestoneFieldStore = useMilestoneStore().fields;
 
 const fields = computed(() => {
   return milestoneFieldStore.fields;

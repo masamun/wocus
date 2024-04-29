@@ -9,21 +9,42 @@ import {
   type Menu,
   type RenameMenuMutationVariables,
 } from "~/client/graphql/types/graphql";
+import { usePageBridgeStore } from "./pageBridgeStore";
+
+type ContextHandler = (arg: MenuItem) => void;
+
+interface CustomMenuContext {
+  text: string;
+  handler: ContextHandler | undefined;
+}
+
+/**
+ * イベントハンドラを追加したメニュー
+ */
+export interface MenuItem extends Menu {
+  createContext?: ContextHandler;
+  customContext?: CustomMenuContext[];
+}
 
 /**
  * サイドメニューの構成
  * @returns
  */
-export const useProjectMenuStore = defineStore("menu", () => {
-  const { projectId } = storeToRefs(useRouteStore());
+export const usePageStore = defineStore("page", () => {
+  const pageBridgeStore = usePageBridgeStore();
+  const projectId = ref<string | undefined>();
+  const pageId = ref<string | undefined>();
   const _menus = ref<Menu[]>([]);
 
   /**
    * メニューを取得する
    * @returns
    */
-  const fetchAll = async () => {
-    _menus.value.splice(0);
+  const fetchAll = async (currentProjectId: string | undefined) => {
+    projectId.value = currentProjectId;
+    console.debug("page store fetchAll");
+
+    _menus.value = [];
     if (projectId.value === undefined) {
       return;
     }
@@ -42,12 +63,20 @@ export const useProjectMenuStore = defineStore("menu", () => {
   };
 
   /**
+   * ページIDを設定する
+   * @param currentPageId
+   */
+  const setPageId = (currentPageId: string | undefined) => {
+    pageId.value = currentPageId;
+  };
+
+  /**
    * メニューの最後のオーダーを計算する
    * @returns
    */
   const calcLastOrder = () => {
     const lastMenu = _menus.value
-      .filter((v) => v.parentId === undefined)
+      .filter((v) => v.parentId == undefined)
       .toSorted((a, b) => a.order - b.order)
       .at(-1);
 
@@ -71,11 +100,11 @@ export const useProjectMenuStore = defineStore("menu", () => {
     const nextMenu = _menus.value.at(menuIndex + 1);
 
     // メニュー内の一番最後
-    if (prevMenu === undefined) {
+    if (prevMenu == undefined) {
       return calcLastOrder();
     }
     // 親メニュー内の一番最後
-    if (nextMenu === undefined) {
+    if (nextMenu == undefined) {
       return prevMenu.order + 1.0;
     }
     // 間に差し込む
@@ -106,6 +135,7 @@ export const useProjectMenuStore = defineStore("menu", () => {
       console.info("createMenu projectId undefined");
       return;
     }
+    console.info(`createMenu projectId parent: ${parentMenuId} order: ${order}`);
     try {
       const variables: CreateMenuMutationVariables = {
         param: {
@@ -117,6 +147,10 @@ export const useProjectMenuStore = defineStore("menu", () => {
         },
       };
       const result = await useAsyncQuery(CreateMenuDocument, variables);
+
+      if (result.data.value?.createMenu != undefined) {
+        _menus.value.push(result.data.value.createMenu);
+      }
     } catch {
       // Nothing
     }
@@ -124,13 +158,13 @@ export const useProjectMenuStore = defineStore("menu", () => {
 
   /**
    * メニューを削除する
-   * @param menuId
+   * @param menu
    * @param recursive
    */
-  const deleteMenu = async (menuId: string, recursive: boolean) => {
+  const deleteMenu = async (menu: Menu, recursive: boolean) => {
     const variables: DeleteMenuMutationVariables = {
       param: {
-        menuId,
+        menuId: menu.id,
         recursive,
       },
     };
@@ -139,9 +173,9 @@ export const useProjectMenuStore = defineStore("menu", () => {
 
       if (result.data.value?.deleteMenu) {
         if (recursive) {
-          fetchAll();
+          fetchAll(projectId.value);
         } else {
-          _menus.value = _menus.value.filter((v) => v.id !== menuId);
+          _menus.value = _menus.value.filter((v) => v.id !== menu.id);
         }
       }
     } catch {
@@ -149,14 +183,34 @@ export const useProjectMenuStore = defineStore("menu", () => {
     }
   };
 
+  const showRenameDialog = async (name: string) => {
+    const newName = await useMessageBox()
+      .prompt({
+        title: "名前の変更",
+        text: name,
+      })
+      .catch(() => name);
+
+    if (name !== newName) {
+      return newName;
+    } else {
+      throw new Error("cancel");
+    }
+  };
+
   /**
    * メニューの名前を変更する
    * @param arg
    */
-  const renameMenu = async (menuId: string, name: string) => {
+  const renameMenu = async (menu: MenuItem) => {
+    const name = await showRenameDialog(menu.name).catch(() => menu.name);
+    if (name === menu.name) {
+      return;
+    }
+
     const variables: RenameMenuMutationVariables = {
       param: {
-        menuId,
+        menuId: menu.id,
         name,
       },
     };
@@ -164,10 +218,10 @@ export const useProjectMenuStore = defineStore("menu", () => {
       const result = await useAsyncQuery(RenameMenuDocument, variables);
 
       if (result.data.value?.renameMenu) {
-        const menu = _menus.value.find((v) => v.id !== menuId);
+        const oldMenu = _menus.value.find((v) => v.id === menu.id);
 
-        if (menu !== undefined) {
-          menu.name = name;
+        if (oldMenu !== undefined) {
+          oldMenu.name = name;
         }
       } else {
         // TODO alert
@@ -178,19 +232,49 @@ export const useProjectMenuStore = defineStore("menu", () => {
   };
 
   /**
-   * 指定されたメニューIDのtypeを返す
-   * @param id
-   * @returns
+   * 表示中のページタイプを返す
    */
-  const menuType = (pageId: string) => {
-    return _menus.value.find((v) => v.id === pageId)?.type;
-  };
+  const pageType = computed(() => {
+    return _menus.value.find((v) => v.pageId === pageId.value)?.type ?? "";
+  });
+
+  /**
+   * 表示中のメニューを返す
+   */
+  const menus = computed(() => {
+    return _menus.value
+      .map((v): MenuItem => {
+        return {
+          ...v,
+          customContext: [
+            {
+              text: "名前の変更",
+              handler: (arg) => renameMenu(arg),
+            },
+            {
+              text: "削除",
+              handler: (arg) => deleteMenu(arg, true),
+            },
+          ],
+        };
+      })
+      .toSorted((a, b) => a.order - b.order);
+  });
 
   watch(
-    projectId,
+    pageType,
     () => {
-      console.debug("menu store fetchAll");
-      fetchAll();
+      pageBridgeStore.pageType = pageType.value;
+    },
+    {
+      immediate: true,
+    }
+  );
+
+  watch(
+    pageId,
+    () => {
+      pageBridgeStore.pageId = pageId.value;
     },
     {
       immediate: true,
@@ -198,11 +282,14 @@ export const useProjectMenuStore = defineStore("menu", () => {
   );
 
   return {
+    fetchAll,
+    setPageId,
     createMenu,
     renameMenu,
     deleteMenu,
     calcOrder,
-    menus: readonly(_menus),
-    menuType,
+    pageType,
+    pageId,
+    menus,
   };
 });

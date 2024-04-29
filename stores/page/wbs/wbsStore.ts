@@ -1,3 +1,5 @@
+import { usePageBridgeStore } from "../pageBridgeStore";
+
 export interface RangeDate {
   date: Date;
   isToday: boolean;
@@ -7,10 +9,11 @@ export interface RangeDate {
 }
 
 export const useWbsStore = defineStore("wbs", () => {
+  const milestoneStore = useMilestoneStore();
   const currentDate = ref(initialShowDate());
   const showRange = ref(1);
 
-  const routeStore = useRouteStore();
+  const { pageId, pageType } = storeToRefs(usePageBridgeStore());
   const milestoneName = ref<string | undefined>("");
 
   /**
@@ -83,32 +86,39 @@ export const useWbsStore = defineStore("wbs", () => {
   });
 
   /**
-   * 表示中のマイルストーンを返す
-   */
-  const milestone = computed(() => {
-    return useMilestonesStore().milestones.find((value) => {
-      return value.name === milestoneName.value;
-    });
-  });
-
-  /**
    * 表示対象のマイルストーンIDを取得する
    */
   const milestoneId = computed(() => {
-    return milestone.value?.id;
+    if (visible.value) {
+      return pageId.value;
+    } else {
+      return undefined;
+    }
   });
 
   /**
    * WBSが表示されているかどうか
    */
   const visible = computed(() => {
-    console.info(`visible wbs ${routeStore.pageType === "wbs"}`);
-    return routeStore.pageType === "wbs";
+    console.info(`visible milestone ${pageType.value === "milestone"}`);
+    return pageType.value === "milestone";
   });
+
+  watch(
+    milestoneId,
+    () => {
+      milestoneStore.clear();
+      if (visible && milestoneId.value !== undefined) {
+        milestoneStore.fetchAll(milestoneId.value, range.value);
+      }
+    },
+    {
+      immediate: true,
+    }
+  );
 
   return {
     visible,
-    milestone,
     milestoneName,
     milestoneId,
     startShowDate,

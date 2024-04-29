@@ -6,7 +6,6 @@
 
 <script lang="ts" setup>
 import type { DateSummary } from "~/client/graphql/types/graphql";
-import { useDateSummaryStore } from "~/stores/page/wbs/dateSummaryStore";
 
 interface Props {
   /**
@@ -21,13 +20,13 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const dateSummaryStore = useDateSummaryStore();
-const dateSummary = dateSummaryStore.dateSummary(props.date);
+const dateSummaryStore = useMilestoneStore().dateSummaryStore;
 
 /**
  * 活動の数値
  */
 const activityValue = computed((): string => {
+  const dateSummary = dateSummaryStore.dateSummary(props.date);
   const value = dateSummary.dateSummary.value?.[props.activityType] ?? "-";
 
   if (value instanceof Date) {

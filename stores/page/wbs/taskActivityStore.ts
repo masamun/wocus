@@ -28,7 +28,6 @@ export const useActivityProxy = (srcMap: ActivityMap, taskId: string, date: Date
   const key = getKey(taskId, date);
   const dateString = date.toStringYMD();
   const activity = ref<TaskActivity | undefined>();
-  const dateSummaryStore = useDateSummaryStore();
 
   /**
    * 更新用の引数テンプレートを作成する
@@ -70,7 +69,15 @@ export const useActivityProxy = (srcMap: ActivityMap, taskId: string, date: Date
 
         console.info(`updateActivity ${dateString} ${index} PV: ${activity.pv} AC: ${activity.ac} EV: ${activity.ev}`);
       });
-      dateSummaryStore.fetchAll();
+
+      const wbsStore = useWbsStore();
+      if (wbsStore.milestoneId !== undefined) {
+        useMilestoneStore().dateSummaryStore.fetchAll(
+          wbsStore.milestoneId,
+          wbsStore.startShowDate,
+          wbsStore.endShowDate
+        );
+      }
     }
   };
 
@@ -110,10 +117,7 @@ export const useActivityProxy = (srcMap: ActivityMap, taskId: string, date: Date
 /**
  * タスク情報を保持するストア
  */
-export const useTaskActivityStore = defineStore("taskActivity", () => {
-  const wbsStore = useWbsStore();
-  const { milestoneId } = storeToRefs(wbsStore);
-
+export const useTaskActivityStore = () => {
   // TaskID: <DateString, TaskActivity>
   // タスクIDとフィールドタイプからフィールドを参照するテーブル
   // キーはタスクID+日付文字列
@@ -165,28 +169,10 @@ export const useTaskActivityStore = defineStore("taskActivity", () => {
     _taskMap.clear();
   };
 
-  watch(
-    milestoneId,
-    async () => {
-      console.info(`useTaskActivityStore watch milestoneId ${milestoneId.value}`);
-      clear();
-    },
-    {
-      immediate: true,
-    }
-  );
-
-  watch(
-    () => wbsStore.visible,
-    () => {
-      clear();
-    }
-  );
-
   return {
     add,
     deleteTask,
     clear,
     activity,
   };
-});
+};

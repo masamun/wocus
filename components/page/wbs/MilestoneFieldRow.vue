@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-const milestoneFieldStore = useMilestoneFieldStore();
+const milestoneFieldStore = useMilestoneStore().fields;
 
 const fieldGroups = computed(() => {
   return milestoneFieldStore.fields.map((value, index, array) => {

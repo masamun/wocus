@@ -5,7 +5,7 @@
         <drop-down-sub-menu label="タスク情報">
           <drop-down-menu-check-item
             :checked="item.visible"
-            v-for="(item, index) in milestoneFieldStore.allFields"
+            v-for="(item, index) in milestoneField"
             :key="index"
             @click="handleFieldChanged(item)"
           >
@@ -58,8 +58,9 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/outline";
 import type { MilestoneField, MilestoneSummary } from "~/client/graphql/types/graphql";
 const wbsStore = useWbsStore();
-const milestoneFieldStore = useMilestoneFieldStore();
-const milestoneSummaryStore = useMilestoneSummaryStore();
+const milestoneFieldStore = useMilestoneStore().fields;
+const milestoneSummaryStore = useMilestoneStore().summary;
+const { showRange: wbsShowRange } = storeToRefs(wbsStore);
 
 const fieldWidth = computed(() => {
   return `${milestoneFieldStore.fieldsWidth}px`;
@@ -71,8 +72,12 @@ const startShowDate = computed({
 });
 
 const showRange = computed({
-  get: () => wbsStore.showRange,
+  get: () => wbsShowRange.value,
   set: (v) => wbsStore.setShowRange(v),
+});
+
+const milestoneField = computed(() => {
+  return milestoneFieldStore.allFields;
 });
 
 const handlePrevDate = () => {

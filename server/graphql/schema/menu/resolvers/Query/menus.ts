@@ -23,7 +23,7 @@ export const menus: NonNullable<QueryResolvers['menus']> = async (_parent, _arg,
       name: result.name,
       parentId: result.parent?.id,
       order: result.order?.order ?? 1,
-      pageId: result.page?.id ?? "",
+      pageId: result.page?.componentId ?? "",
       hierarchy: 0,
       type: result.type,
     };

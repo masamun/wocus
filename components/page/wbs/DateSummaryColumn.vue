@@ -2,18 +2,13 @@
   <div class="border-b last:border-b-0 text-right pr-2 h-7" @click="handleRefreshDateSummary(date)">
     {{ date.toStringMD() }}
   </div>
-  <div
-    class="border-b last:border-b-0 text-right pr-2 h-7"
-    v-for="(item, index) in milestoneSummaryStore.fields"
-    :key="index"
-  >
+  <div class="border-b last:border-b-0 text-right pr-2 h-7" v-for="(item, index) in fields" :key="index">
     {{ value(item) }}
   </div>
 </template>
 
 <script lang="ts" setup>
 import type { DateSummary, MilestoneSummary } from "~/client/graphql/types/graphql";
-import { useDateSummaryStore } from "~/stores/page/wbs/dateSummaryStore";
 
 interface Props {
   /**
@@ -23,9 +18,9 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const dateSummaryStore = useDateSummaryStore();
+const dateSummaryStore = useMilestoneStore().dateSummaryStore;
 const dateSummary = dateSummaryStore.dateSummary(props.date);
-const milestoneSummaryStore = useMilestoneSummaryStore();
+const milestoneSummaryStore = useMilestoneStore().summary;
 
 /**
  * タスクを作成する
@@ -48,6 +43,10 @@ const toNumString = (value: string | undefined) => {
   }
 };
 
+const fields = computed(() => {
+  return milestoneSummaryStore.fields;
+});
+
 const value = (item: MilestoneSummary) => {
   const key = item.type as keyof Omit<DateSummary, "date_at">;
   if (dateSummary.dateSummary.value == null) {
@@ -59,51 +58,12 @@ const value = (item: MilestoneSummary) => {
   const ret = dateSummary.dateSummary.value[key];
   return typeof ret === "string" ? toNumString(ret) : ret;
 };
-const prv = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.prv);
-});
-const erv = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.erv);
-});
-const pv = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.pv);
-});
-const ev = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.ev);
-});
-const ac = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.ac);
-});
-const sv = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.sv);
-});
-const cv = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.cv);
-});
-const spi = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.spi);
-});
-const cpi = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.cpi);
-});
-const dpv = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.dpv);
-});
-const dev = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.dev);
-});
-const dac = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.dac);
-});
-const dsv = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.dsv);
-});
-const dcv = computed(() => {
-  return toNumString(dateSummary.dateSummary.value?.dcv);
-});
 
-watch(props, () => {
-  console.info("watch props date");
-  dateSummary.setDate(props.date);
-});
+watch(
+  () => props.date,
+  () => {
+    console.info("watch props date");
+    dateSummary.setDate(props.date);
+  }
+);
 </script>

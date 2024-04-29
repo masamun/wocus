@@ -1,5 +1,6 @@
 import type { Prisma } from "~/prisma";
 import type { MutationResolvers } from "./../../../types.generated";
+import { factory } from "~/server/entity/pages/factory";
 
 export const createMenu: NonNullable<MutationResolvers['createMenu']> = async (_parent, _arg, _ctx) => {
   console.debug(
@@ -15,6 +16,11 @@ export const createMenu: NonNullable<MutationResolvers['createMenu']> = async (_
           },
         }
       : undefined;
+
+  // ページの対象を作成する
+  const pageId = await factory().create(_ctx.prisma, _arg.param.type, _arg.param.projectId, "無題");
+
+  console.debug(`mutation createMenu pageId: ${pageId}`);
 
   const result = await _ctx.prisma.menu.create({
     include: {
@@ -33,7 +39,7 @@ export const createMenu: NonNullable<MutationResolvers['createMenu']> = async (_
       },
       page: {
         create: {
-          componentId: "",
+          componentId: pageId,
         },
       },
     },

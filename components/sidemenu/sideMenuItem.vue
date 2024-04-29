@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { EllipsisHorizontalIcon, PlusIcon, ChevronRightIcon, ChevronDownIcon } from "@heroicons/vue/24/outline";
-import type { Menu } from "~/client/graphql/types/graphql";
 
 const props = defineProps<{
-  menu: Menu;
+  menu: MenuItem;
   depth: number;
 }>();
 
 interface Emits {
-  (e: "create", arg?: SideMenuItem): void;
-  (e: "custom", arg?: SideMenuItem, index?: number): void;
+  (e: "create", arg?: MenuItem): void;
+  (e: "custom", arg?: MenuItem, index?: number): void;
 }
 
 const emits = defineEmits<Emits>();
@@ -50,12 +49,15 @@ const depthStyle = computed(() => {
         <plus-icon class="w-6 h-6 rounded-md hover:bg-gray-500 p-1" v-if="false"></plus-icon>
 
         <!-- カスタムメニュー -->
-        <drop-down-menu v-if="false">
+        <drop-down-menu>
           <template #button>
             <ellipsis-horizontal-icon class="w-6 h-6 rounded-md hover:bg-gray-500 p-1"> </ellipsis-horizontal-icon>
           </template>
-          <drop-down-menu-item v-for="(item, index) in [] /*menuItem.customContext*/" :key="index">
-            hoge
+          <drop-down-menu-item
+            v-for="(item, index) in menu.customContext"
+            :key="index"
+            @click.stop="$emit('custom', menu, index)"
+            >{{ item.text }}
           </drop-down-menu-item>
         </drop-down-menu>
       </div>

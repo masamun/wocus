@@ -46,9 +46,8 @@ export type DateSummaryProxyType = ReturnType<typeof useDateSummaryProxy>;
 /**
  * タスク情報を保持するストア
  */
-export const useDateSummaryStore = defineStore("dateSummary", () => {
-  const wbsStore = useWbsStore();
-  const { milestoneId, startShowDate, endShowDate } = storeToRefs(wbsStore);
+export const useDateSummaryStore = () => {
+  const milestoneId = ref<string | undefined>();
 
   // 表示範囲外の活動情報
   const _summaryInfo = ref<SummaryInfo>();
@@ -56,28 +55,14 @@ export const useDateSummaryStore = defineStore("dateSummary", () => {
   // 日付ごとの活動サマリー
   const _summaryMap = reactive(new Map<string, DateSummary>());
 
-  const fetchAll = async () => {
-    if (milestoneId.value !== undefined) {
-      await fetchDateSummery();
-    } else {
-      logger.debug(`useDateSummaryStore FeatchAll milestoneId undefined`);
-    }
-  };
-
-  /**
-   * 指定された日のサマリーを取得する
-   * @param date
-   */
-  const fetchDateSummery = async () => {
-    if (milestoneId.value === undefined) {
-      return;
-    }
-    logger.debug("call fetchDateSummery");
+  const fetchAll = async (milestoneId: string, start_at: Date, end_at: Date) => {
     const variables: QueryDateSummaryArgs = {
       param: {
-        start_at: startShowDate.value.toDateWithTimezone(),
-        end_at: endShowDate.value.toDateWithTimezone(),
-        milestoneId: milestoneId.value,
+        //start_at: startShowDate.value.toDateWithTimezone(),
+        //end_at: endShowDate.value.toDateWithTimezone(),
+        start_at,
+        end_at,
+        milestoneId,
       },
     };
 
@@ -137,43 +122,15 @@ export const useDateSummaryStore = defineStore("dateSummary", () => {
     return useDateSummaryProxy(_summaryMap, date);
   };
 
-  /**
-   * マイルストーンが変わった際は読み込みしなおす
-   */
-  watch(
-    milestoneId,
-    async () => {
-      logger.info(`dateSummaryStore watch milestoneId ${milestoneId.value}`);
-      _summaryMap.clear();
-      _summaryInfo.value = undefined;
-      fetchAll();
-    },
-    {
-      immediate: true,
-    }
-  );
-
-  /**
-   * 表示する日時が変わった場合は、サマリーを取得しなおす
-   */
-  watch(
-    () => wbsStore.range,
-    () => {
-      fetchAll();
-    }
-  );
-
-  watch(
-    () => wbsStore.visible,
-    () => {
-      _summaryInfo.value = undefined;
-      _summaryMap.clear();
-    }
-  );
+  const clear = () => {
+    _summaryMap.clear();
+    _summaryInfo.value = undefined;
+  };
 
   return {
     fetchAll,
     refreshDateSummery,
     dateSummary,
+    clear,
   };
-});
+};

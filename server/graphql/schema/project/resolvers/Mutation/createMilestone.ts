@@ -9,17 +9,8 @@ export const createMilestone: NonNullable<MutationResolvers['createMilestone']> 
 ) => {
   console.info(`createMilestone ${_arg?.param?.name}`);
 
-  const projectName = _arg.param.project;
+  const projectId = _arg.param.projectId;
   const name = _arg.param.name;
-
-  const projectId = await _ctx.prisma.project.findUniqueOrThrow({
-    select: {
-      id: true,
-    },
-    where: {
-      name: projectName,
-    },
-  });
 
   const result = await _ctx.prisma.project.findFirst({
     select: {
@@ -30,7 +21,7 @@ export const createMilestone: NonNullable<MutationResolvers['createMilestone']> 
       },
     },
     where: {
-      name: projectName,
+      id: projectId,
     },
   });
   // TODO
@@ -47,7 +38,7 @@ export const createMilestone: NonNullable<MutationResolvers['createMilestone']> 
     data: {
       project: {
         connect: {
-          id: projectId.id,
+          id: projectId,
         },
       },
       name,

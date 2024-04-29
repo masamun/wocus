@@ -7,17 +7,14 @@ import type {
   Task,
 } from "@/client/graphql/types/graphql";
 import "~/composables/util/date";
-import { useTaskFieldStore } from "./taskFieldStore";
-import { useTaskActivityStore } from "./taskActivityStore";
 
 /**
  * タスク情報を保持するストア
  */
-export const useTaskStore = defineStore("task", () => {
-  const taskActivityStore = useTaskActivityStore();
-  const taskFieldStore = useTaskFieldStore();
-  const wbsStore = useWbsStore();
-  const { milestoneId } = storeToRefs(wbsStore);
+export const useTaskStore = () => {
+  const taskActivityStore = ref(useTaskActivityStore());
+  const taskFieldStore = ref(useTaskFieldStore());
+  const milestoneId = ref<string | undefined>("");
 
   // タスク一覧
   const _tasks = ref<Task[]>([]);
@@ -25,34 +22,19 @@ export const useTaskStore = defineStore("task", () => {
   /**
    * タスクの一覧を取得する
    */
-  const fetchAll = async () => {
-    if (milestoneId.value !== undefined) {
-      await fetchTasks();
-    } else {
-      console.info(`task FeatchAll milestoneId undefined`);
-    }
-  };
-
-  /**
-   * タスクの一覧を取得する
-   */
-  const fetchTasks = async () => {
-    console.info(`call fetchTasks`);
-    if (milestoneId.value === undefined) {
-      return;
-    }
-    taskFieldStore.clear();
-    _tasks.value.splice(0);
+  const fetchAll = async (_milestoneId: string, start_at: Date, end_at: Date) => {
+    clear();
+    milestoneId.value = _milestoneId;
 
     const variables: GetTasksQueryVariables = {
       param: {
         milestoneId: milestoneId.value,
-        start_at: wbsStore.startShowDate,
-        end_at: wbsStore.endShowDate,
+        start_at,
+        end_at,
       },
       range: {
-        start_at: wbsStore.startShowDate,
-        end_at: wbsStore.endShowDate,
+        start_at,
+        end_at,
       },
     };
     useAsyncQuery({
@@ -76,14 +58,14 @@ export const useTaskStore = defineStore("task", () => {
     tasks.forEach((task) => {
       // activityは表示日付分すべて入っているわけではない
       task.activity?.forEach((activity) => {
-        taskActivityStore.add(task.id, activity);
+        taskActivityStore.value.add(task.id, activity);
       });
 
       task.fields?.forEach((field) => {
-        taskFieldStore.add(task.id, field);
+        taskFieldStore.value.add(task.id, field);
       });
       if (task.summary) {
-        taskFieldStore.mergeSummary(task.id, task.summary);
+        taskFieldStore.value.mergeSummary(task.id, task.summary);
       }
     });
   };
@@ -150,8 +132,8 @@ export const useTaskStore = defineStore("task", () => {
     if (data?.data?.deleteTask === true) {
       _tasks.value = tasks.value.filter((p) => p.id !== taskId);
 
-      taskActivityStore.deleteTask(taskId);
-      taskFieldStore.deleteTask(taskId);
+      taskActivityStore.value.deleteTask(taskId);
+      taskFieldStore.value.deleteTask(taskId);
     }
   };
 
@@ -164,44 +146,21 @@ export const useTaskStore = defineStore("task", () => {
     return result;
   });
 
-  /**
-   * 表示するマイルストーンが変わった場合
-   */
-  watch(
-    milestoneId,
-    async () => {
-      console.info(`taskStore watch milestoneId ${milestoneId.value}`);
-      _tasks.value.splice(0);
-      fetchAll();
-    },
-    {
-      immediate: true,
-    }
-  );
-
-  /**
-   * 表示する日時が変わった場合は、タスクの活動を取得しなおす
-   */
-  watch(
-    () => wbsStore.range,
-    () => {
-      fetchTasks();
-    }
-  );
-
-  watch(
-    () => wbsStore.visible,
-    () => {
-      _tasks.value = [];
-    }
-  );
+  const clear = () => {
+    _tasks.value = [];
+    milestoneId.value = undefined;
+    taskFieldStore.value.clear();
+    taskActivityStore.value.clear();
+  };
 
   return {
     fetchAll,
-    fetchTasks,
+    clear,
     createTask,
     deleteTask,
     insertTask,
     tasks,
+    taskActivityStore,
+    taskFieldStore,
   };
-});
+};

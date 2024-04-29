@@ -9,6 +9,8 @@ useHead({
 });
 
 onMounted(() => {
+  // ストアの機能有効化
+  const route = useRouteStore();
   // TODO ログイン機能を作った後は場所を変える
   const projects = useProjectStore();
   nextTick(() => {
