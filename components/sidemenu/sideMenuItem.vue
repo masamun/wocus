@@ -40,11 +40,11 @@ const depthStyle = computed(() => {
         <ChevronRightIcon class="h-4 w-4" @click="handleClickChevron" v-if="!visible"> </ChevronRightIcon>
         <ChevronDownIcon class="h-4 w-4" @click="handleClickChevron" v-else> </ChevronDownIcon>
       </template>
-      <div v-else class="h-4 w-2"></div>
-      <NuxtLink :to="createLink(menu.pageId)" class="w-full">
+      <div v-else class="h-4 min-w-2"></div>
+      <NuxtLink :to="createLink(menu.pageId)" class="w-full text-nowrap text-ellipsis overflow-hidden">
         {{ menu?.name }}
       </NuxtLink>
-      <div class="ml-auto flex items-center justify-end opacity-0 group-hover:opacity-100">
+      <div class="ml-auto items-center justify-end group-hover:flex hidden">
         <!-- 追加ボタン -->
         <plus-icon class="w-6 h-6 rounded-md hover:bg-gray-500 p-1" v-if="false"></plus-icon>
 
