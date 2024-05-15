@@ -24,7 +24,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-wrap flex-row content-around gap-4 p-8">
+  <div class="flex flex-wrap flex-row content-start items-start w-full gap-4 p-8">
     <div class="basis-full border-b-2 border-gray-300 text-xl pb-1 flex">
       <p>Projects</p>
       <button
