@@ -1,16 +1,25 @@
 <template>
-  <div>ほげほげ</div>
   <component :is="component" />
 </template>
 
 <script setup lang="ts">
+import Markdown from "./markdown.vue";
 import Wbs from "./wbs.vue";
 
+const { pageType } = storeToRefs(usePageStore());
+
 const defaultComponents = {
-  wbs: Wbs,
+  milastone: Wbs,
+  markdown: Markdown,
 };
 
 const component = computed(() => {
-  return defaultComponents.wbs;
+  switch (pageType.value) {
+    case "milestone":
+      return defaultComponents.milastone;
+    case "markdown":
+    default:
+      return defaultComponents.markdown;
+  }
 });
 </script>

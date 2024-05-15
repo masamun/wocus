@@ -4,6 +4,7 @@
 import    { DateSummary } from './project/resolvers/DateSummary';
 import    { DateSummaryResult } from './project/resolvers/DateSummaryResult';
 import    { Decimal } from './project/resolvers/Decimal';
+import    { Markdown } from './pages/markdown/resolvers/Markdown';
 import    { Menu } from './menu/resolvers/Menu';
 import    { Milestone } from './project/resolvers/Milestone';
 import    { MilestoneField } from './project/resolvers/MilestoneField';
@@ -17,6 +18,7 @@ import    { deleteMilestone as Mutation_deleteMilestone } from './project/resolv
 import    { deleteTask as Mutation_deleteTask } from './project/resolvers/Mutation/deleteTask';
 import    { renameMenu as Mutation_renameMenu } from './menu/resolvers/Mutation/renameMenu';
 import    { renameMilestone as Mutation_renameMilestone } from './project/resolvers/Mutation/renameMilestone';
+import    { updateMarkdown as Mutation_updateMarkdown } from './pages/markdown/resolvers/Mutation/updateMarkdown';
 import    { updateMilestoneField as Mutation_updateMilestoneField } from './project/resolvers/Mutation/updateMilestoneField';
 import    { updateMilestoneSummary as Mutation_updateMilestoneSummary } from './project/resolvers/Mutation/updateMilestoneSummary';
 import    { updateTaskActivity as Mutation_updateTaskActivity } from './project/resolvers/Mutation/updateTaskActivity';
@@ -42,12 +44,13 @@ import    { User } from './project/resolvers/User';
 import    { DateTimeResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
       Query: { dateSummary: Query_dateSummary,menus: Query_menus,milestone: Query_milestone,milestones: Query_milestones,projects: Query_projects,taskSummary: Query_taskSummary,tasks: Query_tasks },
-      Mutation: { createMenu: Mutation_createMenu,createMilestone: Mutation_createMilestone,createProject: Mutation_createProject,createTask: Mutation_createTask,deleteMenu: Mutation_deleteMenu,deleteMilestone: Mutation_deleteMilestone,deleteTask: Mutation_deleteTask,renameMenu: Mutation_renameMenu,renameMilestone: Mutation_renameMilestone,updateMilestoneField: Mutation_updateMilestoneField,updateMilestoneSummary: Mutation_updateMilestoneSummary,updateTaskActivity: Mutation_updateTaskActivity,updateTaskField: Mutation_updateTaskField,updateTaskOrder: Mutation_updateTaskOrder },
+      Mutation: { createMenu: Mutation_createMenu,createMilestone: Mutation_createMilestone,createProject: Mutation_createProject,createTask: Mutation_createTask,deleteMenu: Mutation_deleteMenu,deleteMilestone: Mutation_deleteMilestone,deleteTask: Mutation_deleteTask,renameMenu: Mutation_renameMenu,renameMilestone: Mutation_renameMilestone,updateMarkdown: Mutation_updateMarkdown,updateMilestoneField: Mutation_updateMilestoneField,updateMilestoneSummary: Mutation_updateMilestoneSummary,updateTaskActivity: Mutation_updateTaskActivity,updateTaskField: Mutation_updateTaskField,updateTaskOrder: Mutation_updateTaskOrder },
       
       Column: Column,
 DateSummary: DateSummary,
 DateSummaryResult: DateSummaryResult,
 Decimal: Decimal,
+Markdown: Markdown,
 Menu: Menu,
 Milestone: Milestone,
 MilestoneField: MilestoneField,

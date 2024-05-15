@@ -5,7 +5,5 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="mt-4 mb-4">
-    <page />
-  </div>
+  <page class="w-full h-hull flex" />
 </template>

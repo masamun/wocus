@@ -40,7 +40,7 @@ const depthStyle = computed(() => {
         <ChevronRightIcon class="h-4 w-4" @click="handleClickChevron" v-if="!visible"> </ChevronRightIcon>
         <ChevronDownIcon class="h-4 w-4" @click="handleClickChevron" v-else> </ChevronDownIcon>
       </template>
-      <div v-else class="h-4 min-w-2"></div>
+      <component v-else :is="menu.icon" class="h-4 w-4 min-w-4 ml-1" />
       <NuxtLink :to="createLink(menu.pageId)" class="w-full text-nowrap text-ellipsis overflow-hidden">
         {{ menu?.name }}
       </NuxtLink>

@@ -94,6 +94,12 @@ export type DeleteTask = {
   taskId: Scalars['String']['input'];
 };
 
+export type Markdown = {
+  __typename?: 'Markdown';
+  id: Scalars['ID']['output'];
+  text: Scalars['String']['output'];
+};
+
 export type Menu = {
   __typename?: 'Menu';
   hierarchy: Scalars['Int']['output'];
@@ -153,6 +159,7 @@ export type Mutation = {
   deleteTask: Scalars['Boolean']['output'];
   renameMenu?: Maybe<Scalars['Boolean']['output']>;
   renameMilestone?: Maybe<Milestone>;
+  updateMarkdown: Scalars['Boolean']['output'];
   updateMilestoneField: Milestone;
   updateMilestoneSummary: Milestone;
   updateTaskActivity: Array<TaskActivity>;
@@ -203,6 +210,11 @@ export type MutationrenameMenuArgs = {
 
 export type MutationrenameMilestoneArgs = {
   param: RenameMilestone;
+};
+
+
+export type MutationupdateMarkdownArgs = {
+  params: UpdateMarkdown;
 };
 
 
@@ -424,6 +436,11 @@ export type TaskSummary = {
   taskId: Scalars['String']['output'];
 };
 
+export type UpdateMarkdown = {
+  id: Scalars['ID']['input'];
+  text: Scalars['String']['input'];
+};
+
 export type UpdateMilestoneField = {
   milestoneId: Scalars['String']['input'];
   values: Array<UpdateMilestoneFieldValue>;
@@ -562,6 +579,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   DeleteMilestone: DeleteMilestone;
   DeleteTask: DeleteTask;
+  Markdown: ResolverTypeWrapper<Markdown>;
   Menu: ResolverTypeWrapper<Menu>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Milestone: ResolverTypeWrapper<Milestone>;
@@ -591,6 +609,7 @@ export type ResolversTypes = {
   TaskMeta: ResolverTypeWrapper<TaskMeta>;
   TaskOrder: ResolverTypeWrapper<TaskOrder>;
   TaskSummary: ResolverTypeWrapper<TaskSummary>;
+  UpdateMarkdown: UpdateMarkdown;
   UpdateMilestoneField: UpdateMilestoneField;
   UpdateMilestoneFieldValue: UpdateMilestoneFieldValue;
   UpdateMilestoneSummary: UpdateMilestoneSummary;
@@ -621,6 +640,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   DeleteMilestone: DeleteMilestone;
   DeleteTask: DeleteTask;
+  Markdown: Markdown;
   Menu: Menu;
   Int: Scalars['Int']['output'];
   Milestone: Milestone;
@@ -650,6 +670,7 @@ export type ResolversParentTypes = {
   TaskMeta: TaskMeta;
   TaskOrder: TaskOrder;
   TaskSummary: TaskSummary;
+  UpdateMarkdown: UpdateMarkdown;
   UpdateMilestoneField: UpdateMilestoneField;
   UpdateMilestoneFieldValue: UpdateMilestoneFieldValue;
   UpdateMilestoneSummary: UpdateMilestoneSummary;
@@ -697,6 +718,12 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 export interface DecimalScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Decimal'], any> {
   name: 'Decimal';
 }
+
+export type MarkdownResolvers<ContextType = WocusContext, ParentType extends ResolversParentTypes['Markdown'] = ResolversParentTypes['Markdown']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type MenuResolvers<ContextType = WocusContext, ParentType extends ResolversParentTypes['Menu'] = ResolversParentTypes['Menu']> = {
   hierarchy?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -749,6 +776,7 @@ export type MutationResolvers<ContextType = WocusContext, ParentType extends Res
   deleteTask?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationdeleteTaskArgs, 'param'>>;
   renameMenu?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationrenameMenuArgs, 'param'>>;
   renameMilestone?: Resolver<Maybe<ResolversTypes['Milestone']>, ParentType, ContextType, RequireFields<MutationrenameMilestoneArgs, 'param'>>;
+  updateMarkdown?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationupdateMarkdownArgs, 'params'>>;
   updateMilestoneField?: Resolver<ResolversTypes['Milestone'], ParentType, ContextType, RequireFields<MutationupdateMilestoneFieldArgs, 'param'>>;
   updateMilestoneSummary?: Resolver<ResolversTypes['Milestone'], ParentType, ContextType, RequireFields<MutationupdateMilestoneSummaryArgs, 'param'>>;
   updateTaskActivity?: Resolver<Array<ResolversTypes['TaskActivity']>, ParentType, ContextType, RequireFields<MutationupdateTaskActivityArgs, 'param'>>;
@@ -862,6 +890,7 @@ export type Resolvers<ContextType = WocusContext> = {
   DateSummaryResult?: DateSummaryResultResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Decimal?: GraphQLScalarType;
+  Markdown?: MarkdownResolvers<ContextType>;
   Menu?: MenuResolvers<ContextType>;
   Milestone?: MilestoneResolvers<ContextType>;
   MilestoneField?: MilestoneFieldResolvers<ContextType>;

@@ -1,0 +1,3 @@
+mutation updateMarkdown($param: UpdateMarkdown!) {
+  updateMarkdown(params: $param)
+}

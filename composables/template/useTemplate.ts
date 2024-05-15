@@ -1,4 +1,4 @@
-import { ComputerDesktopIcon, DocumentTextIcon, FolderIcon } from "@heroicons/vue/24/outline";
+import { ComputerDesktopIcon, DocumentTextIcon } from "@heroicons/vue/24/outline";
 
 /**
  * サイドメニューの構成
@@ -9,18 +9,6 @@ export const useTemplate = () => {
   const visible = ref(false);
 
   const templates = ref([
-    {
-      category: "その他",
-      order: 1,
-      types: [
-        {
-          order: 1,
-          displayName: "フォルダ",
-          type: "folder",
-          icon: FolderIcon,
-        },
-      ],
-    },
     {
       category: "テキスト",
       order: 2,

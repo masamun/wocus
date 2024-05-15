@@ -217,3 +217,13 @@ model page {
   componentId String
   layout      Json?
 }
+
+model markdown {
+  id String @id @default(uuid())
+
+  projectId String
+  text      String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

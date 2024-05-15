@@ -5,7 +5,7 @@
       <div class="w-32 min-w-32 h-full bg-slate-700 text-white">
         <side-menu />
       </div>
-      <div class="h-full flex-grow overflow-auto">
+      <div class="h-full flex flex-grow overflow-auto">
         <slot></slot>
       </div>
     </main>

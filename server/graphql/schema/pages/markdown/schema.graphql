@@ -1,0 +1,19 @@
+type Query
+type Mutation
+input QueryPage
+
+type Markdown {
+  id: ID!
+  text: String!
+}
+
+input UpdateMarkdown {
+  id: ID!
+  text: String!
+}
+
+# 作成/更新系
+extend type Mutation {
+  # プロジェクトを作成する
+  updateMarkdown(params: UpdateMarkdown!): Boolean!
+}

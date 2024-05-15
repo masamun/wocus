@@ -1,11 +1,16 @@
 import type { PrismaClient } from "~/prisma";
-import { createMilestone } from "./milestone/milestone";
+import { milestoneFactory } from "./milestone";
+import { markdownFactory } from "./markdown";
+
+type PageType = "milestone" | "markdown";
 
 export const factory = () => {
-  const create = (prisma: PrismaClient, type: string, projectId: string, name: string) => {
+  const create = (prisma: PrismaClient, type: PageType, projectId: string, name: string) => {
     switch (type) {
       case "milestone":
-        return createMilestone(prisma, projectId, name);
+        return milestoneFactory().create(prisma, projectId, name);
+      case "markdown":
+        return markdownFactory().create(prisma, projectId, name);
     }
     throw Error(`未定義のtypeです ${type}`);
   };

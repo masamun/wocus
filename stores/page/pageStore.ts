@@ -10,6 +10,7 @@ import {
   type RenameMenuMutationVariables,
 } from "~/client/graphql/types/graphql";
 import { usePageBridgeStore } from "./pageBridgeStore";
+import { ComputerDesktopIcon, DocumentTextIcon, FaceSmileIcon } from "@heroicons/vue/24/outline";
 
 type ContextHandler = (arg: MenuItem) => void;
 
@@ -24,6 +25,7 @@ interface CustomMenuContext {
 export interface MenuItem extends Menu {
   createContext?: ContextHandler;
   customContext?: CustomMenuContext[];
+  icon: typeof ComputerDesktopIcon;
 }
 
 /**
@@ -35,6 +37,13 @@ export const usePageStore = defineStore("page", () => {
   const projectId = ref<string | undefined>();
   const pageId = ref<string | undefined>();
   const _menus = ref<Menu[]>([]);
+
+  const icons = {
+    markdown: DocumentTextIcon,
+    milestone: ComputerDesktopIcon,
+  };
+
+  const anyIcon = FaceSmileIcon;
 
   /**
    * メニューを取得する
@@ -183,6 +192,11 @@ export const usePageStore = defineStore("page", () => {
     }
   };
 
+  /**
+   * メニューの名前を変更する
+   * @param name 新しい名前
+   * @returns
+   */
   const showRenameDialog = async (name: string) => {
     const newName = await useMessageBox()
       .prompt({
@@ -238,6 +252,13 @@ export const usePageStore = defineStore("page", () => {
     return _menus.value.find((v) => v.pageId === pageId.value)?.type ?? "";
   });
 
+  const getMenuIcon = (type: string) => {
+    if (Object.keys(icons).includes(type)) {
+      return icons[type as keyof typeof icons];
+    }
+    return anyIcon;
+  };
+
   /**
    * 表示中のメニューを返す
    */
@@ -256,6 +277,7 @@ export const usePageStore = defineStore("page", () => {
               handler: (arg) => deleteMenu(arg, true),
             },
           ],
+          icon: getMenuIcon(v.type),
         };
       })
       .toSorted((a, b) => a.order - b.order);
