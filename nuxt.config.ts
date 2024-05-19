@@ -28,6 +28,7 @@ export default defineNuxtConfig({
       },
     ],
     "@nuxtjs/apollo",
+    "@nuxt/eslint",
   ],
   css: ["~/assets/css/tailwind.css"],
   postcss: {
@@ -46,11 +47,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     preset: "node-server",
-    esbuild: {
-      options: {
-        target: "es2022",
-      },
-    },
+
   },
   future: {
     typescriptBundlerResolution: true,
@@ -65,6 +62,14 @@ export default defineNuxtConfig({
     defaultOptions: {
       query: {
         fetchPolicy: "no-cache",
+      },
+    },
+  },
+  eslint: {
+    config: {
+      stylistic: {
+        semi: true,
+        quotes: "double",
       },
     },
   },
