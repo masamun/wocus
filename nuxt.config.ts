@@ -47,7 +47,11 @@ export default defineNuxtConfig({
   },
   nitro: {
     preset: "node-server",
-
+    esbuild: {
+      options: {
+        target: "es2022",
+      },
+    },
   },
   future: {
     typescriptBundlerResolution: true,
