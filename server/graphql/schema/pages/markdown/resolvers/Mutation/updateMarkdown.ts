@@ -1,14 +1,14 @@
 import type { MutationResolvers } from "./../../../../types.generated";
-export const updateMarkdown: NonNullable<MutationResolvers['updateMarkdown']> = async (_parent, _arg, _ctx) => {
-  console.warn(`updateMarkdown ${_arg.params.id}`);
+export const updateMarkdown: NonNullable<MutationResolvers["updateMarkdown"]> = async (_parent, _arg, _ctx) => {
+  console.info(`updateMarkdown ${_arg.param.markdownId}`);
 
   try {
     await _ctx.prisma.markdown.update({
       data: {
-        text: _arg.params.text,
+        text: _arg.param.text,
       },
       where: {
-        id: _arg.params.id,
+        id: _arg.param.markdownId,
       },
     });
   } catch (e) {

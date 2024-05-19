@@ -214,7 +214,7 @@ export type MutationrenameMilestoneArgs = {
 
 
 export type MutationupdateMarkdownArgs = {
-  params: UpdateMarkdown;
+  param: UpdateMarkdown;
 };
 
 
@@ -257,6 +257,7 @@ export type Project = {
 export type Query = {
   __typename?: 'Query';
   dateSummary: DateSummaryResult;
+  markdown?: Maybe<Markdown>;
   menus: Array<Menu>;
   milestone?: Maybe<Milestone>;
   milestones: Array<Milestone>;
@@ -268,6 +269,11 @@ export type Query = {
 
 export type QuerydateSummaryArgs = {
   param: QueryDateSummary;
+};
+
+
+export type QuerymarkdownArgs = {
+  param: QueryMarkdown;
 };
 
 
@@ -303,6 +309,10 @@ export type QueryDateSummary = {
   end_at: Scalars['DateTime']['input'];
   milestoneId: Scalars['String']['input'];
   start_at: Scalars['DateTime']['input'];
+};
+
+export type QueryMarkdown = {
+  markdownId: Scalars['ID']['input'];
 };
 
 export type QueryMenus = {
@@ -437,7 +447,7 @@ export type TaskSummary = {
 };
 
 export type UpdateMarkdown = {
-  id: Scalars['ID']['input'];
+  markdownId: Scalars['ID']['input'];
   text: Scalars['String']['input'];
 };
 
@@ -592,6 +602,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   QueryColumns: QueryColumns;
   QueryDateSummary: QueryDateSummary;
+  QueryMarkdown: QueryMarkdown;
   QueryMenus: QueryMenus;
   QueryMilestoneOptions: QueryMilestoneOptions;
   QueryMilestones: QueryMilestones;
@@ -653,6 +664,7 @@ export type ResolversParentTypes = {
   Query: {};
   QueryColumns: QueryColumns;
   QueryDateSummary: QueryDateSummary;
+  QueryMarkdown: QueryMarkdown;
   QueryMenus: QueryMenus;
   QueryMilestoneOptions: QueryMilestoneOptions;
   QueryMilestones: QueryMilestones;
@@ -776,7 +788,7 @@ export type MutationResolvers<ContextType = WocusContext, ParentType extends Res
   deleteTask?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationdeleteTaskArgs, 'param'>>;
   renameMenu?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationrenameMenuArgs, 'param'>>;
   renameMilestone?: Resolver<Maybe<ResolversTypes['Milestone']>, ParentType, ContextType, RequireFields<MutationrenameMilestoneArgs, 'param'>>;
-  updateMarkdown?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationupdateMarkdownArgs, 'params'>>;
+  updateMarkdown?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationupdateMarkdownArgs, 'param'>>;
   updateMilestoneField?: Resolver<ResolversTypes['Milestone'], ParentType, ContextType, RequireFields<MutationupdateMilestoneFieldArgs, 'param'>>;
   updateMilestoneSummary?: Resolver<ResolversTypes['Milestone'], ParentType, ContextType, RequireFields<MutationupdateMilestoneSummaryArgs, 'param'>>;
   updateTaskActivity?: Resolver<Array<ResolversTypes['TaskActivity']>, ParentType, ContextType, RequireFields<MutationupdateTaskActivityArgs, 'param'>>;
@@ -798,6 +810,7 @@ export type ProjectResolvers<ContextType = WocusContext, ParentType extends Reso
 
 export type QueryResolvers<ContextType = WocusContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   dateSummary?: Resolver<ResolversTypes['DateSummaryResult'], ParentType, ContextType, RequireFields<QuerydateSummaryArgs, 'param'>>;
+  markdown?: Resolver<Maybe<ResolversTypes['Markdown']>, ParentType, ContextType, RequireFields<QuerymarkdownArgs, 'param'>>;
   menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType, RequireFields<QuerymenusArgs, 'param'>>;
   milestone?: Resolver<Maybe<ResolversTypes['Milestone']>, ParentType, ContextType, RequireFields<QuerymilestoneArgs, 'param'>>;
   milestones?: Resolver<Array<ResolversTypes['Milestone']>, ParentType, ContextType, RequireFields<QuerymilestonesArgs, 'param'>>;

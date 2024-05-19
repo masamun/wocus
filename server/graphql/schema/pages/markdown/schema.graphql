@@ -7,13 +7,21 @@ type Markdown {
   text: String!
 }
 
+input QueryMarkdown {
+  markdownId: ID!
+}
+
 input UpdateMarkdown {
-  id: ID!
+  markdownId: ID!
   text: String!
+}
+
+extend type Query {
+  markdown(param: QueryMarkdown!): Markdown
 }
 
 # 作成/更新系
 extend type Mutation {
   # プロジェクトを作成する
-  updateMarkdown(params: UpdateMarkdown!): Boolean!
+  updateMarkdown(param: UpdateMarkdown!): Boolean!
 }

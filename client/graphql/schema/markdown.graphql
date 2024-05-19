@@ -1,3 +1,10 @@
+query getMarkdown($param: QueryMarkdown!) {
+  markdown(param: $param) {
+    id
+    text
+  }
+}
+
 mutation updateMarkdown($param: UpdateMarkdown!) {
-  updateMarkdown(params: $param)
+  updateMarkdown(param: $param)
 }
