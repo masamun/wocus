@@ -1,5 +1,6 @@
 import type { MutationResolvers } from "./../../../types.generated";
-export const renameMenu: NonNullable<MutationResolvers['renameMenu']> = async (_parent, _arg, _ctx) => {
+
+export const renameMenu: NonNullable<MutationResolvers["renameMenu"]> = async (_parent, _arg, _ctx) => {
   console.info(`mutation renameMenu ${_arg.param.menuId} ${_arg.param.name}`);
   try {
     await _ctx.prisma.menu.update({
@@ -13,7 +14,8 @@ export const renameMenu: NonNullable<MutationResolvers['renameMenu']> = async (_
         id: _arg.param.menuId,
       },
     });
-  } catch {
+  }
+  catch {
     return false;
   }
   return true;

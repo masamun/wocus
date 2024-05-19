@@ -1,10 +1,10 @@
-import type { WocusContext } from "~/server/graphql/context";
 import type { MutationResolvers } from "./../../../types.generated";
+import type { WocusContext } from "~/server/graphql/context";
 
-export const updateMilestoneSummary: NonNullable<MutationResolvers['updateMilestoneSummary']> = async (
+export const updateMilestoneSummary: NonNullable<MutationResolvers["updateMilestoneSummary"]> = async (
   _parent,
   _arg,
-  _ctx: WocusContext
+  _ctx: WocusContext,
 ) => {
   const milestoneId = _arg.param.milestoneId;
   // TODO transaction
@@ -30,7 +30,7 @@ export const updateMilestoneSummary: NonNullable<MutationResolvers['updateMilest
           },
         },
       });
-    })
+    }),
   );
 
   return await _ctx.prisma.milestone.findUniqueOrThrow({

@@ -4,9 +4,9 @@
       <drop-down-menu>
         <drop-down-sub-menu label="タスク情報">
           <drop-down-menu-check-item
-            :checked="item.visible"
             v-for="(item, index) in milestoneField"
             :key="index"
+            :checked="item.visible"
             @click="handleFieldChanged(item)"
           >
             {{ item.title }}
@@ -14,9 +14,9 @@
         </drop-down-sub-menu>
         <drop-down-sub-menu label="サマリー">
           <drop-down-menu-check-item
-            :checked="item.visible"
             v-for="(item, index) in milestoneSummaryStore.allFields"
             :key="index"
+            :checked="item.visible"
             @click="handleSummaryChanged(item)"
           >
             {{ item.title }}
@@ -29,7 +29,7 @@
         <chevron-left-icon
           class="h-7 w-7 mr-2 p-1 hover:text-gray-600 hover:bg-gray-200 rounded cursor-pointer"
           @click="handlePrevDate"
-        ></chevron-left-icon>
+        />
         <month-calendar
           v-model="startShowDate"
           class="bg-transparent h-7 pl-2 hover:bg-gray-200 text-gray-600 rounded cursor-pointer"
@@ -37,17 +37,37 @@
         <chevron-right-icon
           class="h-7 w-7 ml-2 p-1 hover:text-gray-600 hover:bg-gray-200 rounded cursor-pointer"
           @click="handleNextDate"
-        ></chevron-right-icon>
+        />
         <select
           v-model="showRange"
           name="show-range"
           title="表示期間"
           class="ml-3 bg-transparent h-8 p-1 text-gray-600 rounded cursor-pointer"
         >
-          <option disabled value="">表示期間</option>
-          <option class="hover:shadow-transparent" value="1">1か月分</option>
-          <option class="hover:shadow-transparent" value="2">2か月分</option>
-          <option class="hover:shadow-transparent" value="3">3か月分</option>
+          <option
+            disabled
+            value=""
+          >
+            表示期間
+          </option>
+          <option
+            class="hover:shadow-transparent"
+            value="1"
+          >
+            1か月分
+          </option>
+          <option
+            class="hover:shadow-transparent"
+            value="2"
+          >
+            2か月分
+          </option>
+          <option
+            class="hover:shadow-transparent"
+            value="3"
+          >
+            3か月分
+          </option>
         </select>
       </div>
     </div>
@@ -57,6 +77,7 @@
 <script lang="ts" setup>
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/outline";
 import type { MilestoneField, MilestoneSummary } from "~/client/graphql/types/graphql";
+
 const wbsStore = useWbsStore();
 const milestoneFieldStore = useMilestoneStore().fields;
 const milestoneSummaryStore = useMilestoneStore().summary;
@@ -68,12 +89,12 @@ const fieldWidth = computed(() => {
 
 const startShowDate = computed({
   get: () => wbsStore.startShowDate,
-  set: (v) => wbsStore.setCurrentDate(v),
+  set: v => wbsStore.setCurrentDate(v),
 });
 
 const showRange = computed({
   get: () => wbsShowRange.value,
-  set: (v) => wbsStore.setShowRange(v),
+  set: v => wbsStore.setShowRange(v),
 });
 
 const milestoneField = computed(() => {
@@ -88,7 +109,7 @@ const handleNextDate = () => {
   wbsStore.nextCurrentDate();
 };
 const handleFieldChanged = (item: MilestoneField) => {
-  //console.info(value);
+  // console.info(value);
   milestoneFieldStore.update(item.type, item.width, !item.visible);
 };
 const handleSummaryChanged = (item: MilestoneSummary) => {

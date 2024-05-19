@@ -1,4 +1,5 @@
 import type { QueryResolvers } from "./../../../../types.generated";
+
 export const markdown: NonNullable<QueryResolvers["markdown"]> = async (_parent, _arg, _ctx) => {
   console.info(`query markdown ${_arg.param.markdownId}`);
 

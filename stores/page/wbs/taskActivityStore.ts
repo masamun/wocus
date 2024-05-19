@@ -75,7 +75,7 @@ export const useActivityProxy = (srcMap: ActivityMap, taskId: string, date: Date
         useMilestoneStore().dateSummaryStore.fetchAll(
           wbsStore.milestoneId,
           wbsStore.startShowDate,
-          wbsStore.endShowDate
+          wbsStore.endShowDate,
         );
       }
     }
@@ -98,12 +98,12 @@ export const useActivityProxy = (srcMap: ActivityMap, taskId: string, date: Date
     () => {
       activity.value = srcMap.get(key);
 
-      //logger.debug(`watch activityProxy ${taskId} ${dateString} ${activity.value}`);
+      // logger.debug(`watch activityProxy ${taskId} ${dateString} ${activity.value}`);
     },
     {
       immediate: true,
       deep: true,
-    }
+    },
   );
 
   return {

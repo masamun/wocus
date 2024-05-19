@@ -46,7 +46,7 @@ export const useTextAreaLineCounter = (element: Ref<HTMLTextAreaElement | null>,
     line: string,
     node: HTMLTextAreaElement,
     lineHeight: number,
-    padding: number
+    padding: number,
   ) => {
     // 1行分の情報を保持するテキストエリアを作成して高さを計算する
     // フォントの高さとレンダリング後の高さを判定する
@@ -61,7 +61,8 @@ export const useTextAreaLineCounter = (element: Ref<HTMLTextAreaElement | null>,
           lineCount: currentLineCount.toString(),
           style: {},
         };
-      } else {
+      }
+      else {
         return {
           line: "",
           lineCount: "-",
@@ -113,7 +114,8 @@ export const useTextAreaLineCounter = (element: Ref<HTMLTextAreaElement | null>,
           return calc(index + 1, line, node, lineHeight, paddingTop + paddingBottom);
         })
         .flat();
-    } finally {
+    }
+    finally {
       node.remove();
       div.remove();
     }

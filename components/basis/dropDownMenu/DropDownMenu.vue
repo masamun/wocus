@@ -8,10 +8,10 @@
     </span>
     <div class="relative">
       <div
-        class="absolute top-full left-1/2 rounded border bg-slate-50 border-gray-600 text-nowrap z-50"
         v-show="visible"
+        class="absolute top-full left-1/2 rounded border bg-slate-50 border-gray-600 text-nowrap z-50"
       >
-        <slot></slot>
+        <slot />
       </div>
     </div>
   </div>

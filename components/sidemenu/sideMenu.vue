@@ -8,7 +8,10 @@
     @create="handleCreateMenuClick"
     @custom="handleCustomMenuClick"
   />
-  <add-page-menu-item class="p-1" @select-template="handleShowSelectTemplateDialog"></add-page-menu-item>
+  <add-page-menu-item
+    class="p-1"
+    @select-template="handleShowSelectTemplateDialog"
+  />
   <select-template-dialog v-model="visibleSelectTemplateDialog" />
 </template>
 

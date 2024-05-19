@@ -1,11 +1,11 @@
-import { DEFAULT_MILESTONE_FILEDS, DEFAULT_MILESTONE_SUMMARIES } from "~/server/graphql/util/milestoneTypes";
 import type { MutationResolvers } from "./../../../types.generated";
+import { DEFAULT_MILESTONE_FILEDS, DEFAULT_MILESTONE_SUMMARIES } from "~/server/graphql/util/milestoneTypes";
 import type { WocusContext } from "~/server/graphql/context";
 
-export const createMilestone: NonNullable<MutationResolvers['createMilestone']> = async (
+export const createMilestone: NonNullable<MutationResolvers["createMilestone"]> = async (
   _parent,
   _arg,
-  _ctx: WocusContext
+  _ctx: WocusContext,
 ) => {
   console.info(`createMilestone ${_arg?.param?.name}`);
 

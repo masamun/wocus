@@ -1,7 +1,7 @@
-import type { WocusContext } from "~/server/graphql/context";
 import type { MutationResolvers } from "./../../../types.generated";
+import type { WocusContext } from "~/server/graphql/context";
 
-export const deleteTask: NonNullable<MutationResolvers['deleteTask']> = async (_parent, _arg, _ctx: WocusContext) => {
+export const deleteTask: NonNullable<MutationResolvers["deleteTask"]> = async (_parent, _arg, _ctx: WocusContext) => {
   console.info(`deleteTask ${_arg.param.taskId}`);
 
   try {
@@ -10,7 +10,8 @@ export const deleteTask: NonNullable<MutationResolvers['deleteTask']> = async (_
         id: _arg.param.taskId,
       },
     });
-  } catch {
+  }
+  catch {
     return false;
   }
   return true;

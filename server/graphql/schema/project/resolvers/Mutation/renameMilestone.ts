@@ -1,10 +1,10 @@
-import type { WocusContext } from "~/server/graphql/context";
 import type { MutationResolvers } from "./../../../types.generated";
+import type { WocusContext } from "~/server/graphql/context";
 
-export const renameMilestone: NonNullable<MutationResolvers['renameMilestone']> = async (
+export const renameMilestone: NonNullable<MutationResolvers["renameMilestone"]> = async (
   _parent,
   _arg,
-  _ctx: WocusContext
+  _ctx: WocusContext,
 ) => {
   console.info(`renameMilestone ${_arg.param.name}`);
 

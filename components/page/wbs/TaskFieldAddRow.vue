@@ -1,5 +1,8 @@
 <template>
-  <div class="border-r min-h-8 max-h-8 -mt-[1px] align-middle flex items-stretch" v-show="isValid">
+  <div
+    v-show="isValid"
+    class="border-r min-h-8 max-h-8 -mt-[1px] align-middle flex items-stretch"
+  >
     <div class="fieldWidth border-l border-r border-b min-w-28 text-nowrap">
       <span
         class="flex items-center text-gray-400 hover:text-gray-600 hover:bg-gray-200 cursor-grab"
@@ -9,7 +12,7 @@
         新規タスク
       </span>
     </div>
-    <div class="border-r border-b flex-1"></div>
+    <div class="border-r border-b flex-1" />
   </div>
 </template>
 

@@ -1,6 +1,6 @@
-import type { PrismaClient } from "~/prisma";
 import { milestoneFactory } from "./milestone";
 import { markdownFactory } from "./markdown";
+import type { PrismaClient } from "~/prisma";
 
 type PageType = "milestone" | "markdown";
 

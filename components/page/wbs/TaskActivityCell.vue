@@ -1,5 +1,8 @@
 <template>
-  <InputFixedNumber :value="activityValue" @input="handleInput" />
+  <InputFixedNumber
+    :value="activityValue"
+    @input="handleInput"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -64,25 +67,6 @@ const handleInput = (value: number) => {
       default:
         break;
     }
-  }
-};
-
-/**
- * クリアイベント
- */
-const handleClear = () => {
-  switch (props.activityType) {
-    case "pv":
-      activityProxy.updatePv(undefined);
-      break;
-    case "ac":
-      activityProxy.updateAc(undefined);
-      break;
-    case "ev":
-      activityProxy.updateEv(undefined);
-      break;
-    default:
-      break;
   }
 };
 </script>

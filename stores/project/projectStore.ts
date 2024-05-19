@@ -42,7 +42,8 @@ export const useProjectStore = defineStore("project", () => {
       if (data?.data?.createProject) {
         projects.value.push(data.data.createProject);
       }
-    } catch (e) {
+    }
+    catch (e) {
       if (e instanceof Error) {
         console.error(e.message);
       }

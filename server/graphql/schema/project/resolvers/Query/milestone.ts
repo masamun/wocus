@@ -1,7 +1,7 @@
-import type { WocusContext } from "~/server/graphql/context";
 import type { QueryResolvers } from "./../../../types.generated";
+import type { WocusContext } from "~/server/graphql/context";
 
-export const milestone: NonNullable<QueryResolvers['milestone']> = async (_parent, _arg, _ctx: WocusContext) => {
+export const milestone: NonNullable<QueryResolvers["milestone"]> = async (_parent, _arg, _ctx: WocusContext) => {
   console.info(`query milestone ${_arg.param.pageId}`);
 
   return await _ctx.prisma.milestone.findUniqueOrThrow({

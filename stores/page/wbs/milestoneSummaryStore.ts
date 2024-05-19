@@ -14,7 +14,8 @@ import {
 const getKey = (milestoneId: string, field: MilestoneSummary | string) => {
   if (typeof field === "string") {
     return `${milestoneId}_${field}`;
-  } else {
+  }
+  else {
     return `${milestoneId}_${field.type}`;
   }
 };
@@ -105,7 +106,7 @@ export const useMilestoneSummaryStore = () => {
    * 表示対象のマイルストーンフィールド情報を取得する
    */
   const fields = computed(() => {
-    return [..._fieldMap.values()].filter((p) => p.visible).toSorted((a, b) => a.order - b.order);
+    return [..._fieldMap.values()].filter(p => p.visible).toSorted((a, b) => a.order - b.order);
   });
 
   /**

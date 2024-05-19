@@ -1,3 +1,5 @@
+import { ComputerDesktopIcon, DocumentTextIcon, FaceSmileIcon } from "@heroicons/vue/24/outline";
+import { usePageBridgeStore } from "./pageBridgeStore";
 import {
   CreateMenuDocument,
   DeleteMenuDocument,
@@ -9,8 +11,6 @@ import {
   type Menu,
   type RenameMenuMutationVariables,
 } from "~/client/graphql/types/graphql";
-import { usePageBridgeStore } from "./pageBridgeStore";
-import { ComputerDesktopIcon, DocumentTextIcon, FaceSmileIcon } from "@heroicons/vue/24/outline";
 
 type ContextHandler = (arg: MenuItem) => void;
 
@@ -66,7 +66,8 @@ export const usePageStore = defineStore("page", () => {
       const result = await useAsyncQuery(GetMenusDocument, variables);
 
       _menus.value = result.data.value?.menus ?? [];
-    } catch {
+    }
+    catch {
       _menus.value = [];
     }
   };
@@ -85,7 +86,7 @@ export const usePageStore = defineStore("page", () => {
    */
   const calcLastOrder = () => {
     const lastMenu = _menus.value
-      .filter((v) => v.parentId == undefined)
+      .filter(v => v.parentId == undefined)
       .toSorted((a, b) => a.order - b.order)
       .at(-1);
 
@@ -98,7 +99,7 @@ export const usePageStore = defineStore("page", () => {
    * @returns
    */
   const calcMenuOrder = (menuId: string) => {
-    const menuIndex = _menus.value.findIndex((v) => v.id === menuId);
+    const menuIndex = _menus.value.findIndex(v => v.id === menuId);
 
     // メニュー内の一番最後
     if (menuIndex === -1) {
@@ -128,7 +129,8 @@ export const usePageStore = defineStore("page", () => {
   const calcOrder = (parentMenuId: string | undefined) => {
     if (parentMenuId === undefined) {
       return calcLastOrder();
-    } else {
+    }
+    else {
       return calcMenuOrder(parentMenuId);
     }
   };
@@ -160,7 +162,8 @@ export const usePageStore = defineStore("page", () => {
       if (result.data.value?.createMenu != undefined) {
         _menus.value.push(result.data.value.createMenu);
       }
-    } catch {
+    }
+    catch {
       // Nothing
     }
   };
@@ -183,11 +186,13 @@ export const usePageStore = defineStore("page", () => {
       if (result.data.value?.deleteMenu) {
         if (recursive) {
           fetchAll(projectId.value);
-        } else {
-          _menus.value = _menus.value.filter((v) => v.id !== menu.id);
+        }
+        else {
+          _menus.value = _menus.value.filter(v => v.id !== menu.id);
         }
       }
-    } catch {
+    }
+    catch {
       // Nothing
     }
   };
@@ -207,7 +212,8 @@ export const usePageStore = defineStore("page", () => {
 
     if (name !== newName) {
       return newName;
-    } else {
+    }
+    else {
       throw new Error("cancel");
     }
   };
@@ -232,15 +238,17 @@ export const usePageStore = defineStore("page", () => {
       const result = await useAsyncQuery(RenameMenuDocument, variables);
 
       if (result.data.value?.renameMenu) {
-        const oldMenu = _menus.value.find((v) => v.id === menu.id);
+        const oldMenu = _menus.value.find(v => v.id === menu.id);
 
         if (oldMenu !== undefined) {
           oldMenu.name = name;
         }
-      } else {
+      }
+      else {
         // TODO alert
       }
-    } catch {
+    }
+    catch {
       // Nothing
     }
   };
@@ -249,7 +257,7 @@ export const usePageStore = defineStore("page", () => {
    * 表示中のページタイプを返す
    */
   const pageType = computed(() => {
-    return _menus.value.find((v) => v.pageId === pageId.value)?.type ?? "";
+    return _menus.value.find(v => v.pageId === pageId.value)?.type ?? "";
   });
 
   const getMenuIcon = (type: string) => {
@@ -270,11 +278,11 @@ export const usePageStore = defineStore("page", () => {
           customContext: [
             {
               text: "名前の変更",
-              handler: (arg) => renameMenu(arg),
+              handler: arg => renameMenu(arg),
             },
             {
               text: "削除",
-              handler: (arg) => deleteMenu(arg, true),
+              handler: arg => deleteMenu(arg, true),
             },
           ],
           icon: getMenuIcon(v.type),
@@ -290,7 +298,7 @@ export const usePageStore = defineStore("page", () => {
     },
     {
       immediate: true,
-    }
+    },
   );
 
   watch(
@@ -300,7 +308,7 @@ export const usePageStore = defineStore("page", () => {
     },
     {
       immediate: true,
-    }
+    },
   );
 
   return {

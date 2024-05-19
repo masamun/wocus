@@ -7,10 +7,12 @@ export function useTaskOrder() {
     if (index >= 0) {
       if (index + 1 < length) {
         return taskStore.tasks[index].order?.order;
-      } else {
+      }
+      else {
         return taskStore.tasks[length - 1].order?.order;
       }
-    } else {
+    }
+    else {
       return 0.0;
     }
   };
@@ -20,10 +22,12 @@ export function useTaskOrder() {
     if (index >= 0) {
       if (index + 1 < length) {
         return taskStore.tasks[index + 1].order?.order;
-      } else {
+      }
+      else {
         return (taskStore.tasks[length - 1].order?.order ?? 0.0) + 1.0;
       }
-    } else {
+    }
+    else {
       return taskStore.tasks[0].order?.order;
     }
   };
@@ -51,7 +55,7 @@ export function useTaskOrder() {
   };
 
   const calcTaskOrder = (taskId: string | undefined) => {
-    const index = taskStore.tasks.findIndex((p) => p.id === taskId) - 1;
+    const index = taskStore.tasks.findIndex(p => p.id === taskId) - 1;
 
     return calcTaskOrderByIndex(index);
   };
@@ -86,7 +90,7 @@ export function useTaskOrder() {
       return;
     }
     data.data.updateTaskOrder.forEach((response) => {
-      const taskIndex = taskStore.tasks.findIndex((p) => p.id === response.id);
+      const taskIndex = taskStore.tasks.findIndex(p => p.id === response.id);
       const taskOrder = taskStore.tasks[taskIndex];
       if (taskIndex > -1 && taskOrder != undefined && taskOrder.order != undefined) {
         taskOrder.order.order = response.order?.order ?? 0;

@@ -6,8 +6,6 @@ import { ComputerDesktopIcon, DocumentTextIcon } from "@heroicons/vue/24/outline
  */
 export const useTemplate = () => {
   // テンプレート選択ダイアログ
-  const visible = ref(false);
-
   const templates = ref([
     {
       category: "テキスト",

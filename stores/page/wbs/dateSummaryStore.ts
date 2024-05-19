@@ -33,7 +33,7 @@ export const useDateSummaryProxy = (srcMap: DateSummaryMap, date: Date) => {
     },
     {
       deep: true,
-    }
+    },
   );
 
   return {
@@ -58,8 +58,8 @@ export const useDateSummaryStore = () => {
   const fetchAll = async (milestoneId: string, start_at: Date, end_at: Date) => {
     const variables: QueryDateSummaryArgs = {
       param: {
-        //start_at: startShowDate.value.toDateWithTimezone(),
-        //end_at: endShowDate.value.toDateWithTimezone(),
+        // start_at: startShowDate.value.toDateWithTimezone(),
+        // end_at: endShowDate.value.toDateWithTimezone(),
         start_at,
         end_at,
         milestoneId,
@@ -79,7 +79,8 @@ export const useDateSummaryStore = () => {
         _summaryMap.set(key, ds);
       });
       // _summaryInfo.value = data.value.dateSummary.info;
-    } else {
+    }
+    else {
       logger.info(`${error.value.cause}`);
     }
   };
@@ -106,9 +107,10 @@ export const useDateSummaryStore = () => {
       data.value?.dateSummary.dates.forEach((ds) => {
         logger.debug(`refreshDateSummery set ${new Date(ds.date).toStringYMD()}`);
         _summaryMap.set(new Date(ds.date).toStringYMD(), ds);
-        //_summaryInfo.value = data.value.dateSummary.info;
+        // _summaryInfo.value = data.value.dateSummary.info;
       });
-    } else {
+    }
+    else {
       logger.info(`${error.value.cause}`);
     }
   };

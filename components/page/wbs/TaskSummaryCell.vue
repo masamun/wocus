@@ -1,7 +1,10 @@
 <template>
   <div class="flex">
     <span class="w-full">{{ showActivityType }}</span>
-    <InputFixedNumber :value="activityValue" :editable="false" />
+    <InputFixedNumber
+      :value="activityValue"
+      :editable="false"
+    />
   </div>
 </template>
 

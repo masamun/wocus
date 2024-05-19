@@ -2,10 +2,10 @@
   <div class="pl-24 pr-8 relative">
     <!-- ドロップライン上表示 -->
     <div
-      class="absolute top-0 -mt-1.5 h-2 left-0 right-0 bg-cyan-200 opacity-30"
       v-if="taskDragStore.dragging && taskDragStore.draggingIndex === 0"
-    ></div>
-    <!--タスク-->
+      class="absolute top-0 -mt-1.5 h-2 left-0 right-0 bg-cyan-200 opacity-30"
+    />
+    <!-- タスク -->
     <div
       v-for="(task, index) in taskStore.tasks"
       :key="index"
@@ -15,18 +15,33 @@
       @dragend="handleDragEnd"
     >
       <!-- タスク操作 -->
-      <task-operator :task="task" class="group-hover:flex hidden" />
-      <!--メタ情報-->
+      <task-operator
+        :task="task"
+        class="group-hover:flex hidden"
+      />
+      <!-- メタ情報 -->
       <task-field-row :task="task" />
       <!-- タスク情報サマリ -->
       <div class="border-l border-r min-w-28 max-w-36 align-middle flex items-stretch">
         <div class="w-full">
-          <task-summary-cell :task-id="task.id" :activity-type="'pv'" class="h-8 text-center border-b" />
-          <task-summary-cell :task-id="task.id" :activity-type="'ac'" class="h-8 text-center border-b" />
-          <task-summary-cell :task-id="task.id" :activity-type="'ev'" class="h-8 text-center border-b" />
+          <task-summary-cell
+            :task-id="task.id"
+            :activity-type="'pv'"
+            class="h-8 text-center border-b"
+          />
+          <task-summary-cell
+            :task-id="task.id"
+            :activity-type="'ac'"
+            class="h-8 text-center border-b"
+          />
+          <task-summary-cell
+            :task-id="task.id"
+            :activity-type="'ev'"
+            class="h-8 text-center border-b"
+          />
         </div>
       </div>
-      <!--実績情報-->
+      <!-- 実績情報 -->
       <div
         v-for="(dateInfo, pi2) in wbsStore.range"
         :key="pi2"
@@ -38,34 +53,49 @@
         }"
       >
         <div class="flex flex-col">
-          <task-activity-cell :task-id="task.id" :date="dateInfo.date" :activity-type="'pv'" class="h-8 border-b" />
-          <task-activity-cell :task-id="task.id" :date="dateInfo.date" :activity-type="'ac'" class="h-8 border-b" />
-          <task-activity-cell :task-id="task.id" :date="dateInfo.date" :activity-type="'ev'" class="h-8" />
+          <task-activity-cell
+            :task-id="task.id"
+            :date="dateInfo.date"
+            :activity-type="'pv'"
+            class="h-8 border-b"
+          />
+          <task-activity-cell
+            :task-id="task.id"
+            :date="dateInfo.date"
+            :activity-type="'ac'"
+            class="h-8 border-b"
+          />
+          <task-activity-cell
+            :task-id="task.id"
+            :date="dateInfo.date"
+            :activity-type="'ev'"
+            class="h-8"
+          />
         </div>
       </div>
       <!-- ドロップライン表示 -->
       <div
-        class="absolute top-full -mt-1.5 h-2 left-0 right-0 bg-cyan-200 opacity-30"
         v-if="taskDragStore.dragging && taskDragStore.draggingIndex === index + 1"
-      ></div>
+        class="absolute top-full -mt-1.5 h-2 left-0 right-0 bg-cyan-200 opacity-30"
+      />
       <!-- ドロップエリア上 -->
       <div
-        class="absolute top-0 bottom-1/2 left-0 right-0 opacity-10"
         v-if="taskDragStore.dragging"
+        class="absolute top-0 bottom-1/2 left-0 right-0 opacity-10"
         @dragover="handleDragOver($event, index)"
         @dragleave="handleDragLeave($event)"
         @drop="handleDrop($event, index - 1)"
-      ></div>
+      />
       <!-- ドロップエリア下 -->
       <div
-        class="absolute top-1/2 bottom-0 left-0 right-0 opacity-10"
         v-if="taskDragStore.dragging"
+        class="absolute top-1/2 bottom-0 left-0 right-0 opacity-10"
         @dragover="handleDragOver($event, index + 1)"
         @dragleave="handleDragLeave($event)"
         @drop="handleDrop($event, index)"
-      ></div>
+      />
     </div>
-    <!--タスクの追加-->
+    <!-- タスクの追加 -->
     <task-field-add-row class="-ml-24 pl-24" />
   </div>
 </template>

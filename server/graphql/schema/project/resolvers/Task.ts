@@ -70,5 +70,5 @@ export const Task: TaskResolvers = {
         taskId: parent.id,
       },
     });
-  }
+  },
 };

@@ -5,7 +5,11 @@
     class="border-l border-b min-w-[20px] max-h-24 align-middle flex items-stretch"
     :style="{ 'min-width': field.width + 'px' }"
   >
-    <TaskFieldCell :task-id="props.task.id" :field="field" class="overflow-hidden break-all" />
+    <TaskFieldCell
+      :task-id="props.task.id"
+      :field="field"
+      class="overflow-hidden break-all"
+    />
   </div>
 </template>
 

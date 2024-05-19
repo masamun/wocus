@@ -10,7 +10,7 @@
       class="w-[4px] h-full absolute top-0 bottom-0 right-[-2px] cursor-e-resize z-auto hover:bg-slate-200 rounded"
       @mousedown.left="handleMouseDown"
       @dblclick="handleDoubleClick"
-    ></div>
+    />
   </div>
 </template>
 

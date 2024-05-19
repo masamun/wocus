@@ -1,13 +1,19 @@
 <template>
   <div class="border-b border-r border-t min-w-28 max-w-36 align-middle">
-    <div class="border-b last:border-b-0 h-7">日付</div>
-    <div class="border-b last:border-b-0 h-7" v-for="(item, index) in milestoneSummaryStore.fields.fields" :key="index">
+    <div class="border-b last:border-b-0 h-7">
+      日付
+    </div>
+    <div
+      v-for="(item, index) in milestoneSummaryStore.fields.fields"
+      :key="index"
+      class="border-b last:border-b-0 h-7"
+    >
       {{ item.title }}
     </div>
   </div>
-  <!--実績情報-->
+  <!-- 実績情報 -->
   <div
-    v-for="(dateInfo, index) in wbsStore.range"
+    v-for="dateInfo in wbsStore.range"
     :key="dateInfo.date.getTime()"
     class="border-b border-r border-t min-w-20 max-w-32"
     :class="{

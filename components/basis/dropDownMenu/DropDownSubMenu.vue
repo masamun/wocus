@@ -13,7 +13,12 @@
     </summary>
     <div class="absolute top-0 left-full rounded border bg-slate-50 border-gray-600 text-nowrap">
       <slot>
-        <drop-down-menu-item class="text-center" :disabled="true"> 項目なし </drop-down-menu-item>
+        <drop-down-menu-item
+          class="text-center"
+          :disabled="true"
+        >
+          項目なし
+        </drop-down-menu-item>
       </slot>
     </div>
   </details>
@@ -21,19 +26,16 @@
 
 <script lang="ts" setup>
 import { ChevronRightIcon } from "@heroicons/vue/24/outline";
+
 interface Props {
   icon?: string;
   label?: string;
   action?: string;
   disabled?: boolean;
 }
-interface Emits {
-  (e: "action", value: string): void;
-}
 
 let timeoutId: ReturnType<typeof setTimeout> | null = null;
 const props = defineProps<Props>();
-const emits = defineEmits<Emits>();
 
 /**
  * マウスホバーで子メニューを開ける

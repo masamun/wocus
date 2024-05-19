@@ -1,10 +1,10 @@
-import type { WocusContext } from "~/server/graphql/context";
 import type { MutationResolvers } from "./../../../types.generated";
+import type { WocusContext } from "~/server/graphql/context";
 
-export const deleteMilestone: NonNullable<MutationResolvers['deleteMilestone']> = async (
+export const deleteMilestone: NonNullable<MutationResolvers["deleteMilestone"]> = async (
   _parent,
   _arg,
-  _ctx: WocusContext
+  _ctx: WocusContext,
 ) => {
   console.info(`deleteMilestone ${_arg.param.milestoneId}`);
 
@@ -14,7 +14,8 @@ export const deleteMilestone: NonNullable<MutationResolvers['deleteMilestone']> 
         id: _arg.param.milestoneId,
       },
     });
-  } catch {
+  }
+  catch {
     return false;
   }
   return true;

@@ -1,3 +1,4 @@
+import type { RangeDate } from "./wbsStore";
 import {
   DeleteMilestoneDocument,
   RenameMilestoneDocument,
@@ -8,8 +9,6 @@ import {
   type QueryMilestoneArgs,
   GetMilestoneDocument,
 } from "@/client/graphql/types/graphql";
-import type { RangeDate } from "./wbsStore";
-import { tasks } from "~/server/graphql/schema/project/resolvers/Query/tasks";
 
 export const useMilestoneStore = defineStore("milestone", () => {
   const milestoneFieldStore = ref(useMilestoneFieldStore());
@@ -134,9 +133,9 @@ export const useMilestoneStore = defineStore("milestone", () => {
     const data = await mutate(variables);
     const renamedMilestone = data?.data?.renameMilestone as MilestoneFragmentFragment | undefined;
     if (renamedMilestone != null) {
-      const id = renamedMilestone.id;
-      //const filtered = _milestones.value.filter((p) => p.id !== id);
-      //_milestones.value = [...filtered, ...[renamedMilestone]];
+      // const id = renamedMilestone.id;
+      // const filtered = _milestones.value.filter((p) => p.id !== id);
+      // _milestones.value = [...filtered, ...[renamedMilestone]];
     }
   };
 
@@ -154,7 +153,7 @@ export const useMilestoneStore = defineStore("milestone", () => {
     const { mutate } = useMutation(DeleteMilestoneDocument);
     const data = await mutate(variables);
     if (data?.data?.deleteMilestone === true) {
-      //_milestones.value = _milestones.value.filter((p) => p.id !== milestoneId);
+      // _milestones.value = _milestones.value.filter((p) => p.id !== milestoneId);
     }
   };
 

@@ -105,7 +105,7 @@ export const useMarkdownStore = defineStore("markdown", () => {
     },
     {
       immediate: true,
-    }
+    },
   );
 
   return {

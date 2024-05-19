@@ -1,9 +1,9 @@
 {
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  },
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
-  },
-  "editor.formatOnSave": false,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  }
+  }  
 }

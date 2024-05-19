@@ -1,7 +1,7 @@
-import type { WocusContext } from "~/server/graphql/context";
 import type { QueryResolvers } from "./../../../types.generated";
+import type { WocusContext } from "~/server/graphql/context";
 
-export const milestones: NonNullable<QueryResolvers['milestones']> = async (_parent, _arg, _ctx: WocusContext) => {
+export const milestones: NonNullable<QueryResolvers["milestones"]> = async (_parent, _arg, _ctx: WocusContext) => {
   console.info(`query milestones ${_arg?.param?.projectName}`);
 
   const projectId = await _ctx.prisma.project.findUniqueOrThrow({

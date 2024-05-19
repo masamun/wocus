@@ -14,7 +14,8 @@ import {
 const getKey = (taskId: string, field: TaskField | string) => {
   if (typeof field === "string") {
     return `${taskId}_${field}`;
-  } else {
+  }
+  else {
     return `${taskId}_${field.type}`;
   }
 };

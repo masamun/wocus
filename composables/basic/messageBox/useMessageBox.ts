@@ -1,3 +1,4 @@
+import { createVNode, render } from "vue";
 import MessageBoxConfirm from "@/components/basis/messageBox/MessageBoxConfirm.vue";
 import MessageBoxPrompt from "@/components/basis/messageBox/MessageBoxPrompt.vue";
 
@@ -8,8 +9,6 @@ export interface MessageBoxParams {
   title: string;
   text: string;
 }
-
-import { createVNode, render } from "vue";
 
 type vNodeValue = ReturnType<typeof createVNode> | undefined;
 type Components = typeof MessageBoxConfirm | typeof MessageBoxPrompt;

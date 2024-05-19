@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div v-html="preview" class="w-full p-2 border-[1px] block" />
+    <!-- eslint-disable vue/no-v-html -->
+    <div
+      class="w-full p-2 border-[1px] block"
+      v-html="preview"
+    />
   </div>
 </template>
 

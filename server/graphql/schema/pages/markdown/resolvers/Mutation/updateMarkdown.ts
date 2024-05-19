@@ -1,4 +1,5 @@
 import type { MutationResolvers } from "./../../../../types.generated";
+
 export const updateMarkdown: NonNullable<MutationResolvers["updateMarkdown"]> = async (_parent, _arg, _ctx) => {
   console.info(`updateMarkdown ${_arg.param.markdownId}`);
 
@@ -11,7 +12,8 @@ export const updateMarkdown: NonNullable<MutationResolvers["updateMarkdown"]> = 
         id: _arg.param.markdownId,
       },
     });
-  } catch (e) {
+  }
+  catch (e) {
     console.info(e);
     return false;
   }

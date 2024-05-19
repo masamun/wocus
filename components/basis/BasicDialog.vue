@@ -1,6 +1,9 @@
 <template>
   <!-- cancel event代わり -->
-  <dialog ref="dialog" @keydown.esc.stop="handleCancel">
+  <dialog
+    ref="dialog"
+    @keydown.esc.stop="handleCancel"
+  >
     <div class="min-w-60 p-2">
       <div class="border-b mb-4 pb-1">
         <slot name="title">
@@ -15,19 +18,25 @@
       </div>
       <div class="p-1">
         <slot>
-          <div class="h-2"></div>
+          <div class="h-2" />
         </slot>
       </div>
       <slot name="footer">
         <div class="border-t mt-4 pt-1">
           <div class="flex justify-end pt-2">
-            <button class="btn-normal" @click.stop="handleCancel" title="Cancel">キャンセル</button>
+            <button
+              class="btn-normal"
+              title="Cancel"
+              @click.stop="handleCancel"
+            >
+              キャンセル
+            </button>
             <button
               title="OK"
               class="ml-4 btn-primary"
               :class="{ 'btn-disabled': disabled }"
-              @click.stop="handleOk"
               :disabled="props.disabled"
+              @click.stop="handleOk"
             >
               OK
             </button>
@@ -48,8 +57,7 @@ interface Props {
   disabled?: boolean;
 }
 interface Emits {
-  (e: "cancel"): void;
-  (e: "ok"): void;
+  (e: "cancel" | "ok"): void;
 }
 
 const props = defineProps<Props>();
@@ -70,7 +78,8 @@ const handleOk = () => {
 watch(visible, (value) => {
   if (value) {
     dialog.value?.showModal();
-  } else {
+  }
+  else {
     dialog.value?.close();
   }
 });

@@ -6,7 +6,7 @@
         <side-menu />
       </div>
       <div class="h-full flex flex-grow overflow-auto">
-        <slot></slot>
+        <slot />
       </div>
     </main>
   </div>

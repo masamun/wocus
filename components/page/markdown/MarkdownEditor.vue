@@ -1,18 +1,26 @@
 <template>
   <div class="flex flex-row">
-    <div class="line-numbers p-2 text-gray-400 overflow-hidden flex flex-col" ref="numberArea">
-      <div v-for="(line, index) in lineCounter.textLines.value" :keys="index" class="inline-block" :style="line.style">
+    <div
+      ref="numberArea"
+      class="line-numbers p-2 text-gray-400 overflow-hidden flex flex-col"
+    >
+      <div
+        v-for="(line, index) in lineCounter.textLines.value"
+        :key="index"
+        class="inline-block"
+        :style="line.style"
+      >
         {{ line.lineCount }}
       </div>
     </div>
     <textarea
-      class="flex-grow p-2 focus:outline-none bg-gray-200 resize-none"
-      v-model="text"
-      placeholder="テキスト入力エリア"
       ref="textArea"
+      v-model="text"
+      class="flex-grow p-2 focus:outline-none bg-gray-200 resize-none"
+      placeholder="テキスト入力エリア"
       rows="1"
       @scroll="handleScroll"
-    ></textarea>
+    />
   </div>
 </template>
 

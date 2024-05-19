@@ -1,5 +1,9 @@
 <template>
-  <input type="month" name="month-calendar" v-model="input" />
+  <input
+    v-model="input"
+    type="month"
+    name="month-calendar"
+  >
 </template>
 
 <script lang="ts" setup>
@@ -15,42 +19,16 @@ interface Emits {
 
 const props = defineProps<Props>();
 const emits = defineEmits<Emits>();
-const editing = ref<boolean>(false);
-const editor = ref<HTMLInputElement | null>(null);
 
 const input = computed({
   get: () => {
     return `${fullYear.value}-${month.value}`;
   },
   set: (v: string) => {
-    const [year, month] = v.split("-").map((p) => Number(p));
+    const [year, month] = v.split("-").map(p => Number(p));
     emits("update:modelValue", new Date(year, month - 1, 1));
   },
 });
 const fullYear = computed(() => props.modelValue?.getFullYear());
 const month = computed(() => ("0" + (props.modelValue.getMonth() + 1)).slice(-2));
-/**
- * Enterキーで確定イベント
- */
-const handleEnter = (e: KeyboardEvent) => {
-  (e.target as HTMLInputElement)?.blur();
-};
-
-/**
- * セルをクリック
- * @param e
- */
-const handleClick = (e: MouseEvent) => {};
-
-/**
- * セルをダブルクリックで編集状態に移行する
- * @param e
- */
-const handleDoubleClick = (e: MouseEvent) => {
-  editing.value = true;
-
-  nextTick(() => {
-    editor.value?.focus();
-  });
-};
 </script>

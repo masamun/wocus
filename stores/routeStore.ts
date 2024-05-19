@@ -22,7 +22,7 @@ export const useRouteStore = defineStore("route", () => {
    * プロジェクトID
    */
   const projectId = computed(() => {
-    return projects.value.find((v) => v.name === projectName.value)?.id;
+    return projects.value.find(v => v.name === projectName.value)?.id;
   });
 
   /**
@@ -38,7 +38,7 @@ export const useRouteStore = defineStore("route", () => {
     },
     {
       immediate: true,
-    }
+    },
   );
 
   /**
@@ -51,7 +51,7 @@ export const useRouteStore = defineStore("route", () => {
     },
     {
       immediate: true,
-    }
+    },
   );
 
   return {

@@ -1,4 +1,4 @@
-//import { provideApolloClient, useApolloClient } from "@vue/apollo-composable";
+// import { provideApolloClient, useApolloClient } from "@vue/apollo-composable";
 
 /**
  * setup以外でuseMutationが使えるようにprovideする

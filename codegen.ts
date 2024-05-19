@@ -8,23 +8,26 @@ const config: CodegenConfig = {
   verbose: true,
   watch: true,
   generates: {
-    "./server/graphql/schema": defineConfig({
-      typesPluginsConfig: {
-        contextType: "@/server/graphql/context/#WocusContext",
-        useTypeImports: true,
-      },
-      scalarsOverrides: {
-        Date: {
-          type: "DateString",
+    "./server/graphql/schema": {
+      ...defineConfig({
+        typesPluginsConfig: {
+          contextType: "@/server/graphql/context/#WocusContext",
+          useTypeImports: true,
         },
-        DateTime: {
-          type: "Date",
+        scalarsOverrides: {
+          Date: {
+            type: "DateString",
+          },
+          DateTime: {
+            type: "Date",
+          },
+          ID: {
+            type: "string",
+          },
         },
-        ID: {
-          type: "string",
-        },
-      },
-    }),
+      }),
+      hooks: { afterOneFileWrite: ["eslint --fix"] },
+    },
     /* クライアント用 */
     "./client/graphql/types/": {
       preset: "client",
@@ -37,7 +40,7 @@ const config: CodegenConfig = {
           Decimal: "string",
         },
       },
-      plugins: [],
+      hooks: { afterOneFileWrite: ["eslint --fix"] },
     },
   },
 };

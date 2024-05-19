@@ -16,8 +16,11 @@
       </div>
     </div>
     <div class="flex flex-row flex-nowrap flex-grow-0 items-stretch h-full">
-      <MilestoneFieldCell v-for="(field, index) in milestoneFieldStore.fields" :key="index" :field="field">
-      </MilestoneFieldCell>
+      <MilestoneFieldCell
+        v-for="(field, index) in milestoneFieldStore.fields"
+        :key="index"
+        :field="field"
+      />
     </div>
   </div>
 </template>

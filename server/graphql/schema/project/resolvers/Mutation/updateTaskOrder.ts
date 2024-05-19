@@ -1,11 +1,11 @@
-import { refresh } from "~/server/graphql/util/taskSort";
 import type { MutationResolvers } from "./../../../types.generated";
+import { refresh } from "~/server/graphql/util/taskSort";
 import type { WocusContext } from "~/server/graphql/context";
 
-export const updateTaskOrder: NonNullable<MutationResolvers['updateTaskOrder']> = async (
+export const updateTaskOrder: NonNullable<MutationResolvers["updateTaskOrder"]> = async (
   _parent,
   _arg,
-  _ctx: WocusContext
+  _ctx: WocusContext,
 ) => {
   console.info(`updateTaskOrder ${_arg.param.taskId} ${_arg.param.order} ${_arg.param.refresh}`);
   try {
@@ -27,10 +27,12 @@ export const updateTaskOrder: NonNullable<MutationResolvers['updateTaskOrder']> 
 
     if (_arg.param.refresh) {
       return await refresh(_ctx, _arg.param.taskId);
-    } else {
+    }
+    else {
       return [ret];
     }
-  } catch (e) {
+  }
+  catch (e) {
     console.error(e);
     return [];
   }

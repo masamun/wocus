@@ -10,8 +10,8 @@
       </div>
       <div
         class="p-1 w-10 border-2 cursor-pointer"
-        @click="handleClick('preview')"
         :class="{ 'bg-gray-400': showEditor === 'preview' }"
+        @click="handleClick('preview')"
       >
         <eye-icon class="w-6 h-6" />
       </div>
@@ -23,7 +23,7 @@
         <book-open-icon class="w-6 h-6" />
       </div>
     </div>
-    <div></div>
+    <div />
   </div>
 </template>
 

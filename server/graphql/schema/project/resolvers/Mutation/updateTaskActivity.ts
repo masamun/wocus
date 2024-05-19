@@ -2,10 +2,10 @@ import { Prisma } from "@prisma/client";
 import type { MutationResolvers } from "./../../../types.generated";
 import type { WocusContext } from "~/server/graphql/context";
 
-export const updateTaskActivity: NonNullable<MutationResolvers['updateTaskActivity']> = async (
+export const updateTaskActivity: NonNullable<MutationResolvers["updateTaskActivity"]> = async (
   _parent,
   _arg,
-  _ctx: WocusContext
+  _ctx: WocusContext,
 ) => {
   console.info(`updateTaskActivity tasks ${_arg?.param?.length}`);
 
@@ -52,7 +52,7 @@ export const updateTaskActivity: NonNullable<MutationResolvers['updateTaskActivi
           },
         },
       });
-    })
+    }),
   );
 
   const where: Prisma.TaskActivityWhereInput = {

@@ -1,8 +1,15 @@
 <template>
-  <div class="border-b last:border-b-0 text-right pr-2 h-7" @click="handleRefreshDateSummary(date)">
+  <div
+    class="border-b last:border-b-0 text-right pr-2 h-7"
+    @click="handleRefreshDateSummary(date)"
+  >
     {{ date.toStringMD() }}
   </div>
-  <div class="border-b last:border-b-0 text-right pr-2 h-7" v-for="(item, index) in fields" :key="index">
+  <div
+    v-for="(item, index) in fields"
+    :key="index"
+    class="border-b last:border-b-0 text-right pr-2 h-7"
+  >
     {{ value(item) }}
   </div>
 </template>
@@ -37,7 +44,8 @@ const handleRefreshDateSummary = async (date: Date) => {
 const toNumString = (value: string | undefined) => {
   if (value === undefined) {
     return "-";
-  } else {
+  }
+  else {
     const numValue = Number(value);
     return isNaN(numValue) ? "-" : numValue.toFixed(2);
   }
@@ -64,6 +72,6 @@ watch(
   () => {
     console.info("watch props date");
     dateSummary.setDate(props.date);
-  }
+  },
 );
 </script>

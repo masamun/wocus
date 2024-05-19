@@ -1,7 +1,7 @@
-import { userAuth } from "~~/composables/userAuth"
+import { userAuth } from "~~/composables/userAuth";
 
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware((to) => {
   if (!userAuth() && to.path !== "/") {
-    return navigateTo('/')
+    return navigateTo("/");
   }
-})
+});

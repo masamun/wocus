@@ -16,12 +16,12 @@ const recursive = async (prisma: Pick<PrismaClient, "menu">, parentId: string) =
       await recursive(prisma, child.id);
     }
 
-    return children.map((v) => v.id);
+    return children.map(v => v.id);
   }
   return [];
 };
 
-export const deleteMenu: NonNullable<MutationResolvers['deleteMenu']> = async (_parent, _arg, _ctx) => {
+export const deleteMenu: NonNullable<MutationResolvers["deleteMenu"]> = async (_parent, _arg, _ctx) => {
   console.debug(`mutation deleteMenu ${_arg.param.menuId}`);
 
   try {
@@ -44,7 +44,8 @@ export const deleteMenu: NonNullable<MutationResolvers['deleteMenu']> = async (_
         },
       });
     });
-  } catch {
+  }
+  catch {
     return false;
   }
   return true;

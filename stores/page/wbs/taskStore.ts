@@ -3,7 +3,6 @@ import type {
   GetTasksQueryVariables,
   MutationCreateTaskArgs,
   MutationDeleteTaskArgs,
-  QueryTasksArgs,
   Task,
 } from "@/client/graphql/types/graphql";
 import "~/composables/util/date";
@@ -130,7 +129,7 @@ export const useTaskStore = () => {
     const { mutate } = useMutation(DeleteTaskDocument);
     const data = await mutate(variables);
     if (data?.data?.deleteTask === true) {
-      _tasks.value = tasks.value.filter((p) => p.id !== taskId);
+      _tasks.value = tasks.value.filter(p => p.id !== taskId);
 
       taskActivityStore.value.deleteTask(taskId);
       taskFieldStore.value.deleteTask(taskId);

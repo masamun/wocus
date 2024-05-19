@@ -44,13 +44,13 @@ export const useWbsStore = defineStore("wbs", () => {
 
   // 今月の初日を初期値とする
   const startShowDate = computed(() => {
-    //return new Date(2023, 11, 6, 0);
+    // return new Date(2023, 11, 6, 0);
     return new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), 1);
   });
 
   // 日に0を指定することで前月の最終日となる
   const endShowDate = computed(() => {
-    //return new Date(2023, 11, 6, 0);
+    // return new Date(2023, 11, 6, 0);
     return new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + showRange.value, 0);
   });
 
@@ -91,7 +91,8 @@ export const useWbsStore = defineStore("wbs", () => {
   const milestoneId = computed(() => {
     if (visible.value) {
       return pageId.value;
-    } else {
+    }
+    else {
       return undefined;
     }
   });
@@ -114,7 +115,7 @@ export const useWbsStore = defineStore("wbs", () => {
     },
     {
       immediate: true,
-    }
+    },
   );
 
   return {

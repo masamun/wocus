@@ -2,25 +2,25 @@
   <div>
     <div
       v-show="!editing || !editable"
-      @click="handleClick"
-      @dblclick.prevent="handleDoubleClick"
       class="w-full h-full text-right flex justify-end items-center pr-2"
       :class="{ 'text-gray-300': isEmptyValue }"
+      @click="handleClick"
+      @dblclick.prevent="handleDoubleClick"
     >
       {{ showFixedValue }}
     </div>
     <input
       v-if="editing"
       ref="editor"
+      v-model="input"
       type="number"
       min="0"
       step="0.25"
-      v-model="input"
-      @keypress.enter="handleEnter"
-      @blur="handleBlur"
       class="w-full h-full text-right outline-none"
       name="fixed-input"
-    />
+      @keypress.enter="handleEnter"
+      @blur="handleBlur"
+    >
   </div>
 </template>
 
@@ -60,7 +60,7 @@ const isEmptyValue = computed(() => {
 /**
  * Enterキーで確定イベント
  */
-const handleEnter = (e: KeyboardEvent) => {
+const handleEnter = () => {
   editor.value?.blur();
 };
 
@@ -72,7 +72,8 @@ const handleBlur = () => {
     if (props.value !== Number(input.value)) {
       emits("input", Number(input.value));
     }
-  } finally {
+  }
+  finally {
     editing.value = false;
   }
 };

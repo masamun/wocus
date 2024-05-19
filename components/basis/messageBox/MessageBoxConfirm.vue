@@ -1,5 +1,10 @@
 <template>
-  <basic-dialog :title="props.title" v-model="visible" @ok="emits('ok', true)" @cancel="emits('ok', false)">
+  <basic-dialog
+    v-model="visible"
+    :title="props.title"
+    @ok="emits('ok', true)"
+    @cancel="emits('ok', false)"
+  >
     {{ props.text }}
   </basic-dialog>
 </template>

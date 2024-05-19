@@ -1,6 +1,6 @@
+import type FactoryMethod from "./interface";
 import type { PrismaClient } from "~/prisma";
 import { DEFAULT_MILESTONE_FILEDS, DEFAULT_MILESTONE_SUMMARIES } from "~/server/graphql/util/milestoneTypes";
-import type FactoryMethod from "./interface";
 
 export const milestoneFactory = (): FactoryMethod<string> => {
   const create = async (prisma: PrismaClient, projectId: string, name: string) => {

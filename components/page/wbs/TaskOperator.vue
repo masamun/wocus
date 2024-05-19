@@ -1,6 +1,9 @@
 <template>
   <div class="absolute left-6 top-0 bottom-0 flex items-center">
-    <span @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
+    <span
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
+    >
       <drop-down-menu>
         <template #button>
           <Bars4Icon
@@ -14,14 +17,15 @@
       class="h-8 w-8 p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-md cursor-pointer"
       @click="handleCreateTask"
     />
-    <div class="w-[0.55em]"></div>
+    <div class="w-[0.55em]" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { PlusIcon } from "@heroicons/vue/24/outline";
-import { Bars4Icon } from "@heroicons/vue/24/outline";
+import { PlusIcon, Bars4Icon } from "@heroicons/vue/24/outline";
+
 import type { Task } from "~/client/graphql/types/graphql";
+
 interface Props {
   /**
    * タスク情報

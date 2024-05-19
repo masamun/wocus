@@ -4,15 +4,18 @@
     :data-field-type="field.type"
     @dblclick="handleDoubleClick"
   >
-    <label v-if="field.editable && editing" class="h-full">
+    <label
+      v-if="field.editable && editing"
+      class="h-full"
+    >
       <input
         ref="editor"
+        v-model="input"
         type="text"
         class="w-full h-full"
-        v-model="input"
         @keypress.enter="handleEnter"
         @blur="handleBlur"
-      />
+      >
     </label>
     <span v-else>
       {{ value }}
@@ -68,7 +71,8 @@ const handleBlur = () => {
     if (initialValue.value !== input.value) {
       taskFieldStore.update(props.taskId, props.field.type, input.value);
     }
-  } finally {
+  }
+  finally {
     editing.value = false;
   }
 };
@@ -82,7 +86,7 @@ const initialValue = computed(() => {
 
 const value = computed(() => {
   if (props.field.type === "order") {
-    return "" + (taskStore.tasks.find((p) => p.id === props.taskId)?.order?.order ?? "-");
+    return "" + (taskStore.tasks.find(p => p.id === props.taskId)?.order?.order ?? "-");
   }
   // 日付が設定されている項目かどうか
   if (props.field.type.includes("date")) {
@@ -90,10 +94,12 @@ const value = computed(() => {
     const dateValue = new Date(initialValue.value);
     if (Number.isNaN(dateValue.getTime())) {
       return "";
-    } else {
+    }
+    else {
       if (now.getFullYear() !== dateValue.getFullYear()) {
         return dateValue.toStringYMD();
-      } else {
+      }
+      else {
         return dateValue.toStringMD();
       }
     }

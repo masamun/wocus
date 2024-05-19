@@ -1,18 +1,23 @@
 <template>
   <div class="flex justify-end items-center pr-2">
-    <div v-show="!editing" @click="handleClick" @dblclick="handleDoubleClick" class="w-full h-full">
+    <div
+      v-show="!editing"
+      class="w-full h-full"
+      @click="handleClick"
+      @dblclick="handleDoubleClick"
+    >
       {{ value }}
     </div>
-    <!--<div :style="stylesheet">-->
+    <!-- <div :style="stylesheet"> -->
     <input
-      ref="editor"
       v-show="editing"
-      type="text"
+      ref="editor"
       v-model="input"
+      type="text"
+      class="w-full h-full"
       @keypress.enter="handleEnter"
       @blur="handleInput"
-      class="w-full h-full"
-    />
+    >
   </div>
 </template>
 
@@ -45,7 +50,8 @@ const handleEnter = (e: KeyboardEvent) => {
 const handleInput = () => {
   try {
     emits("input", input.value);
-  } finally {
+  }
+  finally {
     editing.value = false;
   }
 };
@@ -54,13 +60,13 @@ const handleInput = () => {
  * セルをクリック
  * @param e
  */
-const handleClick = (e: MouseEvent) => {};
+const handleClick = () => {};
 
 /**
  * セルをダブルクリックで編集状態に移行する
  * @param e
  */
-const handleDoubleClick = (e: MouseEvent) => {
+const handleDoubleClick = () => {
   editing.value = true;
 
   nextTick(() => {

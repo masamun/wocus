@@ -1,13 +1,17 @@
 <template>
   <basic-dialog
-    :title="props.title"
     v-model="visible"
+    :title="props.title"
+    :disabled="disabled"
     @ok="emits('ok', model)"
     @cancel="emits('cancel')"
-    :disabled="disabled"
   >
     <div>
-      <input type="text" v-model="model" class="p-2 border" />
+      <input
+        v-model="model"
+        type="text"
+        class="p-2 border"
+      >
     </div>
   </basic-dialog>
 </template>

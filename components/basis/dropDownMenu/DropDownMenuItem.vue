@@ -1,8 +1,8 @@
 <template>
   <div
     class="min-w-24 left-0 top-full rounded border-gray-600 z-[1000] bg-slate-50 group relative text-black p-1"
-    @click="handleClick"
     :disabled="props.disabled"
+    @click="handleClick"
   >
     <label
       class="cursor-pointer hover:bg-gray-200 h-8 pl-1 pr-1 rounded flex items-center"
@@ -12,7 +12,7 @@
         'hover:bg-gray-200': !props.disabled,
       }"
     >
-      <slot></slot>
+      <slot />
     </label>
   </div>
 </template>

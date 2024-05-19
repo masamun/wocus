@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import type { QueryResolvers } from "./../../../types.generated";
 import type { WocusContext } from "~/server/graphql/context";
 
-export const taskSummary: NonNullable<QueryResolvers['taskSummary']> = async (_parent, _arg, _ctx: WocusContext) => {
+export const taskSummary: NonNullable<QueryResolvers["taskSummary"]> = async (_parent, _arg, _ctx: WocusContext) => {
   console.info(`query taskSummary ${_arg?.param?.taskId} ${_arg?.param?.date_lt}`);
 
   const aggregated = await _ctx.prisma.taskActivity.aggregate({

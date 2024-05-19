@@ -1,10 +1,10 @@
-import type { WocusContext } from "~/server/graphql/context";
 import type { MutationResolvers } from "./../../../types.generated";
+import type { WocusContext } from "~/server/graphql/context";
 
-export const updateTaskField: NonNullable<MutationResolvers['updateTaskField']> = async (
+export const updateTaskField: NonNullable<MutationResolvers["updateTaskField"]> = async (
   _parent,
   _arg,
-  _ctx: WocusContext
+  _ctx: WocusContext,
 ) => {
   // TODO transaction
   // sortも更新できるが今のところチェックしない
@@ -37,7 +37,7 @@ export const updateTaskField: NonNullable<MutationResolvers['updateTaskField']> 
           },
         },
       });
-    })
+    }),
   );
 
   return await _ctx.prisma.task.findMany({
@@ -52,7 +52,7 @@ export const updateTaskField: NonNullable<MutationResolvers['updateTaskField']> 
     },
     where: {
       id: {
-        in: _arg.param.map((p) => p.taskId),
+        in: _arg.param.map(p => p.taskId),
       },
     },
   });

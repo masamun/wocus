@@ -4,8 +4,14 @@
       <markdown-toolbar />
     </div>
     <div class="flex flex-row flex-grow gap-2 flex-nowrap justify-between overflow-hidden">
-      <markdown-editor v-show="showText" class="flex flex-grow flex-1" />
-      <markdown-preview v-show="showPreview" class="flex flex-grow flex-1" />
+      <markdown-editor
+        v-show="showText"
+        class="flex flex-grow flex-1"
+      />
+      <markdown-preview
+        v-show="showPreview"
+        class="flex flex-grow flex-1"
+      />
     </div>
   </div>
 </template>

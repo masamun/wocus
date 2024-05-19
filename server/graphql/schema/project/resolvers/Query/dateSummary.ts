@@ -35,7 +35,7 @@ const getDatesValue = async (
   milestoneId: string,
   context: WocusContext,
   date_start_at: Date,
-  date_end_at: Date
+  date_end_at: Date,
 ): Promise<DateSummary[]> => {
   const st_date_string = date_start_at.toISOString().split("T")[0];
   const ed_date_string = date_end_at.toISOString().split("T")[0];
@@ -135,14 +135,15 @@ const getDatesValue = async (
 `;
 };
 
-export const dateSummary: NonNullable<QueryResolvers['dateSummary']> = async (_parent, _arg, _ctx: WocusContext) => {
+export const dateSummary: NonNullable<QueryResolvers["dateSummary"]> = async (_parent, _arg, _ctx: WocusContext) => {
   const start_at = _arg.param.start_at < _arg.param.end_at ? _arg.param.start_at : _arg.param.end_at;
   const end_at = _arg.param.start_at < _arg.param.end_at ? _arg.param.end_at : _arg.param.start_at;
 
   console.debug(
-    `query dateSummary ${_arg.param.milestoneId} ${start_at.toLocaleDateString()} ${end_at.toLocaleDateString()}`
+    `query dateSummary ${_arg.param.milestoneId} ${start_at.toLocaleDateString()} ${end_at.toLocaleDateString()}`,
   );
 
+  /* eslint-disable no-irregular-whitespace */
   /*
     date: # 月日
     prv:  # 予定残工数 　　　　　 -> 全体工数 - PV
@@ -160,6 +161,7 @@ export const dateSummary: NonNullable<QueryResolvers['dateSummary']> = async (_p
     dsv:  # 当日スケジュール差異  -> dev - dpv
     dcv:  # 当日コスト差異　　　  -> DEV - DAC
   */
+  /* eslint-enable no-irregular-whitespace */
 
   // 表示期間外
   const info = await getSummaryInfo(_arg.param.milestoneId, _ctx, start_at);

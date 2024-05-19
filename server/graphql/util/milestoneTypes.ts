@@ -1,6 +1,6 @@
-import { Prisma } from "@/prisma";
 import type { WocusContext } from "../context";
 import type { Task, TaskSummary } from "../schema/types.generated";
+import { Prisma } from "@/prisma";
 
 type InitialField = Omit<
   Prisma.MilestoneFieldCreateManyInput,
@@ -175,7 +175,7 @@ export const DEFAULT_MILESTONE_FILEDS: InitialField[] = [
     width: 36,
   },
 ].map((value, index) => {
-  if (!fieldType.some((p) => p === value.type)) {
+  if (!fieldType.some(p => p === value.type)) {
     throw Error("フィールド定義ミス");
   }
   // 定義された順番でorderを上書き設定する
@@ -272,7 +272,7 @@ export const DEFAULT_MILESTONE_SUMMARIES: InitialSummary[] = [
     visible: true,
   },
 ].map((value, index) => {
-  if (!summaryType.some((p) => p === value.type)) {
+  if (!summaryType.some(p => p === value.type)) {
     throw Error("サマリー定義ミス");
   }
   // 定義された順番でorderを上書き設定する
@@ -436,22 +436,6 @@ const getEvm = async (taskId: string, context: WocusContext, date_at: Date): Pro
   ];
 };
 
-const getRecords = async (taskId: string, context: WocusContext): Promise<TaskFieldScalars[]> => {
-  return await context.prisma.taskField.findMany({
-    select: {
-      taskId: true,
-      id: true,
-      value: true,
-      type: true,
-      created_at: true,
-      updated_at: true,
-    },
-    where: {
-      taskId: taskId,
-    },
-  });
-};
-
 /**
  * タスクの情報を返す
  * "order"              taskテーブルから取得
@@ -478,11 +462,10 @@ const getRecords = async (taskId: string, context: WocusContext): Promise<TaskFi
 export const getTaskFields = async (
   task: Omit<Task, "fields" | "order">,
   context: WocusContext,
-  date_at: Date
+  date_at: Date,
 ): Promise<TaskFieldScalars[]> => {
-  const now = new Date();
   return [
-    //...(await getRecords(task.id, context)),
+    // ...(await getRecords(task.id, context)),
     ...(await getPlan(task.id, context)),
     ...(await getEvm(task.id, context, date_at)),
   ];

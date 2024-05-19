@@ -4,8 +4,12 @@
     @click="handleClick"
   >
     <label class="flex items-center w-full cursor-pointer h-6 pr-2">
-      <input type="checkbox" class="mr-2 h-4 w-4 cursor-pointer" v-bind:checked="props.checked ?? false" />
-      <slot></slot>
+      <input
+        type="checkbox"
+        class="mr-2 h-4 w-4 cursor-pointer"
+        :checked="props.checked ?? false"
+      >
+      <slot />
     </label>
   </div>
 </template>

@@ -1,4 +1,3 @@
-import { describe, test } from "vitest";
-import { setup, $fetch } from "@nuxt/test-utils";
+import { describe } from "vitest";
 
 describe("My test", async () => {});

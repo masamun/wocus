@@ -1,15 +1,15 @@
-import type { Prisma } from "~/prisma";
 import type { MutationResolvers } from "./../../../types.generated";
+import type { Prisma } from "~/prisma";
 import { factory } from "~/server/entity/pages/factory";
 
-export const createMenu: NonNullable<MutationResolvers['createMenu']> = async (_parent, _arg, _ctx) => {
+export const createMenu: NonNullable<MutationResolvers["createMenu"]> = async (_parent, _arg, _ctx) => {
   console.debug(
-    `mutation createMenu ${_arg.param.projectId} - Parent:${_arg.param.parentMenuId} - ${_arg.param.type} - ${_arg.param.name}`
+    `mutation createMenu ${_arg.param.projectId} - Parent:${_arg.param.parentMenuId} - ${_arg.param.type} - ${_arg.param.name}`,
   );
 
   // 親メニューが存在する場合はrelationの設定を行う
-  const parent: Prisma.menuCreateNestedOneWithoutChildrenInput | undefined =
-    _arg.param.parentMenuId != null
+  const parent: Prisma.menuCreateNestedOneWithoutChildrenInput | undefined
+    = _arg.param.parentMenuId != null
       ? {
           connect: {
             id: _arg.param.parentMenuId,

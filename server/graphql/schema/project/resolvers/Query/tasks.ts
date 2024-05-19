@@ -1,7 +1,7 @@
 import type { QueryResolvers } from "./../../../types.generated";
 import type { WocusContext } from "~/server/graphql/context";
 
-export const tasks: NonNullable<QueryResolvers['tasks']> = async (_parent, _arg, _ctx: WocusContext) => {
+export const tasks: NonNullable<QueryResolvers["tasks"]> = async (_parent, _arg, _ctx: WocusContext) => {
   const milestoneId = _arg.param.milestoneId;
   console.info(`query tasks ${milestoneId}`);
 

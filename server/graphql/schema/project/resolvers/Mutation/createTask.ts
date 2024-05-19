@@ -1,7 +1,7 @@
-import type { WocusContext } from "~/server/graphql/context";
 import type { MutationResolvers } from "./../../../types.generated";
+import type { WocusContext } from "~/server/graphql/context";
 
-export const createTask: NonNullable<MutationResolvers['createTask']> = async (_parent, _arg, _ctx: WocusContext) => {
+export const createTask: NonNullable<MutationResolvers["createTask"]> = async (_parent, _arg, _ctx: WocusContext) => {
   const milestoneId = _arg?.param?.milestoneId;
 
   const count = await _ctx.prisma.task.count({
@@ -16,9 +16,9 @@ export const createTask: NonNullable<MutationResolvers['createTask']> = async (_
   }
 
   // 表示順
-  const order =
-    _arg.param.order ??
-    ((
+  const order
+    = _arg.param.order
+    ?? ((
       await _ctx.prisma.taskOrder.aggregate({
         _max: {
           order: true,
